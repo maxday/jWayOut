@@ -46,6 +46,7 @@ public class View extends GUIState {
 		Model model = (Model)state;
 		gridPortrayal.setField(model.grid);
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
+		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		display.reset();
 		display.setBackdrop(Color.WHITE);
 		display.repaint();		
@@ -54,6 +55,13 @@ public class View extends GUIState {
 	private Portrayal getWallPortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D();
 		r.paint = Color.BLACK;
+		r.filled = true;
+		return r;
+	}
+	
+	private Portrayal getExitPortrayal() {
+		RectanglePortrayal2D r = new RectanglePortrayal2D();
+		r.paint = Color.GREEN;
 		r.filled = true;
 		return r;
 	}

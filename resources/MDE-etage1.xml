@@ -274,3 +274,15 @@
 		<end x="64" y="101" />
 	</wall>
 </walls>
+
+<exits>
+	<exit direction="vertical">
+		<begin x="25" y="6" />
+		<end x="25" y="16" />
+	</exit>
+	
+	<exit direction="vertical">
+		<begin x="3" y="105" />
+		<end x="3" y="109" />
+	</exit>
+</exits>
