@@ -16,5 +16,7 @@ public class Constants {
 	public final static int GRID_HEIGHT = 123;
 	public final static int FRAME_WIDTH = GRID_WIDTH * GRID_TO_FRAME;
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
+	
+	static public final int MAX_ABILITY = 10;
 }
 
