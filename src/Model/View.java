@@ -10,6 +10,7 @@ import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
+import Agents.People;
 import Components.Exit;
 import Components.Wall;
 import Util.Constants;
@@ -20,7 +21,7 @@ public class View extends GUIState {
 	public Display2D display;
 	public JFrame displayFrame;
 	
-	private ObjectGridPortrayal2D gridPortrayal = new ObjectGridPortrayal2D();
+	public ObjectGridPortrayal2D gridPortrayal = new ObjectGridPortrayal2D();
 
 	public View(SimState state) {
 		super(state);
@@ -49,6 +50,7 @@ public class View extends GUIState {
 		gridPortrayal.setField(model.grid);
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
+		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
 		display.reset();
 		display.setBackdrop(Color.WHITE);
 		display.repaint();		
@@ -64,6 +66,13 @@ public class View extends GUIState {
 	private Portrayal getExitPortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D();
 		r.paint = Color.GREEN;
+		r.filled = true;
+		return r;
+	}
+	
+	private Portrayal getPeoplePortrayal() {
+		RectanglePortrayal2D r = new RectanglePortrayal2D();
+		r.paint = Color.RED;
 		r.filled = true;
 		return r;
 	}

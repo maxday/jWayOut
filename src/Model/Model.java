@@ -4,13 +4,14 @@ import java.util.List;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
+import Agents.People;
 import Components.Exit;
 import Components.Wall;
 import Util.Actions;
 import Util.Constants;
 import Util.LogConsole;
-import Util.ReadXml;
 import Util.Point;
+import Util.ReadXml;
 
 @SuppressWarnings("serial")
 public class Model extends SimState {
@@ -27,6 +28,7 @@ public class Model extends SimState {
 		grid.clear();
 		addWalls();
 		addExits();
+		addAgents();
 	}
 
 	private void addWalls() {
@@ -55,7 +57,20 @@ public class Model extends SimState {
 				LogConsole.print(point.toString(), Actions.Action.DRAW.name(), point.getClass().getName());
 			}
 		}
+	}
+	
+	private void addAgents() {
+		List<People> peopleList = ReadXml.getPeopleList();
 		
+		for (int iPeople = 0; iPeople < peopleList.size(); ++iPeople) {
+			People people = peopleList.get(iPeople);
+			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
+			List<Point> coords = people.getListCoord();
+			for (Point point : coords) {
+				grid.set(point.x, point.y, people);
+				LogConsole.print(point.toString(), Actions.Action.DRAW.name(), point.getClass().getName());
+			}
+		}
 	}
 	
 }
