@@ -1,3 +1,5 @@
+import Model.Model;
+import Model.View;
 import Util.ReadXml;
 import sim.display.Console;
 
