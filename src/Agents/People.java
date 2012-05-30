@@ -52,9 +52,13 @@ public class People implements Steppable
 		
 		isWarned = false;
 	}
-	
-	
-	
+
+
+
+
+
+
+
 	/**
 	 * It generates a random ability's rate, which can take value from 1 to 10 (both included)
 	 * 
@@ -161,6 +165,17 @@ public class People implements Steppable
 	public void setWarned()
 	{
 		isWarned = true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "[earX=" + earX + "; earY=" + earY + "; eyeX=" + eyeX
+				+ "; eyeY=" + eyeY + "; isWarned=" + isWarned
+				+ "; visionAbility=" + visionAbility + "; hearingAbility="
+				+ hearingAbility + ", panicLevel=" + panicLevel
+				+ "; charismaLevel=" + charismaLevel + "; autonomyLevel="
+				+ autonomyLevel + "; speedAbility=" + speedAbility + "]";
 	}
 	
 

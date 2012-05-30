@@ -9,6 +9,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
+import Agents.People;
 import Components.Exit;
 import Components.Wall;
 
@@ -16,13 +17,14 @@ public class ReadXml {
    
    static private List<Wall> wallList;
    static private List<Exit> exitList;   
-	
+   static private ArrayList<People> peopleList;
    
    static private String beginX;
    static private String endX;
    static private String beginY;
    static private String endY;
    static private String direction;
+
    
    public static void readXmlFile(String filename) {
 	   
@@ -35,6 +37,7 @@ public class ReadXml {
 		  root = document.getRootElement();
 	      loadWallList(root);
 	      loadExitList(root);
+	      loadPeopleList(root);
 	  }
 	  catch(Exception e){
 		  LogConsole.print("Unable to open the XML file" , Actions.Action.FILE.name(), filename);
@@ -43,6 +46,22 @@ public class ReadXml {
 
      
    }
+
+	private static void loadPeopleList(Element root) {
+		peopleList = new ArrayList<People>();
+		List<Element> people = root.getChild(Constants.XML_AGENTS).getChildren(Constants.XML_PEOPLE);
+		Iterator<Element> i = people.iterator();
+		while(i.hasNext()) {
+			Element courant = (Element) i.next();
+			String eyeX = courant.getChild(Constants.XML_EAR).getAttributeValue(Constants.XML_COORD_X);
+			String eyeY = courant.getChild(Constants.XML_EAR).getAttributeValue(Constants.XML_COORD_Y);
+			String earX = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_X);
+			String earY = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_Y);
+			People thePerson = new People(Integer.parseInt(eyeX), Integer.parseInt(eyeY), Integer.parseInt(earX), Integer.parseInt(earY));
+			LogConsole.print(thePerson.toString(), Actions.Action.READ.name(), thePerson.getClass().getName());
+			peopleList.add(thePerson);
+		}
+	}
 
 	private static void loadWallList(Element root) {
 		wallList = new ArrayList<Wall>();
@@ -85,6 +104,9 @@ public class ReadXml {
 	public static List<Exit> getExitList() {
 		return exitList;
 	}
-    
+ 
+	public static List<People> getPeopleList() {
+		return peopleList;
+	}
     
 }

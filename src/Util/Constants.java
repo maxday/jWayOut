@@ -29,5 +29,10 @@ public class Constants {
 	static public final int AGENT_HIGH_SPEED = 3;
 	static public final int AGENT_VERY_HIGH_SPEED = 4;
 	
+	public static final String XML_AGENTS = "agents";
+	public static final String XML_PEOPLE = "people";
+	public static final String XML_EAR = "ear";
+	public static final String XML_EYE = "eye";
+	
 }
 
