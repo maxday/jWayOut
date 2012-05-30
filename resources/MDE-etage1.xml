@@ -1,290 +1,290 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<jWayOut>
+﻿<?yml version="1.0" encoding="UTF-8"?>
+<jWaxOut>
 	<walls>
+		<wall direction="vertical">
+			<begin y="3" x="3" />
+			<end y="25" x="3" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="13" x="5" />
+			<end y="25" x="5" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="13" x="17" />
+			<end y="25" x="17" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="13" x="22" />
+			<end y="34" x="22" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="34" x="25" />
+			<end y="64" x="25" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="13" x="34" />
+			<end y="25" x="34" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="3" x="36" />
+			<end y="35" x="36" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="41" x="36" />
+			<end y="64" x="36" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="43" />
+			<end y="34" x="43" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="42" x="59" />
+			<end y="64" x="59" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="63" />
+			<end y="34" x="63" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="42" x="74" />
+			<end y="64" x="74" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="76" />
+			<end y="34" x="76" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="42" x="85" />
+			<end y="64" x="85" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="96" />
+			<end y="34" x="96" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="3" x="101" />
+			<end y="34" x="101" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="42" x="101" />
+			<end y="64" x="101" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="9" x="107" />
+			<end y="26" x="107" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="42" x="107" />
+			<end y="45" x="107" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="108" />
+			<end y="34" x="108" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="3" x="113" />
+			<end y="32" x="113" />
+		</wall>
+		<wall direction="vertical">
+			<begin y="42" x="113" />
+			<end y="54" x="113" />
+		</wall>
+		
+		<wall direction="vertical">
+			<begin y="32" x="119" />
+			<end y="42" x="119" />
+		</wall>
+		
 		<wall direction="horizontal">
-			<begin x="3" y="3" />
-			<end x="25" y="3" />
+			<begin y="3" x="3" />
+			<end y="3" x="104" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="13" y="5" />
-			<end x="25" y="5" />
+			<begin y="3" x="110" />
+			<end y="3" x="113" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="13" y="17" />
-			<end x="25" y="17" />
+			<begin y="13" x="3" />
+			<end y="13" x="5" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="13" y="22" />
-			<end x="34" y="22" />
+			<begin y="13" x="17" />
+			<end y="13" x="22" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="34" y="25" />
-			<end x="64" y="25" />
+			<begin y="13" x="34" />
+			<end y="13" x="36" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="13" y="34" />
-			<end x="25" y="34" />
+			<begin y="25" x="3" />
+			<end y="25" x="5" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="3" y="36" />
-			<end x="35" y="36" />
+			<begin y="25" x="17" />
+			<end y="25" x="22" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="41" y="36" />
-			<end x="64" y="36" />
+			<begin y="25" x="34" />
+			<end y="25" x="36" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="43" />
-			<end x="34" y="43" />
+			<begin y="26" x="107" />
+			<end y="26" x="113" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="42" y="59" />
-			<end x="64" y="59" />
+			<begin y="32" x="36" />
+			<end y="32" x="38" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="63" />
-			<end x="34" y="63" />
+			<begin y="32" x="42" />
+			<end y="32" x="64" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="42" y="74" />
-			<end x="64" y="74" />
+			<begin y="32" x="69" />
+			<end y="32" x="70" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="76" />
-			<end x="34" y="76" />
+			<begin y="32" x="75" />
+			<end y="32" x="96" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="42" y="85" />
-			<end x="64" y="85" />
+			<begin y="32" x="100" />
+			<end y="32" x="101" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="96" />
-			<end x="34" y="96" />
+			<begin y="32" x="108" />
+			<end y="32" x="119" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="3" y="101" />
-			<end x="34" y="101" />
+			<begin y="34" x="22" />
+			<end y="34" x="26" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="42" y="101" />
-			<end x="64" y="101" />
+			<begin y="34" x="32" />
+			<end y="34" x="36" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="9" y="107" />
-			<end x="26" y="107" />
+			<begin y="34" x="43" />
+			<end y="34" x="63" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="42" y="107" />
-			<end x="45" y="107" />
+			<begin y="34" x="76" />
+			<end y="34" x="96" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="108" />
-			<end x="34" y="108" />
+			<begin y="34" x="101" />
+			<end y="34" x="102" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="3" y="113" />
-			<end x="32" y="113" />
-		</wall>
-		<wall direction="horizontal">
-			<begin x="42" y="113" />
-			<end x="54" y="113" />
+			<begin y="34" x="107" />
+			<end y="34" x="108" />
 		</wall>
 		
 		<wall direction="horizontal">
-			<begin x="32" y="119" />
-			<end x="42" y="119" />
+			<begin y="42" x="25" />
+			<end y="42" x="26" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="3" y="3" />
-			<end x="3" y="104" />
+		<wall direction="horizontal">
+			<begin y="42" x="31" />
+			<end y="42" x="53" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="3" y="110" />
-			<end x="3" y="113" />
+		<wall direction="horizontal">
+			<begin y="42" x="58" />
+			<end y="42" x="60" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="13" y="3" />
-			<end x="13" y="5" />
+		<wall direction="horizontal">
+			<begin y="42" x="65" />
+			<end y="42" x="79" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="13" y="17" />
-			<end x="13" y="22" />
+		<wall direction="horizontal">
+			<begin y="42" x="84" />
+			<end y="42" x="86" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="13" y="34" />
-			<end x="13" y="36" />
+		<wall direction="horizontal">
+			<begin y="42" x="91" />
+			<end y="42" x="101" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="25" y="3" />
-			<end x="25" y="5" />
+		<wall direction="horizontal">
+			<begin y="42" x="107" />
+			<end y="42" x="119" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="25" y="17" />
-			<end x="25" y="22" />
+		<wall direction="horizontal">
+			<begin y="45" x="101" />
+			<end y="45" x="102" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="25" y="34" />
-			<end x="25" y="36" />
+		<wall direction="horizontal">
+			<begin y="45" x="106" />
+			<end y="45" x="113" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="26" y="107" />
-			<end x="26" y="113" />
+		<wall direction="horizontal">
+			<begin y="54" x="101" />
+			<end y="54" x="113" />
 		</wall>
 		
-		<wall direction="vertical">
-			<begin x="32" y="36" />
-			<end x="32" y="38" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="32" y="42" />
-			<end x="32" y="64" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="32" y="69" />
-			<end x="32" y="70" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="32" y="75" />
-			<end x="32" y="96" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="32" y="100" />
-			<end x="32" y="101" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="32" y="108" />
-			<end x="32" y="119" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="22" />
-			<end x="34" y="26" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="32" />
-			<end x="34" y="36" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="43" />
-			<end x="34" y="63" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="76" />
-			<end x="34" y="96" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="101" />
-			<end x="34" y="102" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="34" y="107" />
-			<end x="34" y="108" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="25" />
-			<end x="42" y="26" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="31" />
-			<end x="42" y="53" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="58" />
-			<end x="42" y="60" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="65" />
-			<end x="42" y="79" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="84" />
-			<end x="42" y="86" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="91" />
-			<end x="42" y="101" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="42" y="107" />
-			<end x="42" y="119" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="45" y="101" />
-			<end x="45" y="102" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="45" y="106" />
-			<end x="45" y="113" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="54" y="101" />
-			<end x="54" y="113" />
-		</wall>
-		
-		<wall direction="vertical">
-			<begin x="64" y="25" />
-			<end x="64" y="101" />
+		<wall direction="horizontal">
+			<begin y="64" x="25" />
+			<end y="64" x="101" />
 		</wall>
 	</walls>
 	
 	<exits>
-		<exit direction="vertical">
-			<begin x="25" y="6" />
-			<end x="25" y="16" />
+		<exit direction="horizontal">
+			<begin y="25" x="6" />
+			<end y="25" x="16" />
 		</exit>
 		
-		<exit direction="vertical">
-			<begin x="3" y="105" />
-			<end x="3" y="109" />
+		<exit direction="horizontal">
+			<begin y="3" x="105" />
+			<end y="3" x="109" />
 		</exit>
 	</exits>
-</jWayOut>
+</jWaxOut>	

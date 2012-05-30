@@ -13,15 +13,12 @@ public class Constants {
 	final static String XML_COORD_X = "x";
 	final static String XML_COORD_Y = "y";
 	
-	private final static int GRID_TO_FRAME = 5;
+	private final static int GRID_TO_FRAME = 10;
 	
-	public final static int GRID_WIDTH = 68;
-	public final static int GRID_HEIGHT = 123;
+	public final static int GRID_HEIGHT = 68;
+	public final static int GRID_WIDTH = 123;
 	public final static int FRAME_WIDTH = GRID_WIDTH * GRID_TO_FRAME;
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
-	
-	
-	
 	
 	
 	static public final int MAX_ABILITY = 10;
@@ -31,5 +28,6 @@ public class Constants {
 	static public final int AGENT_NORMAL_SPEED = 2;
 	static public final int AGENT_HIGH_SPEED = 3;
 	static public final int AGENT_VERY_HIGH_SPEED = 4;
+	
 }
 
