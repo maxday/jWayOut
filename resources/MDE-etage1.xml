@@ -287,4 +287,11 @@
 			<end y="3" x="109" />
 		</exit>
 	</exits>
+	
+	<agents>
+		<people>
+			<eye x="69" y="20" />
+			<ear x="68" y="20" />
+		</people>
+	</agents>
 </jWaxOut>	
