@@ -32,7 +32,7 @@ public class People implements Steppable
 	/**
 	 * Default constructor
 	 */
-	public People()
+	public People(int x, int y)
 	{
 		// Generates abilities' rate
 		visionAbility = getRandomAbility();
@@ -41,6 +41,9 @@ public class People implements Steppable
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
 		speedAbility = 1;
+		
+		this.x = x;
+		this.y = y;
 	}
 	
 	
@@ -82,6 +85,10 @@ public class People implements Steppable
 		{
 			model.someoneScreams(this);
 			incrementPanicLevel(true);
+		}
+		else
+		{
+			
 		}
 	}
 	
