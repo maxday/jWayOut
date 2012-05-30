@@ -14,8 +14,10 @@ import sim.engine.Steppable;
 public class People implements Steppable
 {
 	// Geographic coordinates
-	public int x;
-	public int y;
+	public int earX;
+	public int earY;
+	public int eyeX;
+	public int eyeY;
 	
 	private boolean isWarned;
 	
@@ -33,7 +35,7 @@ public class People implements Steppable
 	/**
 	 * Default constructor
 	 */
-	public People(int x, int y)
+	public People(int earX, int earY, int eyeX, int eyeY)
 	{
 		// Generates abilities' rate
 		visionAbility = getRandomAbility();
@@ -43,8 +45,10 @@ public class People implements Steppable
 		autonomyLevel = getRandomAbility();
 		speedAbility = 1;
 		
-		this.x = x;
-		this.y = y;
+		this.earX = earX;
+		this.earY = earY;
+		this.eyeX = eyeX;
+		this.eyeY = eyeY;
 		
 		isWarned = false;
 	}
@@ -88,10 +92,6 @@ public class People implements Steppable
 		{
 			model.someoneScreams(this);
 			incrementPanicLevel(true);
-		}
-		else
-		{
-			
 		}
 	}
 	
