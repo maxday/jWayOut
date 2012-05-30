@@ -15,4 +15,13 @@ public interface AgentDataAccessInterface
 	 * @return A boolean telling if the given people can see the fire or not
 	 */
 	public boolean canSeeFire(People p);
+	
+	
+	/**
+	 * This method is invoked when a people is screaming
+	 * Then, it notifies every people who is in the scream's scope
+	 * 
+	 * @param p The people who is screaming
+	 */
+	public void someoneScreams(People p);
 }

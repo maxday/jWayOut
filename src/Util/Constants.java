@@ -20,7 +20,16 @@ public class Constants {
 	public final static int FRAME_WIDTH = GRID_WIDTH * GRID_TO_FRAME;
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
 	
+	
+	
+	
+	
 	static public final int MAX_ABILITY = 10;
-
+	static public final int STRONG_PANIC = 3;
+	
+	static public final int AGENT_SLOW_SPEED = 1;
+	static public final int AGENT_NORMAL_SPEED = 2;
+	static public final int AGENT_HIGH_SPEED = 3;
+	static public final int AGENT_VERY_HIGH_SPEED = 4;
 }
 
