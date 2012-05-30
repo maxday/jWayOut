@@ -1,6 +1,6 @@
 package Components;
 
-import java.awt.Point;
+import Util.Point;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,6 +5,7 @@ public class Actions {
 	public enum Action {
 	    READ,
 	    ADD,
-	    FILE
+	    FILE,
+	    DRAW
 	}
 }
