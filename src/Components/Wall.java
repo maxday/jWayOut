@@ -7,8 +7,8 @@ public class Wall {
 
 	private String beginX;
 	private String beginY;
-	private String endY;
 	private String endX;
+	private String endY;
 	private String direction;
 	
 	private Map<Long, Long> listCoord = new HashMap<Long, Long>();
@@ -23,13 +23,16 @@ public class Wall {
 	}
 
 	private void computeCoord() {
-		if("vertical".equals(direction)) {
-			for(Long i= Long.parseLong(endY); i<Long.parseLong(endY); ++i)
-				listCoord.put(Long.parseLong(endX), i);
-		}
-		else {
-			for(Long i= Long.parseLong(endX); i<Long.parseLong(endX); ++i)
-				listCoord.put(i, Long.parseLong(endX));
+		if ("vertical".equals(direction)) {
+			Long maxY = Long.parseLong(endY);
+			Long x = Long.parseLong(beginX);
+			for (Long y = Long.parseLong(beginY); y <= maxY ; ++y)
+				listCoord.put(x, y);
+		} else {
+			Long maxX = Long.parseLong(endX);
+			Long y = Long.parseLong(beginY);
+			for (Long x = Long.parseLong(beginX); x <= maxX; ++x)
+				listCoord.put(x, y);
 		}
 	}
 
@@ -41,13 +44,13 @@ public class Wall {
 		return beginY;
 	}
 
-	public String getEndY() {
-		return endY;
-	}
-
 	public String getEndX() {
 		return endX;
 	}
+
+	public String getEndY() {
+		return endY;
+	}	
 
 	public String getDirection() {
 		return direction;
