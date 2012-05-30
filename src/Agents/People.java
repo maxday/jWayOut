@@ -17,7 +17,7 @@ public class People implements Steppable
 	public int x;
 	public int y;
 	
-	private boolean isWarmed;
+	private boolean isWarned;
 	
 	
 	// Abilities
@@ -46,7 +46,7 @@ public class People implements Steppable
 		this.x = x;
 		this.y = y;
 		
-		isWarmed = false;
+		isWarned = false;
 	}
 	
 	
@@ -149,18 +149,18 @@ public class People implements Steppable
 	 * 
 	 * @return A boolean telling if the agent is in warm state
 	 */
-	public boolean isWarmed()
+	public boolean isWarned()
 	{
-		return isWarmed;
+		return isWarned;
 	}
 	
 	
 	/**
 	 * Sets the state of this people to warmed
 	 */
-	public void setWarmed()
+	public void setWarned()
 	{
-		isWarmed = true;
+		isWarned = true;
 	}
 	
 
