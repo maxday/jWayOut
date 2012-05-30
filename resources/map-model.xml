@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jWayOut>
+	<walls>
+		<wall direction="vertical">
+			<begin x="0" y="0" />
+			<end x="0" y="1" />
+		</wall>
+		
+		<wall direction="horizontal">
+			<begin x="0" y="0" />
+			<end x="1" y="0" />
+		</wall>
+	</walls>
+
+	<exits>
+		<exit direction="vertical">
+			<begin x="1" y="1" />
+			<end x="1" y="2" />
+		</exit>
+	</exits>
+</jWayOut>
