@@ -39,7 +39,7 @@ public class ReadXml {
     	 String beginY = courant.getChild(Constants.XML_BEGIN_WALL).getAttributeValue(Constants.XML_COORD_Y);
     	 String endX = courant.getChild(Constants.XML_END_WALL).getAttributeValue(Constants.XML_COORD_X);
     	 String endY = courant.getChild(Constants.XML_END_WALL).getAttributeValue(Constants.XML_COORD_Y);
-    	 String position = courant.getAttributeValue(Constants.XML_POSITION);
+    	 String position = courant.getAttributeValue(Constants.XML_DIRECTION);
     	 
     	 Wall theWall = new Wall(beginX, beginY, endX, endY, position);
     	 LogConsole.print(theWall.toString(), Actions.Action.READ.name(), theWall.getClass().getName());

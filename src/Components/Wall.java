@@ -9,21 +9,21 @@ public class Wall {
 	private String beginY;
 	private String endY;
 	private String endX;
-	private String position;
+	private String direction;
 	
 	private Map<Long, Long> listCoord = new HashMap<Long, Long>();
 
-	public Wall(String beginX, String beginY, String endX, String endY, String position) {
+	public Wall(String beginX, String beginY, String endX, String endY, String direction) {
 		this.beginX = beginX;
 		this.beginY = beginY;
 		this.endX = endX;
 		this.endY = endY;
-		this.position = position;
+		this.direction = direction;
 		computeCoord();
 	}
 
 	private void computeCoord() {
-		if("vertical".equals(position)) {
+		if("vertical".equals(direction)) {
 			for(Long i= Long.parseLong(endY); i<Long.parseLong(endY); ++i)
 				listCoord.put(Long.parseLong(endX), i);
 		}
@@ -49,12 +49,12 @@ public class Wall {
 		return endX;
 	}
 
-	public String getPosition() {
-		return position;
+	public String getDirection() {
+		return direction;
 	}
 	
 	public String toString() {
-		return "[BeginX = " + beginX + "; BeginY = " + beginY + "; EndX = " + endX + "; EndY = " + endY + "; Position = " + position + "]";
+		return "[BeginX = " + beginX + "; BeginY = " + beginY + "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
 	}
 
 	public Map<Long, Long> getListCoord() {
