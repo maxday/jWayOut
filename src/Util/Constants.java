@@ -3,10 +3,13 @@ package Util;
 public class Constants {
 
 	final static String XML_WALL = "wall";
+	final static String XML_EXIT = "exit";
+	final static String XML_WALLS = "walls";
+	final static String XML_EXITS = "exits";
 	
 	final static String XML_DIRECTION = "direction";
-	final static String XML_BEGIN_WALL = "begin";
-	final static String XML_END_WALL = "end";
+	final static String XML_BEGIN = "begin";
+	final static String XML_END = "end";
 	final static String XML_COORD_X = "x";
 	final static String XML_COORD_Y = "y";
 	
@@ -18,5 +21,6 @@ public class Constants {
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
 	
 	static public final int MAX_ABILITY = 10;
+
 }
 

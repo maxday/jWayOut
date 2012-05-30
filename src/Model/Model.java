@@ -4,11 +4,13 @@ import java.util.List;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
+import Components.Exit;
 import Components.Wall;
 import Util.Constants;
 import Util.ReadXml;
 
 
+@SuppressWarnings("serial")
 public class Model extends SimState {
 	
 	public ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);

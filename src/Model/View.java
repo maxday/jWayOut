@@ -10,6 +10,7 @@ import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
+import Components.Exit;
 import Components.Wall;
 import Util.Constants;
 
