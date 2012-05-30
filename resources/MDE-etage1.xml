@@ -116,6 +116,11 @@
 	
 	<wall direction="vertical">
 		<begin x="3" y="3" />
+		<end x="3" y="104" />
+	</wall>
+	
+	<wall direction="vertical">
+		<begin x="3" y="110" />
 		<end x="3" y="113" />
 	</wall>
 	
