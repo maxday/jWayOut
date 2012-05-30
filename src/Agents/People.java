@@ -13,10 +13,11 @@ import sim.engine.Steppable;
 @SuppressWarnings("serial")
 public class People implements Steppable
 {
-	
-	
+	// Geographic coordinates
 	public int x;
 	public int y;
+	
+	private boolean isWarmed;
 	
 	
 	// Abilities
@@ -44,6 +45,8 @@ public class People implements Steppable
 		
 		this.x = x;
 		this.y = y;
+		
+		isWarmed = false;
 	}
 	
 	
@@ -137,6 +140,27 @@ public class People implements Steppable
 	public int getSpeedAbility()
 	{
 		return speedAbility;
+	}
+	
+	
+	
+	/**
+	 * Tells if this people is in warm state or not
+	 * 
+	 * @return A boolean telling if the agent is in warm state
+	 */
+	public boolean isWarmed()
+	{
+		return isWarmed;
+	}
+	
+	
+	/**
+	 * Sets the state of this people to warmed
+	 */
+	public void setWarmed()
+	{
+		isWarmed = true;
 	}
 	
 
