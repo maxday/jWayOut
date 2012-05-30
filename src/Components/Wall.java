@@ -1,6 +1,8 @@
 package Components;
 
-import java.util.HashMap;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Wall {
@@ -11,7 +13,7 @@ public class Wall {
 	private String endY;
 	private String direction;
 	
-	private Map<Long, Long> listCoord = new HashMap<Long, Long>();
+	private List<Point> listCoord = new ArrayList<Point>();
 
 	public Wall(String beginX, String beginY, String endX, String endY, String direction) {
 		this.beginX = beginX;
@@ -24,15 +26,15 @@ public class Wall {
 
 	private void computeCoord() {
 		if ("vertical".equals(direction)) {
-			Long maxY = Long.parseLong(endY);
-			Long x = Long.parseLong(beginX);
-			for (Long y = Long.parseLong(beginY); y <= maxY ; ++y)
-				listCoord.put(x, y);
+			Integer maxY = Integer.parseInt(endY);
+			Integer x = Integer.parseInt(beginX);
+			for (Integer y = Integer.parseInt(beginY); y <= maxY ; ++y)
+				listCoord.add(new Point(x, y));
 		} else {
-			Long maxX = Long.parseLong(endX);
-			Long y = Long.parseLong(beginY);
-			for (Long x = Long.parseLong(beginX); x <= maxX; ++x)
-				listCoord.put(x, y);
+			Integer maxX = Integer.parseInt(endX);
+			Integer y = Integer.parseInt(beginY);
+			for (Integer x = Integer.parseInt(beginX); x <= maxX; ++x)
+				listCoord.add(new Point(x, y));
 		}
 	}
 
@@ -60,11 +62,7 @@ public class Wall {
 		return "[BeginX = " + beginX + "; BeginY = " + beginY + "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
 	}
 
-	public Map<Long, Long> getListCoord() {
+	public List<Point> getListCoord() {
 		return listCoord;
 	}
-	
-	
-	
-
 }
