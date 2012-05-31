@@ -1,8 +1,9 @@
 package Components;
 
-import Util.Point;
 import java.util.ArrayList;
 import java.util.List;
+
+import sim.util.Int2D;
 
 public abstract class Shape {
 
@@ -12,7 +13,7 @@ public abstract class Shape {
 	private String endY;
 	private String direction;
 	
-	private List<Point> listCoord = new ArrayList<Point>();
+	private List<Int2D> listCoord = new ArrayList<Int2D>();
 
 	public Shape(String beginX, String beginY, String endX, String endY, String direction) {
 		this.beginX = beginX;
@@ -28,12 +29,12 @@ public abstract class Shape {
 			Integer maxY = Integer.parseInt(endY);
 			Integer x = Integer.parseInt(beginX);
 			for (Integer y = Integer.parseInt(beginY); y <= maxY ; ++y)
-				listCoord.add(new Point(x, y));
+				listCoord.add(new Int2D(x, y));
 		} else {
 			Integer maxX = Integer.parseInt(endX);
 			Integer y = Integer.parseInt(beginY);
 			for (Integer x = Integer.parseInt(beginX); x <= maxX; ++x)
-				listCoord.add(new Point(x, y));
+				listCoord.add(new Int2D(x, y));
 		}
 	}
 
@@ -61,7 +62,7 @@ public abstract class Shape {
 		return "[BeginX = " + beginX + "; BeginY = " + beginY + "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
 	}
 
-	public List<Point> getListCoord() {
+	public List<Int2D> getListCoord() {
 		return listCoord;
 	}
 	

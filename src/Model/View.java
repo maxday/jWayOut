@@ -1,5 +1,6 @@
 package Model;
 import java.awt.Color;
+import java.awt.Paint;
 
 import javax.swing.JFrame;
 
@@ -9,6 +10,7 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
+import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 import Agents.People;
 import Components.Exit;
@@ -57,24 +59,16 @@ public class View extends GUIState {
 	}
 
 	private Portrayal getWallPortrayal() {
-		RectanglePortrayal2D r = new RectanglePortrayal2D();
-		r.paint = Color.BLACK;
-		r.filled = true;
-		return r;
+		return new RectanglePortrayal2D(Color.BLACK);
 	}
 	
 	private Portrayal getExitPortrayal() {
-		RectanglePortrayal2D r = new RectanglePortrayal2D();
-		r.paint = Color.GREEN;
-		r.filled = true;
-		return r;
+		return new RectanglePortrayal2D(Color.GREEN);
 	}
 	
 	private Portrayal getPeoplePortrayal() {
-		RectanglePortrayal2D r = new RectanglePortrayal2D();
-		r.paint = Color.RED;
-		r.filled = true;
-		return r;
+		RectanglePortrayal2D r = new RectanglePortrayal2D(Color.CYAN);
+		return new OrientedPortrayal2D(r, Color.BLACK);
 	}
 
 }

@@ -1,26 +1,30 @@
 package Agents;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
-import Model.AgentDataAccessInterface;
-import Util.Constants;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.portrayal.Oriented2D;
+import sim.util.Int2D;
+import Model.AgentDataAccessInterface;
+import Util.Constants;
+import Util.Constants.Direction;
 
 
 
 @SuppressWarnings("serial")
-public class People implements Steppable
+public class People implements Steppable, Oriented2D
 {
+
 	// Geographic coordinates
 	public int earX;
 	public int earY;
 	public int eyeX;
 	public int eyeY;
 	
-	private boolean isWarned;
-	
+	private boolean isWarned;	
 	
 	// Abilities
 	private int visionAbility;
@@ -29,8 +33,7 @@ public class People implements Steppable
 	private int charismaLevel;
 	private int autonomyLevel;
 	private int speedAbility;
-	
-	
+		
 	
 	/**
 	 * Default constructor
@@ -53,12 +56,6 @@ public class People implements Steppable
 		isWarned = false;
 	}
 
-
-
-
-
-
-
 	/**
 	 * It generates a random ability's rate, which can take value from 1 to 10 (both included)
 	 * 
@@ -69,22 +66,17 @@ public class People implements Steppable
 		Random generator = new Random();
 		return (generator.nextInt(Constants.MAX_ABILITY) + 1);
 	}
-	
-	
 
 	@Override
 	public void step(SimState arg0)
 	{
-		if(arg0 instanceof AgentDataAccessInterface)
-		{
+		if (arg0 instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) arg0;
-			
 			updateStatus(model);
 		}
 	}
 	
-	
-	
+
 	/**
 	 * It updates the agent's status, considering its environment
 	 * 
@@ -92,14 +84,11 @@ public class People implements Steppable
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if(model.canSeeFire(this))
-		{
+		if (model.canSeeFire(this)) {
 			model.someoneScreams(this);
 			incrementPanicLevel(true);
 		}
 	}
-	
-	
 	
 	/**
 	 * It increments this people's panic level
@@ -108,22 +97,11 @@ public class People implements Steppable
 	 */
 	private void incrementPanicLevel(boolean strong)
 	{
-		if(strong)
-		{
-			panicLevel += Constants.STRONG_PANIC;
-		}
-		else
-		{
-			panicLevel++;
-		}
+		if (strong) panicLevel += Constants.STRONG_PANIC;
+		else panicLevel++;
 		
-		if(panicLevel > Constants.MAX_ABILITY)
-		{
-			panicLevel = Constants.MAX_ABILITY;
-		}
+		if (panicLevel > Constants.MAX_ABILITY) panicLevel = Constants.MAX_ABILITY;
 	}
-	
-	
 	
 	/**
 	 * It defines what this people should do when he's hearing screams
@@ -133,8 +111,6 @@ public class People implements Steppable
 		incrementPanicLevel(false);
 		speedAbility = Constants.AGENT_HIGH_SPEED;
 	}
-	
-	
 	
 	/**
 	 * It gives an integer which stands for the speed of the agent
@@ -146,30 +122,27 @@ public class People implements Steppable
 		return speedAbility;
 	}
 	
-	
-	
 	/**
 	 * Tells if this people is in warm state or not
 	 * 
-	 * @return A boolean telling if the agent is in warm state
+	 * @return A boolean telling if the agent is in warning state
 	 */
 	public boolean isWarned()
 	{
 		return isWarned;
 	}
 	
-	
 	/**
-	 * Sets the state of this people to warmed
+	 * Sets the state of this people to warned
 	 */
 	public void setWarned()
 	{
 		isWarned = true;
 	}
 
-
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "[earX=" + earX + "; earY=" + earY + "; eyeX=" + eyeX
 				+ "; eyeY=" + eyeY + "; isWarned=" + isWarned
 				+ "; visionAbility=" + visionAbility + "; hearingAbility="
@@ -177,6 +150,69 @@ public class People implements Steppable
 				+ "; charismaLevel=" + charismaLevel + "; autonomyLevel="
 				+ autonomyLevel + "; speedAbility=" + speedAbility + "]";
 	}
+
+	public List<Int2D> getListCoord()
+	{
+		List<Int2D> coords = new ArrayList<Int2D>();
+		coords.add(new Int2D(eyeX, eyeY));
+		coords.add(new Int2D(earX, earY));
+		
+		Direction direction = getDirection();
+		
+		switch (direction) {
+		case NORTH:
+			coords.add(new Int2D(eyeX+1, eyeY));
+			coords.add(new Int2D(earX+1, earY));
+			break;
+		case SOUTH:
+			coords.add(new Int2D(eyeX-1, eyeY));
+			coords.add(new Int2D(earX-1, earY));
+			break;
+		case EAST:
+			coords.add(new Int2D(eyeX, eyeY+1));
+			coords.add(new Int2D(earX, earY+1));
+			break;
+		case WEST:
+			coords.add(new Int2D(eyeX, eyeY-1));
+			coords.add(new Int2D(earX, earY-1));
+			break;
+		case UNKNOWN:
+			break;			
+		}
+				
+		return coords;
+	}
 	
+	public Direction getDirection()
+	{
+		if (eyeX == earX) {
+			if (eyeY > earY) return Direction.SOUTH;
+			else return Direction.NORTH;
+		} 
+		if (eyeY == earY) {
+			if (eyeX > earX) return Direction.EAST;
+			else return Direction.WEST;
+		}
+		return Direction.UNKNOWN;
+	}
+
+	@Override
+	public double orientation2D()
+	{
+		Direction direction = getDirection();
+		
+		switch (direction) {
+		case NORTH:
+			return 3*Math.PI/2;
+		case SOUTH:
+			return Math.PI/2;
+		case EAST:
+			return 0;
+		case WEST:
+			return Math.PI;
+		}
+		
+		return 0;
+	}
 
 }
