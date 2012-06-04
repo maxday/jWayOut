@@ -13,6 +13,7 @@ import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 import Agents.People;
 import Components.Exit;
+import Components.Fire;
 import Components.Space;
 import Components.Wall;
 import Util.ClickablePortrayal;
@@ -29,7 +30,8 @@ public class View extends GUIState {
 	public View(SimState state) {
 		super(state);
 	}
-	
+
+
 	@Override
 	public void init(Controller controller) {
 		super.init(controller);
@@ -55,6 +57,7 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
 		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
+		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
 
 		display.reset();
 		display.setBackdrop(Color.WHITE);
@@ -62,7 +65,7 @@ public class View extends GUIState {
 	}
 
 	private Portrayal getSpacePortrayal() {
-		return new ClickablePortrayal(Color.WHITE);
+		return new ClickablePortrayal(Color.WHITE, ((Model) state).grid);
 	}
 
 	private Portrayal getWallPortrayal() {
@@ -71,6 +74,10 @@ public class View extends GUIState {
 	
 	private Portrayal getExitPortrayal() {
 		return new RectanglePortrayal2D(Color.GREEN);
+	}
+	
+	private Portrayal getFirePortrayal() {
+		return new RectanglePortrayal2D(Color.RED);
 	}
 	
 	private Portrayal getPeoplePortrayal() {

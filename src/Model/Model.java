@@ -28,10 +28,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public void start() {
 		super.start();
 		grid.clear();
+		addSpace();
 		addWalls();
 		addExits();
 		addAgents();
-		//addSpace();	
 	}
 
 	private void addWalls() {
@@ -71,7 +71,6 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	private void addSpace() {
 		for(int x=0; x<grid.getWidth(); ++x) {
 			for(int y=0; y<grid.getHeight(); ++y) {
-				if(grid.get(x, y) == null)
 					grid.set(x, y, new Space());
 			}
 		}
@@ -118,11 +117,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			break;	
 		}
 		
-		Object obj = grid.get(nextLX, nextLY);
-		if (obj != null) {
-			System.out.println(obj.toString());
-			return false;
-		}
+		if (grid.get(nextLX, nextLY) != null) return false;
 		if (grid.get(nextRX, nextRY) != null) return false;
 		
 		return true;
