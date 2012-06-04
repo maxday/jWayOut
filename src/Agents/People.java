@@ -180,7 +180,7 @@ public class People implements Steppable, Oriented2D
 		case UNKNOWN:
 			break;			
 		}
-				
+		
 		return coords;
 	}
 	
@@ -189,12 +189,12 @@ public class People implements Steppable, Oriented2D
 		if (eyeX == earX) {
 			if (eyeY > earY) direction =  Direction.SOUTH;
 			else direction =  Direction.NORTH;
-		} 
-		if (eyeY == earY) {
+		} else if (eyeY == earY) {
 			if (eyeX > earX) direction = Direction.EAST;
 			else direction = Direction.WEST;
+		} else {
+			direction =  Direction.UNKNOWN;
 		}
-		direction =  Direction.UNKNOWN;
 	}
 
 	@Override
