@@ -92,6 +92,8 @@ public class People implements Steppable, Oriented2D
 			scream(model);
 			move(model);
 		}
+		
+		arg0.schedule.scheduleOnce(this);
 	}
 	
 	
@@ -136,9 +138,19 @@ public class People implements Steppable, Oriented2D
 		{
 			randomMove(model);
 		}
+		else
+		{
+			// Just for testing ...
+			randomMove(model);
+		}
 	}
 	
-	
+	/**
+	 * This method is called when the agent is too stressed.
+	 * It will perform a random move, away from the fire.
+	 * 
+	 * @param model The associated model
+	 */
 	private void randomMove(AgentDataAccessInterface model)
 	{
 		Int2D firePosition = model.getFirePosition();
@@ -174,9 +186,43 @@ public class People implements Steppable, Oriented2D
 		// Checks if the agent can hit a wall
 		// To do - can remove a direction from the list decisions
 		
-		//move(decisions.get((new Random()).nextInt(decisions.size())));	
-	}
+		// Moves randomly
+		// move(decisions.get((new Random()).nextInt(decisions.size())));
 		
+		goTo(model, decisions.get(((SimState) model).random.nextInt(decisions.size())));
+	}
+	
+	
+	/**
+	 * It simply go forward
+	 * 
+	 * @param model The associated model
+	 */
+	private void goForward(AgentDataAccessInterface model)
+	{
+		for(int i = 0; i < speedLevel; i++)
+		{
+			if(model.canMakeOneStepFront(this))
+			{
+				oneStepFront();
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * It does to a given direction
+	 * 
+	 * @param d The direction the agent is supposed to go to
+	 */
+	private void goTo(AgentDataAccessInterface model, Direction d)
+	{
+		turnTo(d);
+		goForward(model);
+	}
+	
+	
 	
 	/**
 	 * It increments this people's panic level and updates its speed level according to its new panic level
