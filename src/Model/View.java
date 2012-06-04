@@ -1,6 +1,5 @@
 package Model;
 import java.awt.Color;
-import java.awt.Paint;
 
 import javax.swing.JFrame;
 
@@ -55,7 +54,7 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
 		display.reset();
 		display.setBackdrop(Color.WHITE);
-		display.repaint();		
+		display.repaint();
 	}
 
 	private Portrayal getWallPortrayal() {

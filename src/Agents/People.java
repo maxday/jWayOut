@@ -23,6 +23,7 @@ public class People implements Steppable, Oriented2D
 	public int earY;
 	public int eyeX;
 	public int eyeY;
+	private Direction direction;
 	
 	private boolean isWarned;	
 	
@@ -52,6 +53,8 @@ public class People implements Steppable, Oriented2D
 		this.earY = earY;
 		this.eyeX = eyeX;
 		this.eyeY = eyeY;
+		
+		computeDirection();
 		
 		isWarned = false;
 	}
@@ -156,9 +159,7 @@ public class People implements Steppable, Oriented2D
 		List<Int2D> coords = new ArrayList<Int2D>();
 		coords.add(new Int2D(eyeX, eyeY));
 		coords.add(new Int2D(earX, earY));
-		
-		Direction direction = getDirection();
-		
+			
 		switch (direction) {
 		case NORTH:
 			coords.add(new Int2D(eyeX+1, eyeY));
@@ -183,24 +184,22 @@ public class People implements Steppable, Oriented2D
 		return coords;
 	}
 	
-	public Direction getDirection()
+	private void computeDirection()
 	{
 		if (eyeX == earX) {
-			if (eyeY > earY) return Direction.SOUTH;
-			else return Direction.NORTH;
+			if (eyeY > earY) direction =  Direction.SOUTH;
+			else direction =  Direction.NORTH;
 		} 
 		if (eyeY == earY) {
-			if (eyeX > earX) return Direction.EAST;
-			else return Direction.WEST;
+			if (eyeX > earX) direction = Direction.EAST;
+			else direction = Direction.WEST;
 		}
-		return Direction.UNKNOWN;
+		direction =  Direction.UNKNOWN;
 	}
 
 	@Override
 	public double orientation2D()
-	{
-		Direction direction = getDirection();
-		
+	{	
 		switch (direction) {
 		case NORTH:
 			return 3*Math.PI/2;
@@ -213,6 +212,50 @@ public class People implements Steppable, Oriented2D
 		}
 		
 		return 0;
+	}
+	
+	public void turnClockwise()
+	{	
+		earX = eyeX;
+		earY = eyeY;
+		
+		switch (direction) {
+		case NORTH:
+			eyeX++;
+			break;
+		case SOUTH:
+			eyeX--;
+			break;
+		case EAST:
+			eyeY++;
+			break;
+		case WEST:
+			eyeY--;
+			break;
+		}
+		
+		computeDirection();
+	}
+	
+	public void turnCounterclockwise()
+	{
+		eyeX = earX;
+		eyeY = earY;
+		
+		switch (direction) {
+		case NORTH:
+			earX++;
+			break;
+		case SOUTH:
+			earX--;
+			break;
+		case EAST:
+			earY++;
+			break;
+		case WEST:
+			earY--;
+			break;
+		}
 	}
 
 }
