@@ -1,6 +1,5 @@
 package Agents;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +23,7 @@ public class People implements Steppable, Oriented2D
 	public int earY;
 	public int eyeX;
 	public int eyeY;
-	private Direction direction;
+	public Direction direction;
 	
 	private boolean isWarned;	
 	
@@ -142,29 +141,29 @@ public class People implements Steppable, Oriented2D
 	
 	private void randomMove(AgentDataAccessInterface model)
 	{
-		Point2D firePosition = model.getFirePosition();
+		Int2D firePosition = model.getFirePosition();
 		ArrayList<Direction> decisions = new ArrayList<Direction>();
 		
 		// Guess possibles moves according to the fire's position
-		if(eyeX < firePosition.getX())
+		if(eyeX < firePosition.x)
 		{
 			decisions.add(Direction.NORTH);
 			decisions.add(Direction.WEST);
 			decisions.add(Direction.SOUTH);
 		}
-		else if(eyeX > firePosition.getX())
+		else if(eyeX > firePosition.x)
 		{
 			decisions.add(Direction.NORTH);
 			decisions.add(Direction.EAST);
 			decisions.add(Direction.SOUTH);
 		}
-		else if(eyeX > firePosition.getY())
+		else if(eyeX > firePosition.y)
 		{
 			decisions.add(Direction.EAST);
 			decisions.add(Direction.WEST);
 			decisions.add(Direction.SOUTH);
 		}
-		else if(eyeX < firePosition.getY())
+		else if(eyeX < firePosition.y)
 		{
 			decisions.add(Direction.NORTH);
 			decisions.add(Direction.WEST);
@@ -175,40 +174,9 @@ public class People implements Steppable, Oriented2D
 		// Checks if the agent can hit a wall
 		// To do - can remove a direction from the list decisions
 		
-		move(decisions.get((new Random()).nextInt(decisions.size())));
+		//move(decisions.get((new Random()).nextInt(decisions.size())));	
 	}
-	
-	
-	/**
-	 * Performs a move according to a given direction;
-	 * 
-	 * @param d The direction where the agent is supposed to move
-	 */
-	private void move(Direction d)
-	{
-		direction = d;
 		
-		switch(d)
-		{
-		case NORTH:
-			eyeY--;
-			break;
-			
-		case SOUTH:
-			eyeY++;
-			break;
-			
-		case EAST:
-			eyeX++;
-			break;
-			
-		case WEST:
-			eyeX--;
-			break;
-		}
-	}
-	
-	
 	
 	/**
 	 * It increments this people's panic level and updates its speed level according to its new panic level
@@ -348,7 +316,7 @@ public class People implements Steppable, Oriented2D
 		return 0;
 	}
 	
-	public void turnClockwise()
+	private void turnClockwise()
 	{	
 		earX = eyeX;
 		earY = eyeY;
@@ -371,7 +339,7 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 	}
 	
-	public void turnCounterclockwise()
+	private void turnCounterclockwise()
 	{
 		eyeX = earX;
 		eyeY = earY;
@@ -390,6 +358,28 @@ public class People implements Steppable, Oriented2D
 			earY--;
 			break;
 		}
+		
+		computeDirection();
 	}
-
+	
+	private void oneStepFront()
+	{
+		earX = eyeX;
+		earY = eyeY;
+		
+		switch (direction) {
+		case NORTH:
+			eyeY--;
+			break;
+		case SOUTH:
+			eyeY++;
+			break;
+		case EAST:
+			eyeX++;
+			break;
+		case WEST:
+			eyeX--;
+			break;
+		}
+	}
 }
