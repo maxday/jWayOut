@@ -11,11 +11,12 @@ import Components.Space;
 import Components.Wall;
 import Util.Actions;
 import Util.Constants;
+import Util.Constants.Direction;
 import Util.LogConsole;
 import Util.ReadXml;
 
 @SuppressWarnings("serial")
-public class Model extends SimState {
+public class Model extends SimState implements AgentDataAccessInterface {
 	
 	public ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
 
@@ -30,10 +31,7 @@ public class Model extends SimState {
 		addWalls();
 		addExits();
 		addAgents();
-		addSpace();
-		
-
-		
+		addSpace();	
 	}
 
 	private void addWalls() {
@@ -75,6 +73,7 @@ public class Model extends SimState {
 				grid.set(coord.x, coord.y, people);
 				LogConsole.print(coord.toString(), Actions.Action.DRAW.name(), coord.getClass().getName());
 			}
+			schedule.scheduleOnce(people);
 		}
 	}
 	
@@ -87,5 +86,55 @@ public class Model extends SimState {
 		}
 	}
 
-	
+	@Override
+	public boolean canSeeFire(People p) {
+		return false;
+	}
+
+	@Override
+	public void someoneScreams(People p) {	
+	}
+
+	@Override
+	public Int2D getFirePosition() {
+		return null;
+	}
+
+	@Override
+	public boolean canMakeOneStepFront(People p) {
+		int nextLX = p.eyeX, nextLY = p.eyeY;
+		int nextRX = p.eyeX, nextRY = p.eyeY;
+		switch (p.direction) {
+		case NORTH:
+			nextLY--;
+			nextRX = nextLX + 1;
+			nextRY = nextLY;
+			break;
+		case SOUTH:
+			nextLY++;
+			nextRX = nextLX - 1;
+			nextRY = nextLY;
+			break;
+		case EAST:
+			nextLX++;
+			nextRX = nextLX;
+			nextRY = nextLY + 1;
+			break;
+		case WEST:
+			nextLX--;
+			nextRX = nextLX;
+			nextRY = nextLY - 1;
+			break;	
+		}
+		
+		if (grid.get(nextLX, nextLY) != null) return false;
+		if (grid.get(nextRX, nextRY) != null) return false;
+		
+		return true;
+	}
+
+	@Override
+	public boolean canMakeOneStepTo(Direction direction) {
+		return false;
+	}	
 }

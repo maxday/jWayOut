@@ -1,8 +1,8 @@
 package Model;
 
-import java.awt.geom.Point2D;
-
+import sim.util.Int2D;
 import Agents.People;
+import Util.Constants.Direction;
 
 /**
  * This is an interface that the model should implement
@@ -31,7 +31,12 @@ public interface AgentDataAccessInterface
 	/**
 	 * It returns the fire position on the grid
 	 * 
-	 * @return A Point2D object where is located the fire
+	 * @return A Int2D object where is located the fire
 	 */
-	public Point2D getFirePosition();
+	public Int2D getFirePosition();
+	
+	public boolean canMakeOneStepFront(People p);
+	
+	public boolean canMakeOneStepTo(Direction direction);
+	
 }
