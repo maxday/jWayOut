@@ -362,6 +362,75 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 	}
 	
+	private void turnTo(Direction newDir) {
+		switch (direction) {
+		case NORTH:
+			switch (newDir) {
+			case NORTH:
+				return;
+			case SOUTH:
+				turnClockwise();
+				turnClockwise();
+				break;
+			case EAST:
+				turnClockwise();
+				break;
+			case WEST:
+				turnCounterclockwise();
+				break;
+			}
+			break;
+		case SOUTH:
+			switch (newDir) {
+			case NORTH:
+				turnClockwise();
+				turnClockwise();
+				break;
+			case SOUTH:
+				return;
+			case EAST:
+				turnCounterclockwise();
+				break;
+			case WEST:
+				turnClockwise();
+				break;
+			}
+			break;
+		case EAST:
+			switch (newDir) {
+			case NORTH:
+				turnCounterclockwise();
+				break;
+			case SOUTH:
+				turnClockwise();
+				break;
+			case EAST:
+				return;
+			case WEST:
+				turnClockwise();
+				turnClockwise();
+				break;
+			}
+			break;
+		case WEST:
+			switch (newDir) {
+			case NORTH:
+				turnClockwise();
+				break;
+			case SOUTH:
+				turnCounterclockwise();
+				break;
+			case EAST:
+				turnClockwise();
+				turnClockwise();
+				break;
+			case WEST:
+				return;
+			}
+			break;
+		}
+	}
+	
 	private void oneStepFront()
 	{
 		earX = eyeX;
