@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.geom.Point2D;
+
 import Agents.People;
 
 /**
@@ -24,4 +26,12 @@ public interface AgentDataAccessInterface
 	 * @param p The people who is screaming
 	 */
 	public void someoneScreams(People p);
+	
+	
+	/**
+	 * It returns the fire position on the grid
+	 * 
+	 * @return A Point2D object where is located the fire
+	 */
+	public Point2D getFirePosition();
 }

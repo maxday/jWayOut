@@ -36,6 +36,7 @@ public class Constants {
 	
 	public final static int MAX_ABILITY = 10;
 	public final static int STRONG_PANIC = 3;
+	public final static int MAX_PANIC = 30;
 	
 	public final static int AGENT_SLOW_SPEED = 1;
 	public final static int AGENT_NORMAL_SPEED = 2;

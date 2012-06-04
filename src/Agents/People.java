@@ -1,5 +1,6 @@
 package Agents;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,7 +34,7 @@ public class People implements Steppable, Oriented2D
 	private int panicLevel;
 	private int charismaLevel;
 	private int autonomyLevel;
-	private int speedAbility;
+	private int speedLevel;
 		
 	
 	/**
@@ -47,7 +48,7 @@ public class People implements Steppable, Oriented2D
 		panicLevel = getRandomAbility();
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
-		speedAbility = 1;
+		speedLevel = 1;
 		
 		this.earX = earX;
 		this.earY = earY;
@@ -69,13 +70,42 @@ public class People implements Steppable, Oriented2D
 		Random generator = new Random();
 		return (generator.nextInt(Constants.MAX_ABILITY) + 1);
 	}
+	
+	
+	/**
+	 * Simple getter for the agent's vision ability
+	 * 
+	 * @return The agent's vision ability
+	 */
+	public int getVisionAbility()
+	{
+		return visionAbility;
+	}
 
 	@Override
 	public void step(SimState arg0)
 	{
-		if (arg0 instanceof AgentDataAccessInterface) {
+		if (arg0 instanceof AgentDataAccessInterface)
+		{
 			AgentDataAccessInterface model = (AgentDataAccessInterface) arg0;
+			
 			updateStatus(model);
+			scream(model);
+			move(model);
+		}
+	}
+	
+	
+	/**
+	 * The agent screams if it is in a warmed status (i.e. if it has seen any fire)
+	 * 
+	 * @param model The model where the agent is stored
+	 */
+	private void scream(AgentDataAccessInterface model)
+	{
+		if(isWarned)
+		{
+			model.someoneScreams(this);
 		}
 	}
 	
@@ -87,14 +117,66 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeFire(this)) {
-			model.someoneScreams(this);
+		if (model.canSeeFire(this))
+		{
+			isWarned = true;
+			scream(model);
 			incrementPanicLevel(true);
 		}
 	}
 	
+	
 	/**
-	 * It increments this people's panic level
+	 * The agent will move and take decision, considering its environment and its current status
+	 * 
+	 * @param model The model where the agent is stored
+	 */
+	private void move(AgentDataAccessInterface model)
+	{
+		if(panicLevel == Constants.MAX_PANIC)
+		{
+			randomMove(model);
+		}
+	}
+	
+	
+	private void randomMove(AgentDataAccessInterface model)
+	{
+		Point2D firePosition = model.getFirePosition();
+		Direction decisions[] = new Direction[3];
+		
+		if(eyeX < firePosition.getX())
+		{
+			decisions[0] = Direction.NORTH;
+			decisions[1] = Direction.WEST;
+			decisions[2] = Direction.SOUTH;
+		}
+		else if(eyeX > firePosition.getX())
+		{
+			decisions[0] = Direction.NORTH;
+			decisions[1] = Direction.EAST;
+			decisions[2] = Direction.SOUTH;
+		}
+		else if(eyeX > firePosition.getY())
+		{
+			decisions[0] = Direction.EAST;
+			decisions[1] = Direction.WEST;
+			decisions[2] = Direction.SOUTH;
+		}
+		else if(eyeX < firePosition.getY())
+		{
+			decisions[0] = Direction.NORTH;
+			decisions[1] = Direction.WEST;
+			decisions[2] = Direction.EAST;
+		}
+		
+		
+	}
+	
+	
+	
+	/**
+	 * It increments this people's panic level and updates its speed level according to its new panic level
 	 * 
 	 * @param strong Tells if the panic level should be incremented strongly or normally
 	 */
@@ -103,7 +185,32 @@ public class People implements Steppable, Oriented2D
 		if (strong) panicLevel += Constants.STRONG_PANIC;
 		else panicLevel++;
 		
-		if (panicLevel > Constants.MAX_ABILITY) panicLevel = Constants.MAX_ABILITY;
+		if (panicLevel > Constants.MAX_PANIC)
+		{
+			panicLevel = Constants.MAX_PANIC;
+			speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
+		}
+		else
+		{
+			// Updates speed level according to the panic level
+			
+			if(panicLevel >= 0 && panicLevel <= Constants.MAX_PANIC/4)
+			{
+				speedLevel = Constants.AGENT_SLOW_SPEED;
+			}
+			else if(panicLevel <= Constants.MAX_PANIC/4 && panicLevel <= Constants.MAX_PANIC/2)
+			{
+				speedLevel = Constants.AGENT_NORMAL_SPEED;
+			}
+			else if(panicLevel <= Constants.MAX_PANIC/2 && panicLevel <= (Constants.MAX_PANIC*(3/4)))
+			{
+				speedLevel = Constants.AGENT_HIGH_SPEED;
+			}
+			else
+			{
+				speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
+			}
+		}
 	}
 	
 	/**
@@ -112,7 +219,7 @@ public class People implements Steppable, Oriented2D
 	public void hearScream()
 	{
 		incrementPanicLevel(false);
-		speedAbility = Constants.AGENT_HIGH_SPEED;
+		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
 	
 	/**
@@ -120,9 +227,9 @@ public class People implements Steppable, Oriented2D
 	 * 
 	 * @return The agent's speed ability
 	 */
-	public int getSpeedAbility()
+	public int getSpeedLevel()
 	{
-		return speedAbility;
+		return speedLevel;
 	}
 	
 	/**
@@ -134,14 +241,6 @@ public class People implements Steppable, Oriented2D
 	{
 		return isWarned;
 	}
-	
-	/**
-	 * Sets the state of this people to warned
-	 */
-	public void setWarned()
-	{
-		isWarned = true;
-	}
 
 	@Override
 	public String toString()
@@ -151,7 +250,7 @@ public class People implements Steppable, Oriented2D
 				+ "; visionAbility=" + visionAbility + "; hearingAbility="
 				+ hearingAbility + ", panicLevel=" + panicLevel
 				+ "; charismaLevel=" + charismaLevel + "; autonomyLevel="
-				+ autonomyLevel + "; speedAbility=" + speedAbility + "]";
+				+ autonomyLevel + "; speedAbility=" + speedLevel + "]";
 	}
 
 	public List<Int2D> getListCoord()
