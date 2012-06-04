@@ -13,7 +13,9 @@ import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 import Agents.People;
 import Components.Exit;
+import Components.Space;
 import Components.Wall;
+import Util.ClickablePortrayal;
 import Util.Constants;
 
 
@@ -52,9 +54,15 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
+		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
+
 		display.reset();
 		display.setBackdrop(Color.WHITE);
 		display.repaint();
+	}
+
+	private Portrayal getSpacePortrayal() {
+		return new ClickablePortrayal(Color.WHITE);
 	}
 
 	private Portrayal getWallPortrayal() {

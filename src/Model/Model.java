@@ -7,6 +7,7 @@ import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 import Agents.People;
 import Components.Exit;
+import Components.Space;
 import Components.Wall;
 import Util.Actions;
 import Util.Constants;
@@ -29,6 +30,10 @@ public class Model extends SimState {
 		addWalls();
 		addExits();
 		addAgents();
+		addSpace();
+		
+
+		
 	}
 
 	private void addWalls() {
@@ -72,5 +77,15 @@ public class Model extends SimState {
 			}
 		}
 	}
+	
+	private void addSpace() {
+		for(int x=0; x<grid.getWidth(); ++x) {
+			for(int y=0; y<grid.getHeight(); ++y) {
+				if(grid.get(x, y) == null)
+					grid.set(x, y, new Space());
+			}
+		}
+	}
+
 	
 }
