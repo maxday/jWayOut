@@ -134,6 +134,9 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void move(AgentDataAccessInterface model)
 	{
+		List<Int2D> coords = getListCoord();
+		model.removeFromGrid(coords);
+		
 		if(panicLevel == Constants.MAX_PANIC)
 		{
 			randomMove(model);
@@ -143,6 +146,9 @@ public class People implements Steppable, Oriented2D
 			// Just for testing ...
 			randomMove(model);
 		}
+		
+		coords = getListCoord();
+		model.addToGrid(coords, this);
 	}
 	
 	/**
@@ -155,6 +161,13 @@ public class People implements Steppable, Oriented2D
 	{
 		Int2D firePosition = model.getFirePosition();
 		ArrayList<Direction> decisions = new ArrayList<Direction>();
+		
+		
+		// Test ...
+		if(firePosition == null)
+		{
+			firePosition = new Int2D(0, 0);
+		}
 		
 		// Guess possibles moves according to the fire's position
 		if(eyeX < firePosition.x)

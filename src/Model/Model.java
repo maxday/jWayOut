@@ -31,7 +31,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		addWalls();
 		addExits();
 		addAgents();
-		addSpace();	
+		//addSpace();	
 	}
 
 	private void addWalls() {
@@ -41,10 +41,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			Wall wall = wallList.get(iWall);
 			LogConsole.print(wall.toString(), Actions.Action.ADD.name(), wall.getClass().getName());
 			List<Int2D> coords = wall.getListCoord();
-			for (Int2D coord : coords) {
-				grid.set(coord.x, coord.y, wall);
-				LogConsole.print(coord.toString(), Actions.Action.DRAW.name(), coord.getClass().getName());
-			}
+			addToGrid(coords, wall);
 		}
 	}
 	
@@ -55,10 +52,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			Exit exit = exitList.get(iExit);
 			LogConsole.print(exit.toString(), Actions.Action.ADD.name(), exit.getClass().getName());
 			List<Int2D> coords = exit.getListCoord();
-			for (Int2D coord : coords) {
-				grid.set(coord.x, coord.y, exit);
-				LogConsole.print(coord.toString(), Actions.Action.DRAW.name(), coord.getClass().getName());
-			}
+			addToGrid(coords, exit);
 		}
 	}
 	
@@ -69,10 +63,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			People people = peopleList.get(iPeople);
 			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
 			List<Int2D> coords = people.getListCoord();
-			for (Int2D coord : coords) {
-				grid.set(coord.x, coord.y, people);
-				LogConsole.print(coord.toString(), Actions.Action.DRAW.name(), coord.getClass().getName());
-			}
+			addToGrid(coords, people);
 			schedule.scheduleOnce(people);
 		}
 	}
@@ -127,7 +118,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			break;	
 		}
 		
-		if (grid.get(nextLX, nextLY) != null) return false;
+		Object obj = grid.get(nextLX, nextLY);
+		if (obj != null) {
+			System.out.println(obj.toString());
+			return false;
+		}
 		if (grid.get(nextRX, nextRY) != null) return false;
 		
 		return true;
@@ -165,5 +160,19 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void removeFromGrid(List<Int2D> coords) {
+		for (Int2D coord : coords) {
+			grid.set(coord.x, coord.y, null);
+		}		
+	}
+
+	@Override
+	public void addToGrid(List<Int2D> coords, Object obj) {
+		for (Int2D coord : coords) {
+			grid.set(coord.x, coord.y, obj);
+		}
 	}	
 }

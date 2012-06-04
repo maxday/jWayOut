@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import sim.util.Int2D;
 import Agents.People;
 import Util.Constants.Direction;
@@ -38,5 +40,10 @@ public interface AgentDataAccessInterface
 	public boolean canMakeOneStepFront(People p);
 	
 	public boolean canMakeOneStepTo(Direction direction, People p);
+	
+	
+	public void removeFromGrid(List<Int2D> coords);
+	
+	public void addToGrid(List<Int2D> coords, Object obj);
 	
 }
