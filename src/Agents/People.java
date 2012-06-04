@@ -143,34 +143,69 @@ public class People implements Steppable, Oriented2D
 	private void randomMove(AgentDataAccessInterface model)
 	{
 		Point2D firePosition = model.getFirePosition();
-		Direction decisions[] = new Direction[3];
+		ArrayList<Direction> decisions = new ArrayList<Direction>();
 		
+		// Guess possibles moves according to the fire's position
 		if(eyeX < firePosition.getX())
 		{
-			decisions[0] = Direction.NORTH;
-			decisions[1] = Direction.WEST;
-			decisions[2] = Direction.SOUTH;
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.WEST);
+			decisions.add(Direction.SOUTH);
 		}
 		else if(eyeX > firePosition.getX())
 		{
-			decisions[0] = Direction.NORTH;
-			decisions[1] = Direction.EAST;
-			decisions[2] = Direction.SOUTH;
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.SOUTH);
 		}
 		else if(eyeX > firePosition.getY())
 		{
-			decisions[0] = Direction.EAST;
-			decisions[1] = Direction.WEST;
-			decisions[2] = Direction.SOUTH;
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+			decisions.add(Direction.SOUTH);
 		}
 		else if(eyeX < firePosition.getY())
 		{
-			decisions[0] = Direction.NORTH;
-			decisions[1] = Direction.WEST;
-			decisions[2] = Direction.EAST;
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.WEST);
+			decisions.add(Direction.EAST);
 		}
 		
 		
+		// Checks if the agent can hit a wall
+		// To do - can remove a direction from the list decisions
+		
+		move(decisions.get((new Random()).nextInt(decisions.size())));
+	}
+	
+	
+	/**
+	 * Performs a move according to a given direction;
+	 * 
+	 * @param d The direction where the agent is supposed to move
+	 */
+	private void move(Direction d)
+	{
+		direction = d;
+		
+		switch(d)
+		{
+		case NORTH:
+			eyeY--;
+			break;
+			
+		case SOUTH:
+			eyeY++;
+			break;
+			
+		case EAST:
+			eyeX++;
+			break;
+			
+		case WEST:
+			eyeX--;
+			break;
+		}
 	}
 	
 	
