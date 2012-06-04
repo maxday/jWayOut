@@ -41,6 +41,9 @@ public class Constants {
 	public final static int AGENT_SLOW_SPEED = 1;
 	public final static int AGENT_NORMAL_SPEED = 2;
 	public final static int AGENT_HIGH_SPEED = 3;
-	public final static int AGENT_VERY_HIGH_SPEED = 4;	
+	public final static int AGENT_VERY_HIGH_SPEED = 4;
+	
+	public final static int AGENT_HEIGHT = 2;
+	public final static int AGENT_WIDTH = 2;
 }
 
