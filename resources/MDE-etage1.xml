@@ -293,5 +293,10 @@
 			<eye x="69" y="20" />
 			<ear x="68" y="20" />
 		</people>
+
+		<people>
+			<eye x="69" y="38" />
+			<ear x="69" y="39" />
+		</people>
 	</agents>
 </jWaxOut>	
