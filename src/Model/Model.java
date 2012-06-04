@@ -134,7 +134,36 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 
 	@Override
-	public boolean canMakeOneStepTo(Direction direction) {
-		return false;
+	public boolean canMakeOneStepTo(Direction direction, People p) {
+		List<Int2D> coords = p.getListCoord();
+		
+		switch (direction) {
+		case NORTH:
+			for (Int2D coord : coords) {
+				Object obj = grid.get(coord.x, coord.y-1); 
+				if (obj != p && obj != null) return false;
+			}
+			break;
+		case SOUTH:
+			for (Int2D coord : coords) {
+				Object obj = grid.get(coord.x, coord.y+1); 
+				if (obj != p && obj != null) return false;
+			}
+			break;
+		case EAST:
+			for (Int2D coord : coords) {
+				Object obj = grid.get(coord.x+1, coord.y); 
+				if (obj != p && obj != null) return false;
+			}
+			break;
+		case WEST:
+			for (Int2D coord : coords) {
+				Object obj = grid.get(coord.x-1, coord.y); 
+				if (obj != p && obj != null) return false;
+			}
+			break;
+		}
+		
+		return true;
 	}	
 }

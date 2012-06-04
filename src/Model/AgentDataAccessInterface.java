@@ -37,6 +37,6 @@ public interface AgentDataAccessInterface
 	
 	public boolean canMakeOneStepFront(People p);
 	
-	public boolean canMakeOneStepTo(Direction direction);
+	public boolean canMakeOneStepTo(Direction direction, People p);
 	
 }
