@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sim.util.Int2D;
@@ -45,5 +46,15 @@ public interface AgentDataAccessInterface
 	public void removeFromGrid(List<Int2D> coords);
 	
 	public void addToGrid(List<Int2D> coords, Object obj);
+	
+	
+	/**
+	 * It returns all people that the given person can see, according to its abilities
+	 * 
+	 * @param people The given people
+	 * 
+	 * @return A list of all seeable people
+	 */
+	public ArrayList<People> getPeopleAround(People people);
 	
 }

@@ -224,5 +224,12 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		return true;
 	}
+
+	@Override
+	public ArrayList<People> getPeopleAround(People people) {
+		// TODO Auto-generated method stub
+		
+		return new ArrayList<People>();
+	}
 	
 }

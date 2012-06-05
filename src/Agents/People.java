@@ -80,6 +80,17 @@ public class People implements Steppable, Oriented2D
 	{
 		return visionAbility;
 	}
+	
+	
+	/**
+	 * It given is charisma level
+	 * 
+	 * @return Its charisma level
+	 */
+	public int getCharismaLevel()
+	{
+		return charismaLevel;
+	}
 
 	@Override
 	public void step(SimState arg0)
@@ -137,18 +148,103 @@ public class People implements Steppable, Oriented2D
 		List<Int2D> coords = getListCoord();
 		model.removeFromGrid(coords);
 		
-		if(panicLevel == Constants.MAX_PANIC)
+		if(panicLevel >= Constants.MAX_PANIC)
 		{
 			randomMove(model);
 		}
 		else
 		{
-			// Just for testing ...
-			randomMove(model);
+			ArrayList<People> seeablePeople = model.getPeopleAround(this);
+			People bestCharisma = getMostCharismaticPeople(seeablePeople);
+			
+			if(bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
+			{
+				selfDecision(model);
+			}
+			else
+			{
+				// Following the agent who has the best charisma
+				followPeople(model, bestCharisma);
+			}
 		}
 		
 		coords = getListCoord();
 		model.addToGrid(coords, this);
+	}
+	
+	
+	
+	/**
+	 * This is invoked when the agent is about to take a decision by its own way of thinking
+	 * 
+	 * @param model The associated model
+	 */
+	private void selfDecision(AgentDataAccessInterface model)
+	{
+	}
+	
+	
+	/**
+	 * It makes this {@link People} follow another given {@link People}
+	 * 
+	 * @param model The associated model
+	 * @param p The {@link People} to follow
+	 */
+	private void followPeople(AgentDataAccessInterface model, People p)
+	{
+		List<Int2D> pCoord = p.getListCoord();
+		Direction d = Direction.UNKNOWN;
+		
+		// Where is p in comparison with this
+		if(pCoord.get(0).y < eyeY)
+		{
+			d = Direction.NORTH;
+		}
+		else if(pCoord.get(0).y > eyeY)
+		{
+			d = Direction.SOUTH;
+		}
+		else if(pCoord.get(0).x > eyeX)
+		{
+			d = Direction.EAST;
+		}
+		else if(pCoord.get(0).x < eyeX)
+		{
+			d = Direction.WEST;
+		}
+		
+		// moves
+		goTo(model, d);
+	}
+	
+	
+	/**
+	 * It returns the people who has the best charisma level among the given list
+	 * 
+	 * @param people The list of people it'll inspect
+	 * 
+	 * @return It returns the people who has the best charisma level. It can return null if people is empty or null
+	 */
+	private People getMostCharismaticPeople(ArrayList<People> people)
+	{
+		if(people == null || people.size() <= 0)
+		{
+			return null;
+		}
+		else
+		{
+			People max = people.get(0);
+			
+			for(int i = 1; i < people.size(); i++)
+			{
+				if(people.get(i).getCharismaLevel() > max.getCharismaLevel())
+				{
+					max = people.get(i);
+				}
+			}
+			
+			return max;
+		}
 	}
 	
 	/**
