@@ -6,7 +6,6 @@ import java.util.List;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.util.Int2D;
-import sim.util.IntBag;
 import Model.Model;
 
 @SuppressWarnings("serial")
@@ -15,11 +14,13 @@ public class Fire implements Steppable {
 	private List<Int2D> coords = new ArrayList<Int2D>();
 	private int hasSpread = 0;
 
-	public Fire(Int2D hearth, IntBag xBag, IntBag yBag) {
+	public Fire(Int2D hearth) {
 		coords.add(hearth);
-		for (int i = 0; i < xBag.size(); i++) {
-			coords.add(new Int2D(xBag.get(i), yBag.get(i)));
-		}
+	}
+	
+	public void setListCoords(List<Int2D> coords) {
+		this.coords = coords;
+		hasSpread = coords.size();
 	}
 	
 	public List<Int2D> getListCoords() {

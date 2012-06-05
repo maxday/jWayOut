@@ -56,17 +56,27 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
-	public void putFire(int x, int y) {
+	public void putFire(int hearthX, int hearthY) {
+		Int2D hearth = new Int2D(hearthX, hearthY);
 		IntBag xBag = new IntBag(), yBag = new IntBag();
-		grid.getNeighborsHamiltonianDistance(x, y, 1, false, xBag, yBag);
+		grid.getNeighborsHamiltonianDistance(hearthX, hearthY, 1, false, xBag, yBag);
 		
-		Fire fire = new Fire(new Int2D(x, y), xBag, yBag);
+		Fire fire = new Fire(hearth);
+		firePosition.add(hearth);
 		schedule.scheduleOnce(fire);
 		LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
 		
+		List<Int2D> fireCoords = new ArrayList<Int2D>();
+		fireCoords.add(hearth);
 		for (int i = 0; i < xBag.size(); ++i) {
-			if (grid.get(xBag.get(i), yBag.get(i)) == null) grid.set(xBag.get(i), yBag.get(i), fire);
+			int x = xBag.get(i), y = yBag.get(i); 
+			if (grid.get(x, y) == null) {
+				grid.set(x, y, fire);
+				firePosition.add(new Int2D(x, y));
+				fireCoords.add(new Int2D(x, y));
+			}
 		}
+		fire.setListCoords(fireCoords);
 	}
 	
 	public void addFirePosition(Int2D position) {
