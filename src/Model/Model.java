@@ -1,12 +1,15 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
+import sim.util.IntBag;
 import Agents.People;
 import Components.Exit;
+import Components.Fire;
 import Components.Space;
 import Components.Wall;
 import Util.Actions;
@@ -19,6 +22,8 @@ import Util.ReadXml;
 public class Model extends SimState implements AgentDataAccessInterface {
 	
 	public ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+	
+	private List<Int2D> firePosition = new ArrayList<Int2D>();
 
 	public Model(long seed) {
 		super(seed);
@@ -32,6 +37,40 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		addWalls();
 		addExits();
 		addAgents();
+	}
+	
+	private void addSpace() {
+		Space space = new Space();
+		for (int x = 0; x < grid.getWidth(); ++x) {
+			for (int y = 0; y < grid.getHeight(); ++y) {
+					grid.set(x, y, space);
+			}
+		}
+	}
+	
+	public void removeSpace() {
+		for (int x = 0; x < grid.getWidth(); ++x) {
+			for (int y = 0; y < grid.getHeight(); ++y) {
+				if (grid.get(x, y) instanceof Space) grid.set(x, y, null);
+			}
+		}
+	}
+	
+	public void putFire(int x, int y) {
+		IntBag xBag = new IntBag(), yBag = new IntBag();
+		grid.getNeighborsHamiltonianDistance(x, y, 1, false, xBag, yBag);
+		
+		Fire fire = new Fire(new Int2D(x, y), xBag, yBag);
+		schedule.scheduleOnce(fire);
+		LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
+		
+		for (int i = 0; i < xBag.size(); ++i) {
+			if (grid.get(xBag.get(i), yBag.get(i)) == null) grid.set(xBag.get(i), yBag.get(i), fire);
+		}
+	}
+	
+	public void addFirePosition(Int2D position) {
+		firePosition.add(position);
 	}
 
 	private void addWalls() {
@@ -68,13 +107,19 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
-	private void addSpace() {
-		for(int x=0; x<grid.getWidth(); ++x) {
-			for(int y=0; y<grid.getHeight(); ++y) {
-					grid.set(x, y, new Space());
-			}
+	@Override
+	public void addToGrid(List<Int2D> coords, Object obj) {
+		for (Int2D coord : coords) {
+			grid.set(coord.x, coord.y, obj);
 		}
 	}
+	
+	@Override
+	public void removeFromGrid(List<Int2D> coords) {
+		for (Int2D coord : coords) {
+			grid.set(coord.x, coord.y, null);
+		}		
+	}	
 
 	@Override
 	public boolean canSeeFire(People p) {
@@ -87,7 +132,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 
 	@Override
 	public Int2D getFirePosition() {
-		return null;
+		return firePosition.get(0);
 	}
 
 	@Override
@@ -156,18 +201,5 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		return true;
 	}
-
-	@Override
-	public void removeFromGrid(List<Int2D> coords) {
-		for (Int2D coord : coords) {
-			grid.set(coord.x, coord.y, null);
-		}		
-	}
-
-	@Override
-	public void addToGrid(List<Int2D> coords, Object obj) {
-		for (Int2D coord : coords) {
-			grid.set(coord.x, coord.y, obj);
-		}
-	}	
+	
 }

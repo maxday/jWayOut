@@ -160,48 +160,36 @@ public class People implements Steppable, Oriented2D
 	private void randomMove(AgentDataAccessInterface model)
 	{
 		Int2D firePosition = model.getFirePosition();
-		ArrayList<Direction> decisions = new ArrayList<Direction>();
-		
-		
-		// Test ...
-		if(firePosition == null)
-		{
-			firePosition = new Int2D(0, 0);
-		}
-		
+		List<Direction> decisions = new ArrayList<Direction>();
+				
 		// Guess possibles moves according to the fire's position
-		if(eyeX < firePosition.x)
-		{
+		if (eyeX < firePosition.x) {
 			decisions.add(Direction.NORTH);
+			decisions.add(Direction.SOUTH);
 			decisions.add(Direction.WEST);
-			decisions.add(Direction.SOUTH);
-		}
-		else if(eyeX > firePosition.x)
-		{
+		} else if (eyeX > firePosition.x) {
 			decisions.add(Direction.NORTH);
-			decisions.add(Direction.EAST);
 			decisions.add(Direction.SOUTH);
-		}
-		else if(eyeX > firePosition.y)
-		{
+			decisions.add(Direction.EAST);
+		} else {
 			decisions.add(Direction.EAST);
 			decisions.add(Direction.WEST);
+		}
+		
+		if (eyeY > firePosition.y) {
+			decisions.add(Direction.SOUTH);
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+		} else if (eyeY < firePosition.y) {
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+		} else {
+			decisions.add(Direction.NORTH);
 			decisions.add(Direction.SOUTH);
 		}
-		else if(eyeX < firePosition.y)
-		{
-			decisions.add(Direction.NORTH);
-			decisions.add(Direction.WEST);
-			decisions.add(Direction.EAST);
-		}
-		
-		
-		// Checks if the agent can hit a wall
-		// To do - can remove a direction from the list decisions
-		
-		// Moves randomly
-		// move(decisions.get((new Random()).nextInt(decisions.size())));
-		
+				
+		// Moves randomly	
 		goTo(model, decisions.get(((SimState) model).random.nextInt(decisions.size())));
 	}
 	

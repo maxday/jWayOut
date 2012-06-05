@@ -53,10 +53,11 @@ public class View extends GUIState {
 	private void setupPortrayals() {
 		Model model = (Model)state;
 		gridPortrayal.setField(model.grid);
+		
+		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
-		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
 		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
 
 		display.reset();
@@ -65,7 +66,7 @@ public class View extends GUIState {
 	}
 
 	private Portrayal getSpacePortrayal() {
-		return new ClickablePortrayal(Color.WHITE, ((Model) state).grid);
+		return new ClickablePortrayal(Color.WHITE);
 	}
 
 	private Portrayal getWallPortrayal() {

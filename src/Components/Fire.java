@@ -1,9 +1,46 @@
 package Components;
 
-public class Fire {
+import java.util.ArrayList;
+import java.util.List;
 
-	public Fire() {
+import sim.engine.SimState;
+import sim.engine.Steppable;
+import sim.util.Int2D;
+import sim.util.IntBag;
+import Model.Model;
+
+@SuppressWarnings("serial")
+public class Fire implements Steppable {
 	
+	private List<Int2D> coords = new ArrayList<Int2D>();
+	private int hasSpread = 0;
+
+	public Fire(Int2D hearth, IntBag xBag, IntBag yBag) {
+		coords.add(hearth);
+		for (int i = 0; i < xBag.size(); i++) {
+			coords.add(new Int2D(xBag.get(i), yBag.get(i)));
+		}
+	}
+	
+	public List<Int2D> getListCoords() {
+		return coords;
+	}
+
+	@Override
+	public void step(SimState state) {
+		if (state instanceof Model) {
+			Model model = (Model) state;
+			if (hasSpread < coords.size()) {
+				for (int i = hasSpread + 1; i <= coords.size(); i++) {
+					model.addFirePosition(coords.get(i-1));
+				}
+				hasSpread = coords.size();
+			}
+		}
+	}
+	
+	public String toString() {
+		return "[HearthX = " + coords.get(0).x + "; HearthY = " + coords.get(0).y + "]";
 	}
 
 }
