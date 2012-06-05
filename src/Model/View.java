@@ -1,6 +1,8 @@
 package Model;
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import sim.display.Controller;
@@ -9,9 +11,13 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
+import sim.portrayal.simple.AdjustablePortrayal2D;
+import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
+import sim.portrayal.simple.TransformedPortrayal2D;
 import Agents.People;
+import Components.Arrow;
 import Components.Exit;
 import Components.Fire;
 import Components.Space;
@@ -59,7 +65,8 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
 		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
-
+		gridPortrayal.setPortrayalForClass(Arrow.class, getArrowPortrayal());
+		
 		display.reset();
 		display.setBackdrop(Color.WHITE);
 		display.repaint();
@@ -79,6 +86,11 @@ public class View extends GUIState {
 	
 	private Portrayal getFirePortrayal() {
 		return new RectanglePortrayal2D(Color.RED);
+	}
+	
+	private Portrayal getArrowPortrayal() {
+		ImagePortrayal2D i = new ImagePortrayal2D(new ImageIcon("resources/Arrow.png"));
+		return new TransformedPortrayal2D(i,new AffineTransform());
 	}
 	
 	private Portrayal getPeoplePortrayal() {

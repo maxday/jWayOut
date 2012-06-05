@@ -10,6 +10,7 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 import Agents.People;
+import Components.Arrow;
 import Components.Exit;
 import Components.Wall;
 
@@ -18,6 +19,7 @@ public class ReadXml {
    static private List<Wall> wallList;
    static private List<Exit> exitList;   
    static private ArrayList<People> peopleList;
+   static private List<Arrow> arrowList;
    
    static private String beginX;
    static private String endX;
@@ -38,6 +40,7 @@ public class ReadXml {
 	      loadWallList(root);
 	      loadExitList(root);
 	      loadPeopleList(root);
+	      loadArrowList(root);
 	  }
 	  catch(Exception e){
 		  LogConsole.print("Unable to open the XML file" , Actions.Action.FILE.name(), filename);
@@ -88,6 +91,18 @@ public class ReadXml {
     	
     }
     
+    private static void loadArrowList(Element root){
+    	arrowList = new ArrayList<Arrow>();
+    	List<Element> arrowsList = root.getChild(Constants.XML_ARROWS).getChildren(Constants.XML_ARROW);
+		Iterator<Element> i = arrowsList.iterator();
+		while(i.hasNext()) {
+            getAttributes(i);
+			Arrow theArrow = new Arrow(beginX, beginY, endX, endY, direction);
+			LogConsole.print(theArrow.toString(), Actions.Action.READ.name(), theArrow.getClass().getName());
+			arrowList.add(theArrow);
+		}
+    }
+    
     private static void getAttributes(Iterator<Element> element) {
 		Element courant = (Element) element.next();
 		beginX = courant.getChild(Constants.XML_BEGIN).getAttributeValue(Constants.XML_COORD_X);
@@ -107,6 +122,10 @@ public class ReadXml {
  
 	public static List<People> getPeopleList() {
 		return peopleList;
+	}
+	
+	public static List<Arrow> getArrowList() {
+		return arrowList;
 	}
     
 }

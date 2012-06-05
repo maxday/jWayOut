@@ -25,16 +25,35 @@ public abstract class Shape {
 	}
 
 	private void computeCoord() {
+
 		if ("vertical".equals(direction)) {
-			Integer maxY = Integer.parseInt(endY);
+			Integer maxY = null;
 			Integer x = Integer.parseInt(beginX);
-			for (Integer y = Integer.parseInt(beginY); y <= maxY ; ++y)
-				listCoord.add(new Int2D(x, y));
-		} else {
-			Integer maxX = Integer.parseInt(endX);
+			if(Integer.parseInt(endY) > Integer.parseInt(beginY)){
+				 maxY= Integer.parseInt(endY);
+				 for (Integer y = Integer.parseInt(beginY); y <= maxY ; ++y)
+					listCoord.add(new Int2D(x, y));
+			}
+			else{
+				maxY = Integer.parseInt(beginY);
+				for (Integer y = Integer.parseInt(endY); y <= maxY ; ++y)
+					listCoord.add(new Int2D(x, y));
+			}	
+			
+		} else 
+		{
+			Integer maxX = null;
 			Integer y = Integer.parseInt(beginY);
-			for (Integer x = Integer.parseInt(beginX); x <= maxX; ++x)
-				listCoord.add(new Int2D(x, y));
+			if(Integer.parseInt(endX) > Integer.parseInt(beginX)){
+				maxX = Integer.parseInt(endX);
+				for (Integer x = Integer.parseInt(beginX); x <= maxX; ++x)
+					listCoord.add(new Int2D(x, y));
+			}
+			else{
+				maxX = Integer.parseInt(beginX);
+				for (Integer x = Integer.parseInt(endX); x <= maxX; ++x)
+					listCoord.add(new Int2D(x, y));
+			}
 		}
 	}
 

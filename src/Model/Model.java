@@ -8,6 +8,7 @@ import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
 import sim.util.IntBag;
 import Agents.People;
+import Components.Arrow;
 import Components.Exit;
 import Components.Fire;
 import Components.Space;
@@ -37,6 +38,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		addWalls();
 		addExits();
 		addAgents();
+		addArrows();
 	}
 	
 	private void addSpace() {
@@ -131,6 +133,17 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}		
 	}	
 
+	private void addArrows(){
+		List<Arrow> arrowList = ReadXml.getArrowList();
+		
+		for (int iArrow = 0; iArrow < arrowList.size(); ++iArrow) {
+			Arrow arrow = arrowList.get(iArrow);
+			LogConsole.print(arrow.toString(), Actions.Action.ADD.name(), arrow.getClass().getName());
+			List<Int2D> coords = arrow.getListCoord();
+			addToGrid(coords, arrow);
+		}
+	}
+	
 	@Override
 	public boolean canSeeFire(People p) {
 		return false;

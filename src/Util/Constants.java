@@ -8,6 +8,8 @@ public class Constants {
 	final static String XML_WALL = "wall";
 	final static String XML_EXITS = "exits";
 	final static String XML_EXIT = "exit";
+	final static String XML_ARROWS = "arrows";
+	final static String XML_ARROW = "arrow";
 	
 	final static String XML_DIRECTION = "direction";
 	final static String XML_BEGIN = "begin";
