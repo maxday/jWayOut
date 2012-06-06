@@ -5,6 +5,8 @@ import java.util.List;
 
 import sim.util.Int2D;
 import Agents.People;
+import Components.Exit;
+import Components.Arrow;
 import Util.Constants.Direction;
 
 /**
@@ -56,5 +58,27 @@ public interface AgentDataAccessInterface
 	 * @return A list of all seeable people
 	 */
 	public ArrayList<People> getPeopleAround(People people);
+	
+	
+	
+	/**
+	 * It checks if the given {@link People} can see an {@link Exit} or not
+	 * 
+	 * @param people The subject of the action
+	 * 
+	 * @return Either the seeable {@link Exit} object, either null value if no {@link Exit} can be seen
+	 */
+	public Exit canSeeAnExit(People people);
+	
+	
+	/**
+	 * It checks if the given {@link People} can see an {@link Arrow} or not.
+	 * In case the given {@link People} can see more than one {@link Arrow}, the nearest one will be returned.
+	 * 
+	 * @param people The subject of the action
+	 * 
+	 * @return Either the nearest seeable {@link Arrow} object, either null value if no {@link Exit} can be seen
+	 */
+	public Arrow canSeeAnArrow(People people);
 	
 }

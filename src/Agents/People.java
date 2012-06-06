@@ -8,9 +8,13 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
+import Components.Arrow;
+import Components.Exit;
+import Components.Shape;
 import Model.AgentDataAccessInterface;
 import Util.Constants;
 import Util.Constants.Direction;
+import Util.Utils;
 
 
 
@@ -212,6 +216,57 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void selfDecision(AgentDataAccessInterface model)
 	{
+		Exit exit = model.canSeeAnExit(this);
+		if(exit != null)
+		{
+			// Exit seeable !
+			goToComponent(model, exit);
+		}
+		else
+		{
+			// No near exit
+			
+			Arrow arrow = model.canSeeAnArrow(this);
+			if(arrow != null)
+			{
+				// An arrow is seen by this agent
+				Direction arrowDirection = Utils.stringToDirection(arrow.getDirection());
+				if(model.canMakeOneStepTo(arrowDirection, this))
+				{
+					// It goes to the indicated direction
+					goTo(model, arrowDirection);
+				}
+				else
+				{
+					// For any reason, it can't go to the indicated direction
+					// So, it moves forward to the arrow, in order to escape from a possible obstacle
+					goToComponent(model, arrow);
+				}
+			}
+			else
+			{
+				// There's no arrow around
+				// It has to either perform a random move, or to get out from a room
+				
+				
+				// TO DO !!!!
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Makes this {@link People} going to a given {@link Shape}
+	 * 
+	 * @param model The associated model
+	 * @param exit The targeted {@link Shape}
+	 */
+	private void goToComponent(AgentDataAccessInterface model, Shape shape)
+	{
+		Int2D exitCoordinates = new Int2D(Utils.getRandomMasonValue(model, Integer.valueOf(shape.getBeginX()), Integer.valueOf(shape.getEndX())), Utils.getRandomMasonValue(model, Integer.valueOf(shape.getBeginY()), Integer.valueOf(shape.getEndY())));
+		Direction d = Utils.getDirectionFromCoordinates(this, exitCoordinates);
+		goTo(model, d);
 	}
 	
 	

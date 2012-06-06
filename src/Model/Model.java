@@ -231,5 +231,17 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		return new ArrayList<People>();
 	}
+
+	@Override
+	public Exit canSeeAnExit(People people) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Arrow canSeeAnArrow(People people) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
