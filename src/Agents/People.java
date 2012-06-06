@@ -35,7 +35,6 @@ public class People implements Steppable, Oriented2D
 	private int autonomyLevel;
 	private int speedLevel;
 		
-	
 	/**
 	 * Default constructor
 	 */
@@ -57,6 +56,8 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 		
 		isWarned = false;
+		
+		
 	}
 
 	/**
@@ -81,6 +82,20 @@ public class People implements Steppable, Oriented2D
 		return visionAbility;
 	}
 	
+	public int getHearingAbility()
+	{
+		return hearingAbility;
+	}
+	
+	public int getPanicLevel()
+	{
+		return panicLevel;
+	}
+	
+	public int getAutonomyLevel()
+	{
+		return autonomyLevel;
+	}
 	
 	/**
 	 * It given is charisma level
@@ -92,6 +107,22 @@ public class People implements Steppable, Oriented2D
 		return charismaLevel;
 	}
 
+	
+	public int getSpeedLevel()
+	{
+		return speedLevel;
+	}
+	
+	/**
+	 * Tells if this people is in warm state or not
+	 * 
+	 * @return A boolean telling if the agent is in warning state
+	 */
+	public boolean isWarned()
+	{
+		return isWarned;
+	}
+	
 	@Override
 	public void step(SimState arg0)
 	{
@@ -373,20 +404,7 @@ public class People implements Steppable, Oriented2D
 	 * 
 	 * @return The agent's speed ability
 	 */
-	public int getSpeedLevel()
-	{
-		return speedLevel;
-	}
 	
-	/**
-	 * Tells if this people is in warm state or not
-	 * 
-	 * @return A boolean telling if the agent is in warning state
-	 */
-	public boolean isWarned()
-	{
-		return isWarned;
-	}
 
 	@Override
 	public String toString()

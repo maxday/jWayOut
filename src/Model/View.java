@@ -4,22 +4,20 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.portrayal.simple.AdjustablePortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 import sim.portrayal.simple.TransformedPortrayal2D;
+import Agents.Fire;
 import Agents.People;
 import Components.Arrow;
 import Components.Exit;
-import Components.Fire;
 import Components.Space;
 import Components.Wall;
 import Util.ClickablePortrayal;
@@ -28,7 +26,7 @@ import Util.Constants;
 
 public class View extends GUIState {
 	
-	public Display2D display;
+	public MyDisplay2D display;
 	public JFrame displayFrame;
 	
 	public ObjectGridPortrayal2D gridPortrayal = new ObjectGridPortrayal2D();
@@ -41,7 +39,7 @@ public class View extends GUIState {
 	@Override
 	public void init(Controller controller) {
 		super.init(controller);
-		display = new Display2D(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT, this);
+		display = new MyDisplay2D(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT, this);
 		display.setClipping(false);
 		displayFrame = display.createFrame();
 		displayFrame.setTitle("JWayOut");
@@ -85,7 +83,7 @@ public class View extends GUIState {
 	}
 	
 	private Portrayal getFirePortrayal() {
-		return new RectanglePortrayal2D(Color.RED);
+		return new ImagePortrayal2D(new ImageIcon("resources/fire.png"));
 	}
 	
 	private Portrayal getArrowPortrayal() {
