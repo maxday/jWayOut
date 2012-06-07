@@ -134,7 +134,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}		
 	}	
 
-	private void addArrows(){
+	private void addArrows() {
 		List<Arrow> arrowList = ReadXml.getArrowList();
 		
 		for (int iArrow = 0; iArrow < arrowList.size(); ++iArrow) {
@@ -146,126 +146,89 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	
-	
-	
-	
 	/**
-	 * It checks if there're  some walls in the given {@link People}'s vision field and gives their direction from the {@link People}'s point of view
+	 * It checks if there're some walls in the given {@link People}'s vision field and gives their direction from the {@link People}'s point of view
 	 * 
-	 * @param p The given {@link People}
+	 * @param ppl The given {@link People}
 	 * 
 	 * @return Position of walls that p can see. Can be empty 
 	 */
-	private ArrayList<Direction> getWallsAround(People p)
+	private ArrayList<Direction> getWallsAround(People ppl)
 	{
 		ArrayList<Direction> result = new ArrayList<Direction>();
-		ArrayList<Object> fields = getPeopleFieldsOfView(p);
-		for(int i = 0; i < fields.size(); i++)
-		{
-			if(fields.get(i) instanceof Wall)
-			{
-				result.add(getShapeDirectionFromPeople(p, (Wall) fields.get(i)));
-			}
+		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
+		for (Object obj : fields) {
+			if (obj instanceof Wall) result.add(getShapeDirectionFromPeople(ppl, (Wall) obj));
 		}
 		
 		return result;
 	}
 	
 	
-	private Direction getShapeDirectionFromPeople(People p, Shape s)
+	private Direction getShapeDirectionFromPeople(People ppl, Shape shp)
 	{
-		if(s.getListCoord().get(0).y < p.getListCoord().get(0).y)
-		{
-			return Direction.NORTH;
-		}
-		else if(s.getListCoord().get(0).y > p.getListCoord().get(0).y)
-		{
-			return Direction.SOUTH;
-		}
-		else if(s.getListCoord().get(0).x < p.getListCoord().get(0).x)
-		{
-			return Direction.WEST;
-		}
-		else if(s.getListCoord().get(0).x > p.getListCoord().get(0).x)
-		{
-			return Direction.EAST;
-		}
-		else
-		{
-			return Direction.UNKNOWN;
+		List<Int2D> shpCoords = shp.getListCoord();
+		Int2D shpMid = shpCoords.get(shpCoords.size()/2);
+		
+		int diffY = shpMid.y - ppl.eyeY, diffX = shpMid.x - ppl.eyeX;
+		
+		if (Math.abs(diffY) > Math.abs(diffX)) {
+			if (diffY < 0) return Direction.NORTH;
+			else return Direction.SOUTH;
+		} else {
+			if (diffX > 0) return Direction.EAST;
+			else return Direction.WEST;
 		}
 	}
 	
-	
-	
+		
 	/**
-	 * It returns all objects that a given {@link People} p can see
+	 * It returns all objects that a given {@link People} ppl can see
 	 * 
-	 * @param p The observer
+	 * @param ppl The observer
 	 * 
-	 * @return An {@link ArrayList} of {@link Object} which are seeable objects by p
+	 * @return An {@link ArrayList} of {@link Object} which are seeable objects by ppl
 	 */
-	private ArrayList<Object> getPeopleFieldsOfView(People p)
+	private ArrayList<Object> getPeopleFieldsOfView(People ppl)
 	{
-		List<Int2D> coord = p.getListCoord();
-		int screamingAbility = p.getScreamsAbility();
+		int vision = ppl.getVisionAbility();
 		Object tmp = null;
 		ArrayList<Object> result = new ArrayList<Object>();
 		
-		switch(p.getDirection())
-		{
+		switch(ppl.direction) {
+		
 		case NORTH:
-			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(1).y + screamingAbility; i++)
-			{
-				for(int j = coord.get(0).x - screamingAbility; j <= coord.get(0).x + screamingAbility + 1; j++)
-				{
+			for (int i = ppl.eyeY - vision; i <= ppl.earY + vision; i++) {
+				for (int j = ppl.eyeX - vision; j <= ppl.eyeX + vision + 1; j++) {
 					tmp = grid.get(i, j);
-					if(tmp != p)
-					{
-						result.add(tmp);
-					}
+					if (tmp != ppl) result.add(tmp);
 				}
 			}
-			break;
-			
+			break;		
+
 		case SOUTH:
-			for(int i = coord.get(1).y - screamingAbility; i <= coord.get(0).y + screamingAbility; i++)
-			{
-				for(int j = coord.get(0).x - screamingAbility - 1; j <= coord.get(0).x + screamingAbility; j++)
-				{
+			for (int i = ppl.earY - vision; i <= ppl.eyeY + vision; i++) {
+				for (int j = ppl.eyeX - vision - 1; j <= ppl.eyeX + vision; j++) {
 					tmp = grid.get(i, j);
-					if(tmp != p)
-					{
-						result.add(tmp);
-					}
+					if (tmp != ppl) result.add(tmp);
 				}
 			}
 			break;
 			
 		case EAST:
-			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(0).y + screamingAbility + 1; i++)
-			{
-				for(int j = coord.get(1).x - screamingAbility; j <= coord.get(0).x + screamingAbility; j++)
-				{
+			for (int i = ppl.eyeY - vision; i <= ppl.eyeY + vision + 1; i++) {
+				for (int j = ppl.earX - vision; j <= ppl.eyeX + vision; j++) {
 					tmp = grid.get(i, j);
-					if(tmp != p)
-					{
-						result.add(tmp);
-					}
+					if (tmp != ppl) result.add(tmp);
 				}
 			}
 			break;
 			
 		case WEST:
-			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(0).y + screamingAbility + 1; i++)
-			{
-				for(int j = coord.get(1).x - screamingAbility; j <= coord.get(0).x + screamingAbility; j++)
-				{
+			for (int i = ppl.eyeY - vision; i <= ppl.eyeY + vision + 1; i++) {
+				for (int j = ppl.earX - vision; j <= ppl.eyeX + vision; j++) {
 					tmp = grid.get(i, j);
-					if(tmp != p)
-					{
-						result.add(tmp);
-					}
+					if (tmp != ppl) result.add(tmp);
 				}
 			}
 			break;
@@ -274,46 +237,27 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		return result;
 	}
 	
-	
 	@Override
-	public boolean canSeeFire(People p)
-	{
-		ArrayList<Object> fields = getPeopleFieldsOfView(p);
-		ArrayList<Direction> wallsDirection = getWallsAround(p);
-		boolean result = false;
+	public boolean canSeeFire(People ppl) {
+		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
+		ArrayList<Direction> wallsDirection = getWallsAround(ppl);
 		
-		if(wallsDirection.size() <= 0)
-		{
-			for(int i = 0; i < fields.size(); i++)
-			{
-				if(fields.get(i) instanceof Fire)
-				{
-					result = true;
-				}
-			}
-			
-			return result;
-		}
-		else
-		{
+		if (wallsDirection.size() <= 0) {
+			for (Object obj : fields) {
+				if (obj instanceof Fire) return true;
+			}	
+			return false;
+		} else {
 			// TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			
 			return false;
 		}
 	}
-	
-	
-
+		
 	@Override
-	public void someoneScreams(People p)
-	{
-		ArrayList<Object> fields = getPeopleFieldsOfView(p);
-		for(int i = 0; i < fields.size(); i++)
-		{
-			if(fields.get(i) instanceof People)
-			{
-				((People) fields.get(i)).hearScream();
-			}
+	public void someoneScreams(People ppl) {
+		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
+		for (Object obj : fields) {
+			if (obj instanceof People) ((People) obj).hearScream();
 		}
 	}
 
@@ -321,67 +265,49 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public Int2D getFirePosition() {
 		return firePosition.get(0);
 	}
-
+	
 	@Override
-	public boolean canMakeOneStepFront(People p) {
-		int nextLX = p.eyeX, nextLY = p.eyeY;
-		int nextRX = p.eyeX, nextRY = p.eyeY;
-		switch (p.direction) {
+	public boolean canMakeOneStepFront(People ppl) {
+		switch (ppl.direction) {
 		case NORTH:
-			nextLY--;
-			nextRX = nextLX + 1;
-			nextRY = nextLY;
-			break;
+			if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null) return true;
 		case SOUTH:
-			nextLY++;
-			nextRX = nextLX - 1;
-			nextRY = nextLY;
-			break;
+			if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null) return true;
 		case EAST:
-			nextLX++;
-			nextRX = nextLX;
-			nextRY = nextLY + 1;
-			break;
+			if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null) return true;
 		case WEST:
-			nextLX--;
-			nextRX = nextLX;
-			nextRY = nextLY - 1;
-			break;	
+			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null) return true;
 		}
-		
-		if (grid.get(nextLX, nextLY) != null) return false;
-		if (grid.get(nextRX, nextRY) != null) return false;
-		
-		return true;
+		return false;
 	}
 
 	@Override
-	public boolean canMakeOneStepTo(Direction direction, People p) {
-		List<Int2D> coords = p.getListCoord();
+	public boolean canMakeOneStepTo(Direction direction, People ppl) {
+		List<Int2D> coords = ppl.getListCoord();
 		
 		switch (direction) {
 		case NORTH:
 			for (Int2D coord : coords) {
 				Object obj = grid.get(coord.x, coord.y-1); 
-				if (obj != p && obj != null) return false;
+				if (obj != ppl && obj != null) return false;
 			}
 			break;
 		case SOUTH:
 			for (Int2D coord : coords) {
 				Object obj = grid.get(coord.x, coord.y+1); 
-				if (obj != p && obj != null) return false;
+				if (obj != ppl && obj != null) return false;
 			}
 			break;
 		case EAST:
 			for (Int2D coord : coords) {
-				Object obj = grid.get(coord.x+1, coord.y); 
-				if (obj != p && obj != null) return false;
+				Object obj = grid.get(coord.x+1, coord.y);
+				if (obj != ppl && obj != null) return false;
 			}
 			break;
 		case WEST:
 			for (Int2D coord : coords) {
 				Object obj = grid.get(coord.x-1, coord.y); 
-				if (obj != p && obj != null) return false;
+				if (obj != ppl && obj != null) return false;
 			}
 			break;
 		}
@@ -390,20 +316,19 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 
 	@Override
-	public ArrayList<People> getPeopleAround(People people) {
+	public ArrayList<People> getPeopleAround(People ppl) {
 		// TODO Auto-generated method stub
-		
 		return new ArrayList<People>();
 	}
 
 	@Override
-	public Exit canSeeAnExit(People people) {
+	public Exit canSeeAnExit(People ppl) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Arrow canSeeAnArrow(People people) {
+	public Arrow canSeeAnArrow(People ppl) {
 		// TODO Auto-generated method stub
 		return null;
 	}
