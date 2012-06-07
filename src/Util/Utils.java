@@ -1,6 +1,7 @@
 package Util;
 
 import java.util.List;
+import java.util.Random;
 
 import sim.engine.SimState;
 import sim.util.Int2D;
@@ -19,14 +20,14 @@ public class Utils
 	 * It simply generates a random value according to Mason's way of working
 	 * 
 	 * @param s The {@link AgentDataAccessInterface} to which the simulation is linked
-	 * @param min The minimal value which can be taken
-	 * @param max The maximal value which can be taken
+	 * @param val1 The min or the max
+	 * @param val2 The min or the max
 	 * 
-	 * @return A random number between min and max, both included
+	 * @return A random number between val1 and val2, both included
 	 */
-	static public int getRandomMasonValue(AgentDataAccessInterface s, int min, int max)
+	static public int getRandomMasonValue(AgentDataAccessInterface s, int val1, int val2)
 	{
-		return min+((SimState) s).random.nextInt(max-min+1);
+		return Math.min(val1, val2)+((SimState) s).random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
 	}
 	
 	
@@ -43,21 +44,43 @@ public class Utils
 		Direction d = Direction.UNKNOWN;
 		List<Int2D> pCoord = people.getListCoord();
 		
-		if(c.y < pCoord.get(0).y)
+		if((new Random()).nextInt(2) == 0)
 		{
-			d = Direction.NORTH;
+			if(c.y < pCoord.get(0).y)
+			{
+				d = Direction.NORTH;
+			}
+			else if(c.y > pCoord.get(0).y)
+			{
+				d = Direction.SOUTH;
+			}
+			else if(c.x > pCoord.get(0).x)
+			{
+				d = Direction.EAST;
+			}
+			else if(c.x < pCoord.get(0).x)
+			{
+				d = Direction.WEST;
+			}
 		}
-		else if(c.y > pCoord.get(0).y)
+		else
 		{
-			d = Direction.SOUTH;
-		}
-		else if(c.x > pCoord.get(0).x)
-		{
-			d = Direction.EAST;
-		}
-		else if(c.x < pCoord.get(0).x)
-		{
-			d = Direction.WEST;
+			if(c.x > pCoord.get(0).x)
+			{
+				d = Direction.EAST;
+			}
+			else if(c.x < pCoord.get(0).x)
+			{
+				d = Direction.WEST;
+			}
+			else if(c.y < pCoord.get(0).y)
+			{
+				d = Direction.NORTH;
+			}
+			else if(c.y > pCoord.get(0).y)
+			{
+				d = Direction.SOUTH;
+			}
 		}
 		
 		return d;

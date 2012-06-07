@@ -159,7 +159,6 @@ public class People implements Steppable, Oriented2D
 	private void scream(AgentDataAccessInterface model)
 	{
 		if (isWarned) {
-			System.out.println(this + ": Screaming");
 			model.someoneScreams(this);
 		}
 	}
@@ -192,8 +191,6 @@ public class People implements Steppable, Oriented2D
 		
 		if (panicLevel >= Constants.MAX_PANIC)
 		{
-			System.out.println(this + ": Random move");
-			
 			randomMove(model);
 		}
 		else
@@ -203,12 +200,10 @@ public class People implements Steppable, Oriented2D
 			
 			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
 			{
-				System.out.println(this + ": Self decision");
 				selfDecision(model);
 			}
 			else
 			{
-				System.out.println(this + " Follow people");
 				// Following the agent who has the best charisma
 				followPeople(model, bestCharisma);
 			}
@@ -229,7 +224,6 @@ public class People implements Steppable, Oriented2D
 		Exit exit = model.canSeeAnExit(this);
 		if (exit != null)
 		{
-			System.out.println(this + " can see an exit");
 			// Exit seeable !
 			goToComponent(model, exit);
 		}
@@ -240,19 +234,41 @@ public class People implements Steppable, Oriented2D
 			Arrow arrow = model.canSeeAnArrow(this);
 			if (arrow != null)
 			{
-				System.out.println(this + " can see an arrow");
 				// An arrow is seen by this agent
 				Direction arrowDirection = arrow.getDirection();
 				if (model.canMakeOneStepTo(arrowDirection, this))
 				{
 					// It goes to the indicated direction
 					goTo(model, arrowDirection);
+					
+					System.out.print(this + ": Following direction: ");
+					switch(arrowDirection)
+					{
+					case NORTH:
+						System.out.println("North");
+						break;
+					case SOUTH:
+						System.out.println("south");
+						break;
+					case WEST:
+						System.out.println("West");
+						break;
+					case EAST:
+						System.out.println("East");
+						break;
+					case UNKNOWN:
+						System.out.println("Unknown");
+						break;
+					}
 				}
 				else
 				{
 					// For any reason, it can't go to the indicated direction
 					// So, it moves forward to the arrow, in order to escape from a possible obstacle
-					goToComponent(model, arrow);
+					// goToComponent(model, arrow);
+					goToComponentByOneStep(model, arrow);
+					
+					System.out.println(this + ": Cannot go to direction.");
 				}
 			}
 			else
@@ -260,7 +276,6 @@ public class People implements Steppable, Oriented2D
 				// There's no arrow around
 				// It has to either perform a random move, or to get out from a room
 				
-				System.out.println(this + " final random move");
 				// TO DO !!!!
 				randomMove(model);
 			}
@@ -279,6 +294,14 @@ public class People implements Steppable, Oriented2D
 		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()), Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
 		Direction d = Utils.getDirectionFromCoordinates(this, shapeCoordinates);
 		goTo(model, d);
+	}
+	
+	
+	private void goToComponentByOneStep(AgentDataAccessInterface model, Shape shape)
+	{
+		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()), Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
+		Direction d = Utils.getDirectionFromCoordinates(this, shapeCoordinates);
+		goToByOneStep(model, d);
 	}
 	
 	
@@ -386,6 +409,12 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
+	private void goForwardByOneStep(AgentDataAccessInterface model)
+	{
+		if (model.canMakeOneStepFront(this)) oneStepFront();
+	}
+	
+	
 	/**
 	 * It goes to a given direction
 	 * 
@@ -395,6 +424,13 @@ public class People implements Steppable, Oriented2D
 	{
 		turnTo(dir);
 		goForward(model);
+	}
+	
+	
+	private void goToByOneStep(AgentDataAccessInterface model, Direction dir)
+	{
+		turnTo(dir);
+		goForwardByOneStep(model);
 	}
 		
 	
@@ -555,23 +591,31 @@ public class People implements Steppable, Oriented2D
 	
 	
 	private void turnTo(Direction newDir)
-	{
-		if (direction == newDir) return;
-		if ((direction == Direction.NORTH && newDir == Direction.EAST) || (direction == Direction.EAST && newDir == Direction.SOUTH)
-				|| (direction == Direction.SOUTH && newDir == Direction.WEST) || (direction == Direction.WEST && direction == Direction.NORTH)) {
-			turnClockwise();
-			return;
-		}
-		if ((direction == Direction.NORTH && newDir == Direction.WEST) || (direction == Direction.WEST && newDir == Direction.SOUTH)
-				|| (direction == Direction.SOUTH && newDir == Direction.EAST) || (direction == Direction.EAST && direction == Direction.NORTH)) {
-			turnCounterclockwise();
-			return;
-		}
-		if ((direction == Direction.NORTH && newDir == Direction.SOUTH) || (direction == Direction.SOUTH && newDir == Direction.NORTH)
-				|| (direction == Direction.EAST && newDir == Direction.WEST) || (direction == Direction.WEST && direction == Direction.EAST)) {
-			turnClockwise();
-			turnClockwise();
-			return;
+	{	
+		if(direction != newDir)
+		{
+			if((direction == Direction.NORTH && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.WEST) ||
+					(direction == Direction.WEST && newDir == Direction.NORTH))
+			{
+				turnClockwise();
+			}
+			else if((direction == Direction.NORTH && newDir == Direction.WEST) ||
+					(direction == Direction.WEST && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.NORTH))
+			{
+				turnCounterclockwise();
+			}
+			else if((direction == Direction.NORTH && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.NORTH) ||
+					(direction == Direction.WEST && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.WEST))
+			{
+				turnClockwise();
+				turnClockwise();
+			}
 		}
 	}
 	

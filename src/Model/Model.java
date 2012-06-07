@@ -263,24 +263,6 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 		return false;
 	}
-	
-	
-	/**
-	 * It returns the position of a given {@link Components.Fire} relatively to a given {@link People}
-	 * 
-	 * @param f The given {@link Components.Fire}
-	 * @param p The given {@link People}
-	 * 
-	 * @return The position of a given {@link Components.Fire} relatively to a given {@link People}
-	 */
-	private Direction getFireDirectionFromPeople(Fire f, People p)
-	{
-		if (f.getListCoords().get(0).x < p.eyeX) return Direction.WEST;
-		else if (f.getListCoords().get(0).x > p.eyeX) return Direction.EAST;
-		else if (f.getListCoords().get(0).y < p.eyeY) return Direction.NORTH;
-		else if (f.getListCoords().get(0).y > p.eyeY) return Direction.SOUTH;
-		else return Direction.UNKNOWN;
-	}
 		
 	@Override
 	public void someoneScreams(People ppl)
@@ -316,32 +298,42 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 
 	@Override
-	public boolean canMakeOneStepTo(Direction direction, People ppl) {
+	public boolean canMakeOneStepTo(Direction direction, People ppl)
+	{
 		List<Int2D> coords = ppl.getListCoord();
 		
-		switch (direction) {
+		switch (direction)
+		{
 		case NORTH:
-			for (Int2D coord : coords) {
+			for (Int2D coord : coords)
+			{
 				Object obj = grid.get(coord.x, coord.y-1); 
-				if (obj != ppl && obj != null) return false;
+				if (obj != ppl && obj != null)
+					return false;
 			}
 			break;
 		case SOUTH:
-			for (Int2D coord : coords) {
+			for (Int2D coord : coords)
+			{
 				Object obj = grid.get(coord.x, coord.y+1); 
-				if (obj != ppl && obj != null) return false;
+				if (obj != ppl && obj != null)
+					return false;
 			}
 			break;
 		case EAST:
-			for (Int2D coord : coords) {
+			for (Int2D coord : coords)
+			{
 				Object obj = grid.get(coord.x+1, coord.y);
-				if (obj != ppl && obj != null) return false;
+				if (obj != ppl && obj != null)
+					return false;
 			}
 			break;
 		case WEST:
-			for (Int2D coord : coords) {
+			for (Int2D coord : coords)
+			{
 				Object obj = grid.get(coord.x-1, coord.y); 
-				if (obj != ppl && obj != null) return false;
+				if (obj != ppl && obj != null)
+					return false;
 			}
 			break;
 		}
