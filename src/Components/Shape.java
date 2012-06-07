@@ -3,16 +3,15 @@ package Components;
 import java.util.ArrayList;
 import java.util.List;
 
-import Util.Constants.Direction;
-
 import sim.util.Int2D;
+import Util.Constants.Direction;
 
 public abstract class Shape {
 
-	protected Integer beginX;
-	protected Integer beginY;
-	protected Integer endX;
-	protected Integer endY;
+	protected int beginX;
+	protected int beginY;
+	protected int endX;
+	protected int endY;
 	protected Direction direction;
 	
 	protected List<Int2D> listCoord = new ArrayList<Int2D>();
@@ -35,29 +34,29 @@ public abstract class Shape {
 	private void computeCoord() {
 		switch (direction) {
 		case NORTH:
-			for (Integer y = endY; y <= beginY ; ++y) listCoord.add(new Int2D(beginX, y));
+			for (int y = endY; y <= beginY ; ++y) listCoord.add(new Int2D(beginX, y));
 		case SOUTH:
-			for (Integer y = beginY; y <= endY ; ++y) listCoord.add(new Int2D(beginX, y));
+			for (int y = beginY; y <= endY ; ++y) listCoord.add(new Int2D(beginX, y));
 		case EAST:
-			for (Integer x = beginX; x <= endX; ++x) listCoord.add(new Int2D(x, beginY));
+			for (int x = beginX; x <= endX; ++x) listCoord.add(new Int2D(x, beginY));
 		case WEST:
-			for (Integer x = endX; x <= beginX; ++x) listCoord.add(new Int2D(x, beginY));	
+			for (int x = endX; x <= beginX; ++x) listCoord.add(new Int2D(x, beginY));	
 		}
 	}
 
-	public Integer getBeginX() {
+	public int getBeginX() {
 		return beginX;
 	}
 
-	public Integer getBeginY() {
+	public int getBeginY() {
 		return beginY;
 	}
 
-	public Integer getEndX() {
+	public int getEndX() {
 		return endX;
 	}
 
-	public Integer getEndY() {
+	public int getEndY() {
 		return endY;
 	}	
 
