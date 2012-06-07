@@ -125,12 +125,6 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
-	public Direction getDirection()
-	{
-		return direction;
-	}
-	
-	
 	/**
 	 * Tells if this people is in warn state or not
 	 * 
