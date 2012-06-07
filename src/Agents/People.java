@@ -236,7 +236,7 @@ public class People implements Steppable, Oriented2D
 			if(arrow != null)
 			{
 				// An arrow is seen by this agent
-				Direction arrowDirection = Utils.stringToDirection(arrow.getOrientation());
+				Direction arrowDirection = arrow.getDirection();
 				if(model.canMakeOneStepTo(arrowDirection, this))
 				{
 					// It goes to the indicated direction

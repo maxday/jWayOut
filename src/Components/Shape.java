@@ -3,77 +3,65 @@ package Components;
 import java.util.ArrayList;
 import java.util.List;
 
+import Util.Constants.Direction;
+
 import sim.util.Int2D;
 
 public abstract class Shape {
 
-	private String beginX;
-	private String beginY;
-	private String endX;
-	private String endY;
-	private String direction;
+	protected Integer beginX;
+	protected Integer beginY;
+	protected Integer endX;
+	protected Integer endY;
+	protected Direction direction;
 	
-	private List<Int2D> listCoord = new ArrayList<Int2D>();
+	protected List<Int2D> listCoord = new ArrayList<Int2D>();
 
 	public Shape(String beginX, String beginY, String endX, String endY, String direction) {
-		this.beginX = beginX;
-		this.beginY = beginY;
-		this.endX = endX;
-		this.endY = endY;
-		this.direction = direction;
+		this.beginX = Integer.parseInt(beginX);
+		this.beginY = Integer.parseInt(beginY);
+		this.endX = Integer.parseInt(endX);
+		this.endY = Integer.parseInt(endY);
+		if (direction.equals("vertical")){
+			if (this.endY > this.beginY) this.direction = Direction.SOUTH;
+			else this.direction = Direction.NORTH;
+		} else {
+			if (this.endX > this.beginX) this.direction = Direction.EAST;
+			else this.direction = Direction.WEST;
+		}
 		computeCoord();
 	}
 
 	private void computeCoord() {
-
-		if ("vertical".equals(direction)) {
-			Integer maxY = null;
-			Integer x = Integer.parseInt(beginX);
-			if(Integer.parseInt(endY) > Integer.parseInt(beginY)){
-				 maxY= Integer.parseInt(endY);
-				 for (Integer y = Integer.parseInt(beginY); y <= maxY ; ++y)
-					listCoord.add(new Int2D(x, y));
-			}
-			else{
-				maxY = Integer.parseInt(beginY);
-				for (Integer y = Integer.parseInt(endY); y <= maxY ; ++y)
-					listCoord.add(new Int2D(x, y));
-			}	
-			
-		} else 
-		{
-			Integer maxX = null;
-			Integer y = Integer.parseInt(beginY);
-			if(Integer.parseInt(endX) > Integer.parseInt(beginX)){
-				maxX = Integer.parseInt(endX);
-				for (Integer x = Integer.parseInt(beginX); x <= maxX; ++x)
-					listCoord.add(new Int2D(x, y));
-			}
-			else{
-				maxX = Integer.parseInt(beginX);
-				for (Integer x = Integer.parseInt(endX); x <= maxX; ++x)
-					listCoord.add(new Int2D(x, y));
-			}
+		switch (direction) {
+		case NORTH:
+			for (Integer y = endY; y <= beginY ; ++y) listCoord.add(new Int2D(beginX, y));
+		case SOUTH:
+			for (Integer y = beginY; y <= endY ; ++y) listCoord.add(new Int2D(beginX, y));
+		case EAST:
+			for (Integer x = beginX; x <= endX; ++x) listCoord.add(new Int2D(x, beginY));
+		case WEST:
+			for (Integer x = endX; x <= beginX; ++x) listCoord.add(new Int2D(x, beginY));	
 		}
 	}
 
-	public String getBeginX() {
+	public Integer getBeginX() {
 		return beginX;
 	}
 
-	public String getBeginY() {
+	public Integer getBeginY() {
 		return beginY;
 	}
 
-	public String getEndX() {
+	public Integer getEndX() {
 		return endX;
 	}
 
-	public String getEndY() {
+	public Integer getEndY() {
 		return endY;
 	}	
 
-	public String getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 	
@@ -83,9 +71,6 @@ public abstract class Shape {
 
 	public List<Int2D> getListCoord() {
 		return listCoord;
-	}
-	
-	
-	
+	}	
 
 }

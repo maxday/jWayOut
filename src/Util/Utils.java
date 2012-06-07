@@ -16,7 +16,7 @@ import Util.Constants.Direction;
 public class Utils
 {
 	/**
-	 * It simply generated a random value according to Mason's way of working
+	 * It simply generates a random value according to Mason's way of working
 	 * 
 	 * @param s The {@link AgentDataAccessInterface} to which the simulation is linked
 	 * @param min The minimal value which can be taken
@@ -28,7 +28,6 @@ public class Utils
 	{
 		return min+((SimState) s).random.nextInt(max-min+1);
 	}
-	
 	
 	
 	/**
@@ -64,36 +63,4 @@ public class Utils
 		return d;
 	}
 	
-	
-	
-	/**
-	 * It returns a {@link Direction} from a {@link String} formated direction
-	 * 
-	 * @param str The input direction
-	 * 
-	 * @return The {@link Direction} formated direction
-	 */
-	static public Direction stringToDirection(String str)
-	{
-		if(str.equals("north"))
-		{
-			return Direction.NORTH;
-		}
-		else if(str.equals("south"))
-		{
-			return Direction.SOUTH;
-		}
-		else if(str.equals("west"))
-		{
-			return Direction.WEST;
-		}
-		else if(str.equals("east"))
-		{
-			return Direction.EAST;
-		}
-		else
-		{
-			return Direction.UNKNOWN;
-		}
-	}
 }
