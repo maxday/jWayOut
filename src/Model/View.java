@@ -4,8 +4,8 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
 import sim.display.Controller;
-import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Portrayal;
@@ -56,7 +56,7 @@ public class View extends GUIState {
 
 	private void setupPortrayals() {
 		Model model = (Model)state;
-		gridPortrayal.setField(model.grid);
+		gridPortrayal.setField(model.getGrid());
 		
 		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());

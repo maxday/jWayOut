@@ -23,7 +23,12 @@ import Util.ReadXml;
 @SuppressWarnings("serial")
 public class Model extends SimState implements AgentDataAccessInterface {
 	
-	public ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+	private ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+	private ObjectGrid2D hiddenGrid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+	
+	public ObjectGrid2D getGrid() {
+		return grid;
+	}
 	
 	private List<Int2D> firePosition = new ArrayList<Int2D>();
 
@@ -34,11 +39,14 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	@Override
 	public void start() {
 		super.start();
+		
 		grid.clear();
 		addSpace();
 		addWalls();
-		addExits();
 		addAgents();
+		
+		hiddenGrid.clear();
+		addExits();
 		addArrows();
 	}
 	
@@ -97,6 +105,18 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
+	private void addAgents() {
+		List<People> peopleList = ReadXml.getPeopleList();
+		
+		for (int iPeople = 0; iPeople < peopleList.size(); ++iPeople) {
+			People people = peopleList.get(iPeople);
+			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
+			List<Int2D> coords = people.getListCoord();
+			addToGrid(coords, people);
+			schedule.scheduleOnce(people);
+		}
+	}
+	
 	private void addExits() {
 		List<Exit> exitList = ReadXml.getExitList();
 		
@@ -108,15 +128,14 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
-	private void addAgents() {
-		List<People> peopleList = ReadXml.getPeopleList();
+	private void addArrows() {
+		List<Arrow> arrowList = ReadXml.getArrowList();
 		
-		for (int iPeople = 0; iPeople < peopleList.size(); ++iPeople) {
-			People people = peopleList.get(iPeople);
-			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
-			List<Int2D> coords = people.getListCoord();
-			addToGrid(coords, people);
-			schedule.scheduleOnce(people);
+		for (int iArrow = 0; iArrow < arrowList.size(); ++iArrow) {
+			Arrow arrow = arrowList.get(iArrow);
+			LogConsole.print(arrow.toString(), Actions.Action.ADD.name(), arrow.getClass().getName());
+			List<Int2D> coords = arrow.getListCoord();
+			addToGrid(coords, arrow);
 		}
 	}
 	
@@ -133,17 +152,6 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			grid.set(coord.x, coord.y, null);
 		}		
 	}	
-
-	private void addArrows() {
-		List<Arrow> arrowList = ReadXml.getArrowList();
-		
-		for (int iArrow = 0; iArrow < arrowList.size(); ++iArrow) {
-			Arrow arrow = arrowList.get(iArrow);
-			LogConsole.print(arrow.toString(), Actions.Action.ADD.name(), arrow.getClass().getName());
-			List<Int2D> coords = arrow.getListCoord();
-			addToGrid(coords, arrow);
-		}
-	}
 	
 	
 	/**
@@ -155,13 +163,12 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	 */
 	private ArrayList<Wall> getWallsAround(People ppl)
 	{
-		ArrayList<Wall> result = new ArrayList<Wall>();
+		ArrayList<Wall> walls = new ArrayList<Wall>();
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
 		for (Object obj : fields) {
-			if (obj instanceof Wall) result.add((Wall) obj);
+			if (obj instanceof Wall) walls.add((Wall) obj);
 		}
-		
-		return result;
+		return walls;
 	}
 	
 	
@@ -200,8 +207,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case NORTH:
 			for (int j = ppl.eyeY - vision; j <= ppl.earY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.eyeX+1 + vision; i++) {
-					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
-					{
+					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
@@ -212,8 +218,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case SOUTH:
 			for (int j = ppl.earY - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX-1 - vision; i <= ppl.eyeX + vision; i++) {
-					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
-					{
+					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
@@ -224,8 +229,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case EAST:
 			for (int j = ppl.eyeY - vision; j <= ppl.eyeY+1 + vision; j++) {
 				for (int i = ppl.earX - vision; i <= ppl.eyeX + vision; i++) {
-					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
-					{
+					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
@@ -236,8 +240,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case WEST:
 			for (int j = ppl.eyeY-1 - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.earX + vision; i++) {
-					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
-					{
+					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
@@ -253,19 +256,13 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public boolean canSeeFire(People ppl)
 	{
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
-
 		// For each object
-		for(Object obj : fields)
-		{
+		for (Object obj : fields) {
 			// If there's a fire
-			if(obj instanceof Fire)
-			{
-				return true;
-			}
+			if (obj instanceof Fire) return true;
 		}
 		return false;
 	}
-	
 	
 	
 	/**
@@ -278,34 +275,18 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	 */
 	private Direction getFireDirectionFromPeople(Fire f, People p)
 	{
-		if(f.getListCoords().get(0).x < p.getListCoord().get(0).x)
-		{
-			return Direction.WEST;
-		}
-		else if(f.getListCoords().get(0).x > p.getListCoord().get(0).x)
-		{
-			return Direction.EAST;
-		}
-		else if(f.getListCoords().get(0).y < p.getListCoord().get(0).y)
-		{
-			return Direction.NORTH;
-		}
-		else if(f.getListCoords().get(0).y > p.getListCoord().get(0).y)
-		{
-			return Direction.SOUTH;
-		}
-		else
-		{
-			return Direction.UNKNOWN;
-		}
+		if (f.getListCoords().get(0).x < p.eyeX) return Direction.WEST;
+		else if (f.getListCoords().get(0).x > p.eyeX) return Direction.EAST;
+		else if (f.getListCoords().get(0).y < p.eyeY) return Direction.NORTH;
+		else if (f.getListCoords().get(0).y > p.eyeY) return Direction.SOUTH;
+		else return Direction.UNKNOWN;
 	}
 		
 	@Override
 	public void someoneScreams(People ppl)
 	{
 		ArrayList<Object> field = getPeopleVisualField(ppl);
-		for (Object obj : field)
-		{
+		for (Object obj : field) {
 			if (obj instanceof People) ((People) obj).hearScream();
 		}
 	}
@@ -369,18 +350,13 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 
 	@Override
-	public ArrayList<People> getPeopleAround(People ppl) {
+	public ArrayList<People> getPeopleAround(People ppl)
+	{
 		ArrayList<People> seenPeople = new ArrayList<People>();
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
-		
-		for(Object obj : fields)
-		{
-			if(obj instanceof People)
-			{
-				seenPeople.add((People) obj);
-			}
+		for (Object obj : fields) {
+			if (obj instanceof People) seenPeople.add((People) obj);
 		}
-		
 		return seenPeople;
 	}
 
@@ -388,13 +364,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public Exit canSeeAnExit(People ppl)
 	{
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
-		
-		for(Object obj : fields)
-		{
-			if(obj instanceof Exit)
-			{
-				return ((Exit) obj);
-			}
+		for (Object obj : fields) {
+			if (obj instanceof Exit) return ((Exit) obj);
 		}
 		return null;
 	}
@@ -403,13 +374,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public Arrow canSeeAnArrow(People ppl)
 	{
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
-		
-		for(Object obj : fields)
-		{
-			if(obj instanceof Arrow)
-			{
-				return ((Arrow) obj);
-			}
+		for (Object obj : fields) {
+			if (obj instanceof Arrow) return ((Arrow) obj);
 		}
 		return null;
 	}

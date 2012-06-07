@@ -1,6 +1,6 @@
 package Model;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import sim.display.Display2D;
 import sim.display.GUIState;
 
+@SuppressWarnings("serial")
 public class MyDisplay2D extends Display2D {
 
 	public final GUIState simulation;
