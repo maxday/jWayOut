@@ -8,6 +8,7 @@ import sim.display.Manipulating2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.simple.RectanglePortrayal2D;
+import sim.util.Int2D;
 import Model.Model;
 
 @SuppressWarnings("serial")
@@ -25,7 +26,8 @@ public class ClickablePortrayal extends RectanglePortrayal2D {
 				if (guistate.state instanceof Model) {
 					Model model = (Model) guistate.state;
 					model.removeSpace();
-					model.putFire(event.getX()/Constants.GRID_TO_FRAME, event.getY()/Constants.GRID_TO_FRAME);
+					Int2D fire = new Int2D(event.getX()/Constants.GRID_TO_FRAME, event.getY()/Constants.GRID_TO_FRAME);
+					model.putFire(fire);
 				}
 			}
 		}

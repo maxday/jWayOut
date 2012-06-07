@@ -67,10 +67,9 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
-	public void putFire(int hearthX, int hearthY) {
-		Int2D hearth = new Int2D(hearthX, hearthY);
+	public void putFire(Int2D hearth) {
 		IntBag xBag = new IntBag(), yBag = new IntBag();
-		grid.getNeighborsHamiltonianDistance(hearthX, hearthY, 1, false, xBag, yBag);
+		grid.getNeighborsHamiltonianDistance(hearth.x, hearth.y, 1, false, xBag, yBag);
 		
 		Fire fire = new Fire(hearth);
 		firePosition.add(hearth);
