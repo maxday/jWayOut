@@ -147,18 +147,18 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	
 	/**
-	 * It checks if there're some walls in the given {@link People}'s vision field and gives their direction from the {@link People}'s point of view
+	 * It checks if there're some walls in the given {@link People}'s vision field and gives them from the {@link People}'s point of view
 	 * 
 	 * @param ppl The given {@link People}
 	 * 
-	 * @return Position of walls that p can see. Can be empty 
+	 * @return Walls that ppl can see. Can be empty 
 	 */
-	private ArrayList<Direction> getWallsAround(People ppl)
+	private ArrayList<Wall> getWallsAround(People ppl)
 	{
-		ArrayList<Direction> result = new ArrayList<Direction>();
+		ArrayList<Wall> result = new ArrayList<Wall>();
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
 		for (Object obj : fields) {
-			if (obj instanceof Wall) result.add(getShapeDirectionFromPeople(ppl, (Wall) obj));
+			if (obj instanceof Wall) result.add((Wall) obj);
 		}
 		
 		return result;
@@ -238,25 +238,102 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	@Override
-	public boolean canSeeFire(People ppl) {
-		ArrayList<Object> field = getPeopleVisualField(ppl);
-		ArrayList<Direction> wallsDirection = getWallsAround(ppl);
+	public boolean canSeeFire(People ppl)
+	{
+		ArrayList<Object> fields = getPeopleVisualField(ppl);
+		ArrayList<Wall> wallsDirection = getWallsAround(ppl);
 		
-		if (wallsDirection.size() <= 0) {
-			for (Object obj : field) {
-				if (obj instanceof Fire) return true;
-			}	
+		Fire f = null;
+		Direction fireDirection = Direction.UNKNOWN;
+		// For each object
+		for(Object obj : fields)
+		{
+			// If there's a fire
+			if(obj instanceof Fire)
+			{
+				f = (Fire) obj;
+				
+				// Is there a wall between ppl and the found fire ?
+				for(Wall w : wallsDirection)
+				{
+					fireDirection = getFireDirectionFromPeople(f, ppl);
+					switch(fireDirection)
+					{
+					case NORTH:
+						if(w.getListCoord().get(0).y < f.getListCoords().get(0).y)
+						{
+							return true;
+						}
+						break;
+						
+					case SOUTH:
+						if(w.getListCoord().get(0).y > f.getListCoords().get(0).y)
+						{
+							return true;
+						}
+						break;
+						
+					case WEST:
+						if(w.getListCoord().get(0).x < f.getListCoords().get(0).x)
+						{
+							return true;
+						}
+						break;
+						
+					case EAST:
+						if(w.getListCoord().get(0).x > f.getListCoords().get(0).x)
+						{
+							return true;
+						}
+						break;
+					}
+				}
+			}
 			return false;
-		} else {
-			// TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			return false;
+		}
+		return false;
+	}
+	
+	
+	
+	/**
+	 * It returns the position of a given {@link Components.Fire} relatively to a given {@link People}
+	 * 
+	 * @param f The given {@link Components.Fire}
+	 * @param p The given {@link People}
+	 * 
+	 * @return The position of a given {@link Components.Fire} relatively to a given {@link People}
+	 */
+	private Direction getFireDirectionFromPeople(Fire f, People p)
+	{
+		if(f.getListCoords().get(0).x < p.getListCoord().get(0).x)
+		{
+			return Direction.WEST;
+		}
+		else if(f.getListCoords().get(0).x > p.getListCoord().get(0).x)
+		{
+			return Direction.EAST;
+		}
+		else if(f.getListCoords().get(0).y < p.getListCoord().get(0).y)
+		{
+			return Direction.NORTH;
+		}
+		else if(f.getListCoords().get(0).y > p.getListCoord().get(0).y)
+		{
+			return Direction.SOUTH;
+		}
+		else
+		{
+			return Direction.UNKNOWN;
 		}
 	}
 		
 	@Override
-	public void someoneScreams(People ppl) {
+	public void someoneScreams(People ppl)
+	{
 		ArrayList<Object> field = getPeopleVisualField(ppl);
-		for (Object obj : field) {
+		for (Object obj : field)
+		{
 			if (obj instanceof People) ((People) obj).hearScream();
 		}
 	}
@@ -317,19 +394,47 @@ public class Model extends SimState implements AgentDataAccessInterface {
 
 	@Override
 	public ArrayList<People> getPeopleAround(People ppl) {
-		// TODO Auto-generated method stub
-		return new ArrayList<People>();
+		ArrayList<People> seenPeople = new ArrayList<People>();
+		ArrayList<Object> fields = getPeopleVisualField(ppl);
+		
+		for(Object obj : fields)
+		{
+			if(obj instanceof People)
+			{
+				seenPeople.add((People) obj);
+			}
+		}
+		
+		return seenPeople;
 	}
 
 	@Override
-	public Exit canSeeAnExit(People ppl) {
-		// TODO Auto-generated method stub
+	public Exit canSeeAnExit(People ppl)
+	{
+		ArrayList<Object> fields = getPeopleVisualField(ppl);
+		
+		for(Object obj : fields)
+		{
+			if(obj instanceof Exit)
+			{
+				return ((Exit) obj);
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public Arrow canSeeAnArrow(People ppl) {
-		// TODO Auto-generated method stub
+	public Arrow canSeeAnArrow(People ppl)
+	{
+		ArrayList<Object> fields = getPeopleVisualField(ppl);
+		
+		for(Object obj : fields)
+		{
+			if(obj instanceof Arrow)
+			{
+				return ((Arrow) obj);
+			}
+		}
 		return null;
 	}
 	
