@@ -391,8 +391,13 @@ public class People implements Steppable, Oriented2D
 			decisions.add(Direction.SOUTH);
 		}
 				
-		// Moves randomly	
-		goTo(model, decisions.get(Utils.getRandomMasonValue(model, 0, decisions.size()-1)));
+		// Moves randomly
+		int choice = Utils.getRandomMasonValue(model, 0, decisions.size()-1);
+		while(!model.canMakeOneStepTo(decisions.get(choice), this))
+		{
+			choice = Utils.getRandomMasonValue(model, 0, decisions.size()-1);
+		}
+		goTo(model, decisions.get(choice));
 	}
 	
 	
