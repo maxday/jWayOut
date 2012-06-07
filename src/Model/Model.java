@@ -200,8 +200,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case NORTH:
 			for (int j = ppl.eyeY - vision; j <= ppl.earY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.eyeX+1 + vision; i++) {
-					obj = grid.get(i, j);
-					if (obj != ppl && obj != null) field.add(obj);
+					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
+					{
+						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+					}
 				}
 			}
 			break;		
@@ -209,8 +212,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case SOUTH:
 			for (int j = ppl.earY - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX-1 - vision; i <= ppl.eyeX + vision; i++) {
-					obj = grid.get(i, j);
-					if (obj != ppl && obj != null) field.add(obj);
+					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
+					{
+						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+					}
 				}
 			}
 			break;
@@ -218,8 +224,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case EAST:
 			for (int j = ppl.eyeY - vision; j <= ppl.eyeY+1 + vision; j++) {
 				for (int i = ppl.earX - vision; i <= ppl.eyeX + vision; i++) {
-					obj = grid.get(i, j);
-					if (obj != ppl && obj != null) field.add(obj);
+					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
+					{
+						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+					}
 				}
 			}
 			break;
@@ -227,8 +236,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case WEST:
 			for (int j = ppl.eyeY-1 - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.earX + vision; i++) {
-					obj = grid.get(i, j);
-					if (obj != ppl && obj != null) field.add(obj);
+					if(i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT)
+					{
+						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+					}
 				}
 			}
 			break;
@@ -241,55 +253,15 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public boolean canSeeFire(People ppl)
 	{
 		ArrayList<Object> fields = getPeopleVisualField(ppl);
-		ArrayList<Wall> wallsDirection = getWallsAround(ppl);
-		
-		Fire f = null;
-		Direction fireDirection = Direction.UNKNOWN;
+
 		// For each object
 		for(Object obj : fields)
 		{
 			// If there's a fire
 			if(obj instanceof Fire)
 			{
-				f = (Fire) obj;
-				
-				// Is there a wall between ppl and the found fire ?
-				for(Wall w : wallsDirection)
-				{
-					fireDirection = getFireDirectionFromPeople(f, ppl);
-					switch(fireDirection)
-					{
-					case NORTH:
-						if(w.getListCoord().get(0).y < f.getListCoords().get(0).y)
-						{
-							return true;
-						}
-						break;
-						
-					case SOUTH:
-						if(w.getListCoord().get(0).y > f.getListCoords().get(0).y)
-						{
-							return true;
-						}
-						break;
-						
-					case WEST:
-						if(w.getListCoord().get(0).x < f.getListCoords().get(0).x)
-						{
-							return true;
-						}
-						break;
-						
-					case EAST:
-						if(w.getListCoord().get(0).x > f.getListCoords().get(0).x)
-						{
-							return true;
-						}
-						break;
-					}
-				}
+				return true;
 			}
-			return false;
 		}
 		return false;
 	}
@@ -347,13 +319,17 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public boolean canMakeOneStepFront(People ppl) {
 		switch (ppl.direction) {
 		case NORTH:
-			if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null) return true;
+			if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null)
+				return true;
 		case SOUTH:
-			if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null) return true;
+			if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null)
+				return true;
 		case EAST:
-			if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null) return true;
+			if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null)
+				return true;
 		case WEST:
-			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null) return true;
+			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null)
+				return true;
 		}
 		return false;
 	}

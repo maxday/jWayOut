@@ -159,6 +159,7 @@ public class People implements Steppable, Oriented2D
 	private void scream(AgentDataAccessInterface model)
 	{
 		if (isWarned) {
+			System.out.println(this + ": Screaming");
 			model.someoneScreams(this);
 		}
 	}
@@ -189,15 +190,25 @@ public class People implements Steppable, Oriented2D
 		List<Int2D> coords = getListCoord();
 		model.removeFromGrid(coords);
 		
-		if (panicLevel >= Constants.MAX_PANIC) {
+		if (panicLevel >= Constants.MAX_PANIC)
+		{
+			System.out.println(this + ": Random move");
+			
 			randomMove(model);
-		} else {
+		}
+		else
+		{
 			ArrayList<People> seeablePeople = model.getPeopleAround(this);
 			People bestCharisma = getMostCharismaticPeople(seeablePeople);
 			
-			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel()) {
+			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
+			{
+				System.out.println(this + ": Self decision");
 				selfDecision(model);
-			} else {
+			}
+			else
+			{
+				System.out.println(this + " Follow people");
 				// Following the agent who has the best charisma
 				followPeople(model, bestCharisma);
 			}
@@ -216,30 +227,42 @@ public class People implements Steppable, Oriented2D
 	private void selfDecision(AgentDataAccessInterface model)
 	{
 		Exit exit = model.canSeeAnExit(this);
-		if (exit != null) {
+		if (exit != null)
+		{
+			System.out.println(this + " can see an exit");
 			// Exit seeable !
 			goToComponent(model, exit);
-		} else {
+		}
+		else
+		{
 			// No near exit
 			
 			Arrow arrow = model.canSeeAnArrow(this);
-			if (arrow != null) {
+			if (arrow != null)
+			{
+				System.out.println(this + " can see an arrow");
 				// An arrow is seen by this agent
 				Direction arrowDirection = arrow.getDirection();
-				if (model.canMakeOneStepTo(arrowDirection, this)) {
+				if (model.canMakeOneStepTo(arrowDirection, this))
+				{
 					// It goes to the indicated direction
 					goTo(model, arrowDirection);
-				} else {
+				}
+				else
+				{
 					// For any reason, it can't go to the indicated direction
 					// So, it moves forward to the arrow, in order to escape from a possible obstacle
 					goToComponent(model, arrow);
 				}
-			} else {
+			}
+			else
+			{
 				// There's no arrow around
 				// It has to either perform a random move, or to get out from a room
 				
-				
+				System.out.println(this + " final random move");
 				// TO DO !!!!
+				randomMove(model);
 			}
 		}
 	}
