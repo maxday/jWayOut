@@ -156,7 +156,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	private ArrayList<Direction> getWallsAround(People ppl)
 	{
 		ArrayList<Direction> result = new ArrayList<Direction>();
-		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
+		ArrayList<Object> fields = getPeopleVisualField(ppl);
 		for (Object obj : fields) {
 			if (obj instanceof Wall) result.add(getShapeDirectionFromPeople(ppl, (Wall) obj));
 		}
@@ -189,61 +189,61 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	 * 
 	 * @return An {@link ArrayList} of {@link Object} which are seeable objects by ppl
 	 */
-	private ArrayList<Object> getPeopleFieldsOfView(People ppl)
+	private ArrayList<Object> getPeopleVisualField(People ppl)
 	{
 		int vision = ppl.getVisionAbility();
-		Object tmp = null;
-		ArrayList<Object> result = new ArrayList<Object>();
+		Object obj = null;
+		ArrayList<Object> field = new ArrayList<Object>();
 		
 		switch(ppl.direction) {
 		
 		case NORTH:
-			for (int i = ppl.eyeY - vision; i <= ppl.earY + vision; i++) {
-				for (int j = ppl.eyeX - vision; j <= ppl.eyeX + vision + 1; j++) {
-					tmp = grid.get(i, j);
-					if (tmp != ppl) result.add(tmp);
+			for (int j = ppl.eyeY - vision; j <= ppl.earY + vision; j++) {
+				for (int i = ppl.eyeX - vision; i <= ppl.eyeX+1 + vision; i++) {
+					obj = grid.get(i, j);
+					if (obj != ppl && obj != null) field.add(obj);
 				}
 			}
 			break;		
 
 		case SOUTH:
-			for (int i = ppl.earY - vision; i <= ppl.eyeY + vision; i++) {
-				for (int j = ppl.eyeX - vision - 1; j <= ppl.eyeX + vision; j++) {
-					tmp = grid.get(i, j);
-					if (tmp != ppl) result.add(tmp);
+			for (int j = ppl.earY - vision; j <= ppl.eyeY + vision; j++) {
+				for (int i = ppl.eyeX-1 - vision; i <= ppl.eyeX + vision; i++) {
+					obj = grid.get(i, j);
+					if (obj != ppl && obj != null) field.add(obj);
 				}
 			}
 			break;
 			
 		case EAST:
-			for (int i = ppl.eyeY - vision; i <= ppl.eyeY + vision + 1; i++) {
-				for (int j = ppl.earX - vision; j <= ppl.eyeX + vision; j++) {
-					tmp = grid.get(i, j);
-					if (tmp != ppl) result.add(tmp);
+			for (int j = ppl.eyeY - vision; j <= ppl.eyeY+1 + vision; j++) {
+				for (int i = ppl.earX - vision; i <= ppl.eyeX + vision; i++) {
+					obj = grid.get(i, j);
+					if (obj != ppl && obj != null) field.add(obj);
 				}
 			}
 			break;
 			
 		case WEST:
-			for (int i = ppl.eyeY - vision; i <= ppl.eyeY + vision + 1; i++) {
-				for (int j = ppl.earX - vision; j <= ppl.eyeX + vision; j++) {
-					tmp = grid.get(i, j);
-					if (tmp != ppl) result.add(tmp);
+			for (int j = ppl.eyeY-1 - vision; j <= ppl.eyeY + vision; j++) {
+				for (int i = ppl.eyeX - vision; i <= ppl.earX + vision; i++) {
+					obj = grid.get(i, j);
+					if (obj != ppl && obj != null) field.add(obj);
 				}
 			}
 			break;
 		}
 		
-		return result;
+		return field;
 	}
 	
 	@Override
 	public boolean canSeeFire(People ppl) {
-		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
+		ArrayList<Object> field = getPeopleVisualField(ppl);
 		ArrayList<Direction> wallsDirection = getWallsAround(ppl);
 		
 		if (wallsDirection.size() <= 0) {
-			for (Object obj : fields) {
+			for (Object obj : field) {
 				if (obj instanceof Fire) return true;
 			}	
 			return false;
@@ -255,8 +255,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 	@Override
 	public void someoneScreams(People ppl) {
-		ArrayList<Object> fields = getPeopleFieldsOfView(ppl);
-		for (Object obj : fields) {
+		ArrayList<Object> field = getPeopleVisualField(ppl);
+		for (Object obj : field) {
 			if (obj instanceof People) ((People) obj).hearScream();
 		}
 	}
