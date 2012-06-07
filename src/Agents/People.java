@@ -17,7 +17,6 @@ import Util.Constants.Direction;
 import Util.Utils;
 
 
-
 @SuppressWarnings("serial")
 public class People implements Steppable, Oriented2D
 {
@@ -29,7 +28,8 @@ public class People implements Steppable, Oriented2D
 	public int eyeY;
 	public Direction direction;
 	
-	private boolean isWarned;	
+	// Status
+	private boolean isWarned;
 	
 	// Abilities
 	private int visionAbility;
@@ -38,12 +38,20 @@ public class People implements Steppable, Oriented2D
 	private int charismaLevel;
 	private int autonomyLevel;
 	private int speedLevel;
-		
+	
 	/**
 	 * Default constructor
 	 */
 	public People(int earX, int earY, int eyeX, int eyeY)
-	{
+	{	
+		this.earX = earX;
+		this.earY = earY;
+		this.eyeX = eyeX;
+		this.eyeY = eyeY;
+		computeDirection();
+		
+		isWarned = false;
+		
 		// Generates abilities' rate
 		visionAbility = getRandomAbility();
 		screamingAbility = getRandomAbility();
@@ -51,19 +59,9 @@ public class People implements Steppable, Oriented2D
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
 		speedLevel = 1;
-		
-		this.earX = earX;
-		this.earY = earY;
-		this.eyeX = eyeX;
-		this.eyeY = eyeY;
-		
-		computeDirection();
-		
-		isWarned = false;
-		
-		
 	}
 
+	
 	/**
 	 * It generates a random ability's rate, which can take value from 1 to 10 (both included)
 	 * 
@@ -86,23 +84,27 @@ public class People implements Steppable, Oriented2D
 		return visionAbility;
 	}
 	
+	
 	public int getPanicLevel()
 	{
 		return panicLevel;
 	}
+	
 	
 	public int getScreamsAbility()
 	{
 		return screamingAbility;
 	}
 	
+	
 	public int getAutonomyLevel()
 	{
 		return autonomyLevel;
 	}
 	
+	
 	/**
-	 * It given is charisma level
+	 * It gives is charisma level
 	 * 
 	 * @return Its charisma level
 	 */
@@ -112,6 +114,11 @@ public class People implements Steppable, Oriented2D
 	}
 
 	
+	/**
+	 * It gives an integer which stands for the speed of the agent
+	 * 
+	 * @return The agent's speed ability
+	 */
 	public int getSpeedLevel()
 	{
 		return speedLevel;
@@ -123,8 +130,9 @@ public class People implements Steppable, Oriented2D
 		return direction;
 	}
 	
+	
 	/**
-	 * Tells if this people is in warm state or not
+	 * Tells if this people is in warn state or not
 	 * 
 	 * @return A boolean telling if the agent is in warning state
 	 */
@@ -133,19 +141,19 @@ public class People implements Steppable, Oriented2D
 		return isWarned;
 	}
 	
+	
 	@Override
-	public void step(SimState arg0)
+	public void step(SimState state)
 	{
-		if (arg0 instanceof AgentDataAccessInterface)
-		{
-			AgentDataAccessInterface model = (AgentDataAccessInterface) arg0;
+		if (state instanceof AgentDataAccessInterface) {
+			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
 			updateStatus(model);
 			scream(model);
 			move(model);
 		}
 		
-		arg0.schedule.scheduleOnce(this);
+		state.schedule.scheduleOnce(this);
 	}
 	
 	
@@ -156,8 +164,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void scream(AgentDataAccessInterface model)
 	{
-		if(isWarned)
-		{
+		if (isWarned) {
 			model.someoneScreams(this);
 		}
 	}
@@ -170,8 +177,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeFire(this))
-		{
+		if (model.canSeeFire(this)) {
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);
@@ -189,21 +195,15 @@ public class People implements Steppable, Oriented2D
 		List<Int2D> coords = getListCoord();
 		model.removeFromGrid(coords);
 		
-		if(panicLevel >= Constants.MAX_PANIC)
-		{
+		if (panicLevel >= Constants.MAX_PANIC) {
 			randomMove(model);
-		}
-		else
-		{
+		} else {
 			ArrayList<People> seeablePeople = model.getPeopleAround(this);
 			People bestCharisma = getMostCharismaticPeople(seeablePeople);
 			
-			if(bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
-			{
+			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel()) {
 				selfDecision(model);
-			}
-			else
-			{
+			} else {
 				// Following the agent who has the best charisma
 				followPeople(model, bestCharisma);
 			}
@@ -214,7 +214,6 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
-	
 	/**
 	 * This is invoked when the agent is about to take a decision by its own way of thinking
 	 * 
@@ -223,34 +222,25 @@ public class People implements Steppable, Oriented2D
 	private void selfDecision(AgentDataAccessInterface model)
 	{
 		Exit exit = model.canSeeAnExit(this);
-		if(exit != null)
-		{
+		if (exit != null) {
 			// Exit seeable !
 			goToComponent(model, exit);
-		}
-		else
-		{
+		} else {
 			// No near exit
 			
 			Arrow arrow = model.canSeeAnArrow(this);
-			if(arrow != null)
-			{
+			if (arrow != null) {
 				// An arrow is seen by this agent
 				Direction arrowDirection = arrow.getDirection();
-				if(model.canMakeOneStepTo(arrowDirection, this))
-				{
+				if (model.canMakeOneStepTo(arrowDirection, this)) {
 					// It goes to the indicated direction
 					goTo(model, arrowDirection);
-				}
-				else
-				{
+				} else {
 					// For any reason, it can't go to the indicated direction
 					// So, it moves forward to the arrow, in order to escape from a possible obstacle
 					goToComponent(model, arrow);
 				}
-			}
-			else
-			{
+			} else {
 				// There's no arrow around
 				// It has to either perform a random move, or to get out from a room
 				
@@ -261,17 +251,16 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
-	
 	/**
 	 * Makes this {@link People} going to a given {@link Shape}
 	 * 
 	 * @param model The associated model
-	 * @param exit The targeted {@link Shape}
+	 * @param shape The targeted {@link Shape}
 	 */
 	private void goToComponent(AgentDataAccessInterface model, Shape shape)
 	{
-		Int2D exitCoordinates = new Int2D(Utils.getRandomMasonValue(model, Integer.valueOf(shape.getBeginX()), Integer.valueOf(shape.getEndX())), Utils.getRandomMasonValue(model, Integer.valueOf(shape.getBeginY()), Integer.valueOf(shape.getEndY())));
-		Direction d = Utils.getDirectionFromCoordinates(this, exitCoordinates);
+		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()), Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
+		Direction d = Utils.getDirectionFromCoordinates(this, shapeCoordinates);
 		goTo(model, d);
 	}
 	
@@ -282,31 +271,23 @@ public class People implements Steppable, Oriented2D
 	 * @param model The associated model
 	 * @param p The {@link People} to follow
 	 */
-	private void followPeople(AgentDataAccessInterface model, People p)
+	private void followPeople(AgentDataAccessInterface model, People ppl)
 	{
-		List<Int2D> pCoord = p.getListCoord();
-		Direction d = Direction.UNKNOWN;
+		Direction dir = Direction.UNKNOWN;
 		
 		// Where is p in comparison with this
-		if(pCoord.get(0).y < eyeY)
-		{
-			d = Direction.NORTH;
-		}
-		else if(pCoord.get(0).y > eyeY)
-		{
-			d = Direction.SOUTH;
-		}
-		else if(pCoord.get(0).x > eyeX)
-		{
-			d = Direction.EAST;
-		}
-		else if(pCoord.get(0).x < eyeX)
-		{
-			d = Direction.WEST;
+		int diffX = ppl.eyeX - eyeX, diffY = ppl.eyeY - eyeY;
+		if (Math.abs(diffY) > Math.abs(diffX)) {
+			if (diffY < 0) dir = Direction.NORTH;
+			else dir = Direction.SOUTH;
+			
+		} else {
+			if (diffX > 0) dir = Direction.EAST;
+			else dir = Direction.WEST;
 		}
 		
 		// moves
-		goTo(model, d);
+		goTo(model, dir);
 	}
 	
 	
@@ -317,24 +298,17 @@ public class People implements Steppable, Oriented2D
 	 * 
 	 * @return It returns the people who has the best charisma level. It can return null if people is empty or null
 	 */
-	private People getMostCharismaticPeople(ArrayList<People> people)
+	private People getMostCharismaticPeople(ArrayList<People> peopleList)
 	{
-		if(people == null || people.size() <= 0)
-		{
+		if (peopleList == null || peopleList.size() <= 0) {
 			return null;
-		}
-		else
-		{
-			People max = people.get(0);
+		} else {
+			People max = peopleList.get(0);
 			
-			for(int i = 1; i < people.size(); i++)
-			{
-				if(people.get(i).getCharismaLevel() > max.getCharismaLevel())
-				{
-					max = people.get(i);
-				}
+			for (People people : peopleList) {
+				if (people.getCharismaLevel() > max.getCharismaLevel()) max = people;
 			}
-			
+						
 			return max;
 		}
 	}
@@ -378,40 +352,34 @@ public class People implements Steppable, Oriented2D
 		}
 				
 		// Moves randomly	
-		goTo(model, decisions.get(((SimState) model).random.nextInt(decisions.size())));
+		goTo(model, decisions.get(Utils.getRandomMasonValue(model, 0, decisions.size()-1)));
 	}
 	
 	
 	/**
-	 * It simply go forward
+	 * It simply goes forward
 	 * 
 	 * @param model The associated model
 	 */
 	private void goForward(AgentDataAccessInterface model)
 	{
-		for(int i = 0; i < speedLevel; i++)
-		{
-			if(model.canMakeOneStepFront(this))
-			{
-				oneStepFront();
-			}
+		for (int i = 0; i < speedLevel; i++) {
+			if (model.canMakeOneStepFront(this)) oneStepFront();
 		}
 	}
 	
 	
-	
 	/**
-	 * It does to a given direction
+	 * It goes to a given direction
 	 * 
-	 * @param d The direction the agent is supposed to go to
+	 * @param dir The direction the agent is supposed to go to
 	 */
-	private void goTo(AgentDataAccessInterface model, Direction d)
+	private void goTo(AgentDataAccessInterface model, Direction dir)
 	{
-		turnTo(d);
+		turnTo(dir);
 		goForward(model);
 	}
-	
-	
+		
 	
 	/**
 	 * It increments this people's panic level and updates its speed level according to its new panic level
@@ -423,33 +391,18 @@ public class People implements Steppable, Oriented2D
 		if (strong) panicLevel += Constants.STRONG_PANIC;
 		else panicLevel++;
 		
-		if (panicLevel > Constants.MAX_PANIC)
-		{
+		if (panicLevel > Constants.MAX_PANIC) {
 			panicLevel = Constants.MAX_PANIC;
 			speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
-		}
-		else
-		{
+		} else {
 			// Updates speed level according to the panic level
-			
-			if(panicLevel >= 0 && panicLevel <= Constants.MAX_PANIC/4)
-			{
-				speedLevel = Constants.AGENT_SLOW_SPEED;
-			}
-			else if(panicLevel <= Constants.MAX_PANIC/4 && panicLevel <= Constants.MAX_PANIC/2)
-			{
-				speedLevel = Constants.AGENT_NORMAL_SPEED;
-			}
-			else if(panicLevel <= Constants.MAX_PANIC/2 && panicLevel <= (Constants.MAX_PANIC*(3/4)))
-			{
-				speedLevel = Constants.AGENT_HIGH_SPEED;
-			}
-			else
-			{
-				speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
-			}
+			if (panicLevel <= Constants.MAX_PANIC/4) speedLevel = Constants.AGENT_SLOW_SPEED;
+			else if (panicLevel <= Constants.MAX_PANIC/2) speedLevel = Constants.AGENT_NORMAL_SPEED;
+			else if (panicLevel <= 3*Constants.MAX_PANIC/4) speedLevel = Constants.AGENT_HIGH_SPEED;
+			else speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
 		}
 	}
+	
 	
 	/**
 	 * It defines what this people should do when he's hearing screams
@@ -459,12 +412,6 @@ public class People implements Steppable, Oriented2D
 		incrementPanicLevel(false);
 		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
-	
-	/**
-	 * It gives an integer which stands for the speed of the agent
-	 * 
-	 * @return The agent's speed ability
-	 */
 	
 
 	@Override
@@ -478,6 +425,7 @@ public class People implements Steppable, Oriented2D
 				+ autonomyLevel + "; speedAbility=" + speedLevel + "]";
 	}
 
+	
 	public List<Int2D> getListCoord()
 	{
 		List<Int2D> coords = new ArrayList<Int2D>();
@@ -508,6 +456,7 @@ public class People implements Steppable, Oriented2D
 		return coords;
 	}
 	
+	
 	private void computeDirection()
 	{
 		if (eyeX == earX) {
@@ -521,6 +470,7 @@ public class People implements Steppable, Oriented2D
 		}
 	}
 
+	
 	@Override
 	public double orientation2D()
 	{	
@@ -537,6 +487,7 @@ public class People implements Steppable, Oriented2D
 		
 		return 0;
 	}
+	
 	
 	private void turnClockwise()
 	{	
@@ -561,6 +512,7 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 	}
 	
+	
 	private void turnCounterclockwise()
 	{
 		eyeX = earX;
@@ -584,74 +536,28 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 	}
 	
-	private void turnTo(Direction newDir) {
-		switch (direction) {
-		case NORTH:
-			switch (newDir) {
-			case NORTH:
-				return;
-			case SOUTH:
-				turnClockwise();
-				turnClockwise();
-				break;
-			case EAST:
-				turnClockwise();
-				break;
-			case WEST:
-				turnCounterclockwise();
-				break;
-			}
-			break;
-		case SOUTH:
-			switch (newDir) {
-			case NORTH:
-				turnClockwise();
-				turnClockwise();
-				break;
-			case SOUTH:
-				return;
-			case EAST:
-				turnCounterclockwise();
-				break;
-			case WEST:
-				turnClockwise();
-				break;
-			}
-			break;
-		case EAST:
-			switch (newDir) {
-			case NORTH:
-				turnCounterclockwise();
-				break;
-			case SOUTH:
-				turnClockwise();
-				break;
-			case EAST:
-				return;
-			case WEST:
-				turnClockwise();
-				turnClockwise();
-				break;
-			}
-			break;
-		case WEST:
-			switch (newDir) {
-			case NORTH:
-				turnClockwise();
-				break;
-			case SOUTH:
-				turnCounterclockwise();
-				break;
-			case EAST:
-				turnClockwise();
-				turnClockwise();
-				break;
-			case WEST:
-				return;
-			}
-			break;
+	
+	private void turnTo(Direction newDir)
+	{
+		if (direction == newDir) return;
+		if ((direction == Direction.NORTH && newDir == Direction.EAST) || (direction == Direction.EAST && newDir == Direction.SOUTH)
+				|| (direction == Direction.SOUTH && newDir == Direction.WEST) || (direction == Direction.WEST && direction == Direction.NORTH)) {
+			turnClockwise();
+			return;
+		}
+		if ((direction == Direction.NORTH && newDir == Direction.WEST) || (direction == Direction.WEST && newDir == Direction.SOUTH)
+				|| (direction == Direction.SOUTH && newDir == Direction.EAST) || (direction == Direction.EAST && direction == Direction.NORTH)) {
+			turnCounterclockwise();
+			return;
+		}
+		if ((direction == Direction.NORTH && newDir == Direction.SOUTH) || (direction == Direction.SOUTH && newDir == Direction.NORTH)
+				|| (direction == Direction.EAST && newDir == Direction.WEST) || (direction == Direction.WEST && direction == Direction.EAST)) {
+			turnClockwise();
+			turnClockwise();
+			return;
 		}
 	}
+	
 	
 	private void oneStepFront()
 	{
