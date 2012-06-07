@@ -36,7 +36,7 @@ public class Arrow extends Shape implements Orientable2D{
 		else 
 		{
 			if(Integer.parseInt(endX) > Integer.parseInt(beginX)){
-				orientation = "EST";
+				orientation = "EAST";
 				return 0;
 			}
 			else{
