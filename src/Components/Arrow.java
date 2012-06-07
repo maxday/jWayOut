@@ -10,6 +10,7 @@ public class Arrow extends Shape implements Orientable2D{
 	private String endX;
 	private String endY;
 	private String direction;
+	private String orientation;
 	
 	public Arrow(String beginX, String beginY, String endX, String endY, String direction){
 		super(beginX, beginY, endX, endY, direction);
@@ -24,21 +25,30 @@ public class Arrow extends Shape implements Orientable2D{
 	public double orientation2D() {
 		if(direction.equals("vertical")){
 			if(Integer.parseInt(endY) > Integer.parseInt(beginY)){
+				orientation = "SOUTH";
 				return Math.PI/2;
 			}
 			else{
+				orientation = "NORTH";
 				return Math.PI/2*3;
 			}
 		}
 		else 
 		{
 			if(Integer.parseInt(endX) > Integer.parseInt(beginX)){
+				orientation = "EST";
 				return 0;
 			}
 			else{
+				orientation = "WEST";
 				return Math.PI;
 			}
 		}	
+	}
+	
+	public String getOrientation()
+	{
+		return orientation;
 	}
 
 	@Override
