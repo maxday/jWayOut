@@ -11,6 +11,7 @@ import Agents.Fire;
 import Agents.People;
 import Components.Arrow;
 import Components.Exit;
+import Components.Shape;
 import Components.Space;
 import Components.Wall;
 import Util.Actions;
@@ -144,13 +145,176 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
-	@Override
-	public boolean canSeeFire(People p) {
-		return false;
+	
+	
+	
+	
+	/**
+	 * It checks if there're  some walls in the given {@link People}'s vision field and gives their direction from the {@link People}'s point of view
+	 * 
+	 * @param p The given {@link People}
+	 * 
+	 * @return Position of walls that p can see. Can be empty 
+	 */
+	private ArrayList<Direction> getWallsAround(People p)
+	{
+		ArrayList<Direction> result = new ArrayList<Direction>();
+		ArrayList<Object> fields = getPeopleFieldsOfView(p);
+		for(int i = 0; i < fields.size(); i++)
+		{
+			if(fields.get(i) instanceof Wall)
+			{
+				result.add(getShapeDirectionFromPeople(p, (Wall) fields.get(i)));
+			}
+		}
+		
+		return result;
 	}
+	
+	
+	private Direction getShapeDirectionFromPeople(People p, Shape s)
+	{
+		if(s.getListCoord().get(0).y < p.getListCoord().get(0).y)
+		{
+			return Direction.NORTH;
+		}
+		else if(s.getListCoord().get(0).y > p.getListCoord().get(0).y)
+		{
+			return Direction.SOUTH;
+		}
+		else if(s.getListCoord().get(0).x < p.getListCoord().get(0).x)
+		{
+			return Direction.WEST;
+		}
+		else if(s.getListCoord().get(0).x > p.getListCoord().get(0).x)
+		{
+			return Direction.EAST;
+		}
+		else
+		{
+			return Direction.UNKNOWN;
+		}
+	}
+	
+	
+	
+	/**
+	 * It returns all objects that a given {@link People} p can see
+	 * 
+	 * @param p The observer
+	 * 
+	 * @return An {@link ArrayList} of {@link Object} which are seeable objects by p
+	 */
+	private ArrayList<Object> getPeopleFieldsOfView(People p)
+	{
+		List<Int2D> coord = p.getListCoord();
+		int screamingAbility = p.getScreamsAbility();
+		Object tmp = null;
+		ArrayList<Object> result = new ArrayList<Object>();
+		
+		switch(p.getDirection())
+		{
+		case NORTH:
+			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(1).y + screamingAbility; i++)
+			{
+				for(int j = coord.get(0).x - screamingAbility; j <= coord.get(0).x + screamingAbility + 1; j++)
+				{
+					tmp = grid.get(i, j);
+					if(tmp != p)
+					{
+						result.add(tmp);
+					}
+				}
+			}
+			break;
+			
+		case SOUTH:
+			for(int i = coord.get(1).y - screamingAbility; i <= coord.get(0).y + screamingAbility; i++)
+			{
+				for(int j = coord.get(0).x - screamingAbility - 1; j <= coord.get(0).x + screamingAbility; j++)
+				{
+					tmp = grid.get(i, j);
+					if(tmp != p)
+					{
+						result.add(tmp);
+					}
+				}
+			}
+			break;
+			
+		case EAST:
+			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(0).y + screamingAbility + 1; i++)
+			{
+				for(int j = coord.get(1).x - screamingAbility; j <= coord.get(0).x + screamingAbility; j++)
+				{
+					tmp = grid.get(i, j);
+					if(tmp != p)
+					{
+						result.add(tmp);
+					}
+				}
+			}
+			break;
+			
+		case WEST:
+			for(int i = coord.get(0).y - screamingAbility; i <= coord.get(0).y + screamingAbility + 1; i++)
+			{
+				for(int j = coord.get(1).x - screamingAbility; j <= coord.get(0).x + screamingAbility; j++)
+				{
+					tmp = grid.get(i, j);
+					if(tmp != p)
+					{
+						result.add(tmp);
+					}
+				}
+			}
+			break;
+		}
+		
+		return result;
+	}
+	
+	
+	@Override
+	public boolean canSeeFire(People p)
+	{
+		ArrayList<Object> fields = getPeopleFieldsOfView(p);
+		ArrayList<Direction> wallsDirection = getWallsAround(p);
+		boolean result = false;
+		
+		if(wallsDirection.size() <= 0)
+		{
+			for(int i = 0; i < fields.size(); i++)
+			{
+				if(fields.get(i) instanceof Fire)
+				{
+					result = true;
+				}
+			}
+			
+			return result;
+		}
+		else
+		{
+			// TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			
+			return false;
+		}
+	}
+	
+	
 
 	@Override
-	public void someoneScreams(People p) {	
+	public void someoneScreams(People p)
+	{
+		ArrayList<Object> fields = getPeopleFieldsOfView(p);
+		for(int i = 0; i < fields.size(); i++)
+		{
+			if(fields.get(i) instanceof People)
+			{
+				((People) fields.get(i)).hearScream();
+			}
+		}
 	}
 
 	@Override

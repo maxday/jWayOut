@@ -33,7 +33,7 @@ public class People implements Steppable, Oriented2D
 	
 	// Abilities
 	private int visionAbility;
-	private int hearingAbility;
+	private int screamingAbility;
 	private int panicLevel;
 	private int charismaLevel;
 	private int autonomyLevel;
@@ -46,7 +46,7 @@ public class People implements Steppable, Oriented2D
 	{
 		// Generates abilities' rate
 		visionAbility = getRandomAbility();
-		hearingAbility = getRandomAbility();
+		screamingAbility = getRandomAbility();
 		panicLevel = getRandomAbility();
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
@@ -72,7 +72,7 @@ public class People implements Steppable, Oriented2D
 	private int getRandomAbility()
 	{
 		Random generator = new Random();
-		return (generator.nextInt(Constants.MAX_ABILITY) + 1);
+		return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
 	}
 	
 	
@@ -86,14 +86,14 @@ public class People implements Steppable, Oriented2D
 		return visionAbility;
 	}
 	
-	public int getHearingAbility()
-	{
-		return hearingAbility;
-	}
-	
 	public int getPanicLevel()
 	{
 		return panicLevel;
+	}
+	
+	public int getScreamsAbility()
+	{
+		return screamingAbility;
 	}
 	
 	public int getAutonomyLevel()
@@ -115,6 +115,12 @@ public class People implements Steppable, Oriented2D
 	public int getSpeedLevel()
 	{
 		return speedLevel;
+	}
+	
+	
+	public Direction getDirection()
+	{
+		return direction;
 	}
 	
 	/**
@@ -230,7 +236,7 @@ public class People implements Steppable, Oriented2D
 			if(arrow != null)
 			{
 				// An arrow is seen by this agent
-				Direction arrowDirection = Utils.stringToDirection(arrow.getDirection());
+				Direction arrowDirection = Utils.stringToDirection(arrow.getOrientation());
 				if(model.canMakeOneStepTo(arrowDirection, this))
 				{
 					// It goes to the indicated direction
@@ -467,7 +473,7 @@ public class People implements Steppable, Oriented2D
 		return "[earX=" + earX + "; earY=" + earY + "; eyeX=" + eyeX
 				+ "; eyeY=" + eyeY + "; isWarned=" + isWarned
 				+ "; visionAbility=" + visionAbility + "; hearingAbility="
-				+ hearingAbility + ", panicLevel=" + panicLevel
+				+ screamingAbility + ", panicLevel=" + panicLevel
 				+ "; charismaLevel=" + charismaLevel + "; autonomyLevel="
 				+ autonomyLevel + "; speedAbility=" + speedLevel + "]";
 	}

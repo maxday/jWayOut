@@ -19,6 +19,7 @@ public class Arrow extends Shape implements Orientable2D{
 		this.endX = super.getEndX();
 		this.endY = super.getEndY();
 		this.direction = super.getDirection();
+		this.orientation = "UNKNOW";
 	}
 	
 	@Override
