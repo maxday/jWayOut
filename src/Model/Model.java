@@ -6,7 +6,6 @@ import java.util.List;
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Int2D;
-import sim.util.IntBag;
 import Agents.Fire;
 import Agents.People;
 import Components.Arrow;
@@ -16,6 +15,7 @@ import Components.Space;
 import Components.Wall;
 import Util.Actions;
 import Util.Constants;
+import Util.Utils;
 import Util.Constants.Direction;
 import Util.LogConsole;
 import Util.ReadXml;
@@ -30,7 +30,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		return grid;
 	}
 	
-	private List<Int2D> firePosition = new ArrayList<Int2D>();
+	private List<Int2D> firePositions = new ArrayList<Int2D>();
 
 	public Model(long seed) {
 		super(seed);
@@ -68,31 +68,15 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	public void putFire(Int2D hearth) {
-		IntBag xBag = new IntBag(), yBag = new IntBag();
-		grid.getNeighborsHamiltonianDistance(hearth.x, hearth.y, 1, false, xBag, yBag);
-		
-		Fire fire = new Fire(hearth);
-		firePosition.add(hearth);
-		schedule.scheduleOnce(fire);
-		LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
-		
-		List<Int2D> fireCoords = new ArrayList<Int2D>();
-		fireCoords.add(hearth);
-		for (int i = 0; i < xBag.size(); ++i) {
-			int x = xBag.get(i), y = yBag.get(i); 
-			if (grid.get(x, y) == null) {
-				grid.set(x, y, fire);
-				firePosition.add(new Int2D(x, y));
-				fireCoords.add(new Int2D(x, y));
-			}
+		if (Utils.isCoordInGrid(hearth) && grid.get(hearth.x, hearth.y) == null) {
+			Fire fire = new Fire(hearth);
+			grid.set(hearth.x, hearth.y, fire);
+			firePositions.add(hearth);
+			schedule.scheduleOnce(fire);
+			LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
 		}
-		fire.setListCoords(fireCoords);
 	}
 	
-	public void addFirePosition(Int2D position) {
-		firePosition.add(position);
-	}
-
 	private void addWalls() {
 		List<Wall> wallList = ReadXml.getWallList();
 		
@@ -210,7 +194,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case NORTH:
 			for (int j = ppl.eyeY - vision; j <= ppl.earY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.eyeX+1 + vision; i++) {
-					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
+					if (Utils.isCoordInGrid(i, j)) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 						obj = hiddenGrid.get(i, j);
@@ -223,7 +207,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case SOUTH:
 			for (int j = ppl.earY - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX-1 - vision; i <= ppl.eyeX + vision; i++) {
-					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
+					if (Utils.isCoordInGrid(i, j)) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 						obj = hiddenGrid.get(i, j);
@@ -236,7 +220,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case EAST:
 			for (int j = ppl.eyeY - vision; j <= ppl.eyeY+1 + vision; j++) {
 				for (int i = ppl.earX - vision; i <= ppl.eyeX + vision; i++) {
-					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
+					if (Utils.isCoordInGrid(i, j)) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 						obj = hiddenGrid.get(i, j);
@@ -249,7 +233,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case WEST:
 			for (int j = ppl.eyeY-1 - vision; j <= ppl.eyeY + vision; j++) {
 				for (int i = ppl.eyeX - vision; i <= ppl.earX + vision; i++) {
-					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
+					if (Utils.isCoordInGrid(i, j)) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 						obj = hiddenGrid.get(i, j);
@@ -286,7 +270,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 
 	@Override
 	public Int2D getFirePosition() {
-		return firePosition.get(0);
+		return firePositions.get(0);
 	}
 	
 	@Override

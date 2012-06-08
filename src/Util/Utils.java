@@ -1,7 +1,5 @@
 package Util;
 
-import java.util.Random;
-
 import sim.engine.SimState;
 import sim.util.Int2D;
 import Agents.People;
@@ -15,6 +13,17 @@ import Util.Constants.Direction;
 
 public class Utils
 {
+	static public boolean isCoordInGrid(Int2D coord)
+	{
+		return (coord.x >= 0 && coord.x < Constants.GRID_WIDTH && coord.y >= 0 && coord.y < Constants.GRID_HEIGHT);
+	}
+	
+	static public boolean isCoordInGrid(int x, int y)
+	{
+		return (x >= 0 && x < Constants.GRID_WIDTH && y >= 0 && y < Constants.GRID_HEIGHT);
+	}
+	
+	
 	/**
 	 * It simply generates a random value according to Mason's way of working
 	 * 
@@ -26,7 +35,22 @@ public class Utils
 	 */
 	static public int getRandomMasonValue(AgentDataAccessInterface s, int val1, int val2)
 	{
-		return Math.min(val1, val2)+((SimState) s).random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
+		return Math.min(val1, val2) + ((SimState) s).random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
+	}
+	
+	
+	/**
+	 * It simply generates a random value according to Mason's way of working
+	 * 
+	 * @param s The {@link SimState} to which the simulation is linked
+	 * @param val1 The min or the max
+	 * @param val2 The min or the max
+	 * 
+	 * @return A random number between val1 and val2, both included
+	 */
+	static public int getRandomMasonValue(SimState s, int val1, int val2)
+	{
+		return Math.min(val1, val2) + s.random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
 	}
 	
 	

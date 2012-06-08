@@ -8,54 +8,54 @@ import sim.engine.Steppable;
 import sim.util.Int2D;
 import Model.Model;
 import Util.Constants;
+import Util.Constants.Direction;
+import Util.Utils;
 
 @SuppressWarnings("serial")
 public class Fire implements Steppable {
 	
-	private List<Int2D> coords = new ArrayList<Int2D>();
-	private int hasSpread = 0;
+	private Int2D hearth;
 	private int step = 0;
+	private List<Direction> spreadDirection = new ArrayList<Direction>();
 
 	public Fire(Int2D hearth) {
-		coords.add(hearth);
-	}
-	
-	public void setListCoords(List<Int2D> coords) {
-		this.coords = coords;
-		hasSpread = coords.size();
-	}
-	
-	public List<Int2D> getListCoords() {
-		return coords;
+		this.hearth = hearth;
+		spreadDirection.add(Direction.NORTH);
+		spreadDirection.add(Direction.SOUTH);
+		spreadDirection.add(Direction.EAST);
+		spreadDirection.add(Direction.WEST);
 	}
 
 	@Override
 	public void step(SimState state) {
-		state.schedule.scheduleOnce(this);
+		if (!spreadDirection.isEmpty()) state.schedule.scheduleOnce(this);
 		step++;
-		if(step % Constants.NUM_STEP_FIRE_SPREAD != 0) {
-			return;
-		}
+		if (step % Constants.NUM_STEP_FIRE_SPREAD != 0) return;
 		if (state instanceof Model) {
 			Model model = (Model) state;
-			model.addFirePosition(coords.get(0));
+			int dirIndex = Utils.getRandomMasonValue(state, 0, spreadDirection.size()-1);
+			Direction dir = spreadDirection.remove(dirIndex);
 			
-			Int2D spread = computeFireSpread(coords.get(0));
-			model.putFire(spread);
+			switch (dir) {
+			case NORTH:
+				model.putFire(new Int2D(hearth.x, hearth.y-1));
+				break;
+			case SOUTH:
+				model.putFire(new Int2D(hearth.x, hearth.y+1));
+				break;
+			case EAST:
+				model.putFire(new Int2D(hearth.x+1, hearth.y));
+				break;
+			case WEST:
+				model.putFire(new Int2D(hearth.x-1, hearth.y));
+				break;
+			}
 		}
-
-	}
-	
-	private Int2D computeFireSpread(Int2D coord) {
-		long xWillBeModify = Math.round(Math.random());
-		if(xWillBeModify == 1) {
-			return new Int2D(coord.x+1, coord.y);
-		}
-		return new Int2D(coord.x, coord.y+1);
 	}
 
 	public String toString() {
-		return "[HearthX = " + coords.get(0).x + "; HearthY = " + coords.get(0).y + "]";
+		return "[HearthX = " + hearth.x + "; HearthY = " + hearth.y + "]";
 	}
 
 }
+
