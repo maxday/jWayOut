@@ -244,8 +244,75 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			break;
 		}
 		
+		
+		Wall w = null;
+		Shape s = null;
+		// Is there a wall in the people's visual field ?
+		for(int i = 0; i < field.size(); i++)
+		{
+			if(field.get(i) instanceof Wall)
+			{
+				w = (Wall) field.get(i);
+				
+				// i is a wall, so let's check if it covers an object or not in the list
+				for(int j = 0; j < field.size(); j++)
+				{
+					if(field.get(j) instanceof Shape)
+					{
+						s = (Shape) field.get(j);
+						
+						if(getShapeDirectionFromPeople(ppl, w) == getShapeDirectionFromPeople(ppl, s) && isObjectBeyondTheWall(s, w, ppl))
+						{
+							field.remove(j);
+						}
+					}
+				}
+			}
+		}
+		
 		return field;
 	}
+	
+	
+	/**
+	 * It tells if the given {@link Shape} is beyond the given {@link Wall} from the {@link People} point of view
+	 * 
+	 * @return A boolean telling if the given {@link Shape} is beyond the given {@link Wall} from the {@link People} point of view
+	 */
+	private boolean isObjectBeyondTheWall(Shape s, Wall w, People p)
+	{
+		Direction wallDir = getShapeDirectionFromPeople(p, w);
+		switch(wallDir)
+		{
+		case NORTH:
+			if(s.getListCoord().get(0).y < w.getListCoord().get(0).y)
+			{
+				return true;
+			}
+			break;
+		case SOUTH:
+			if(s.getListCoord().get(0).y > w.getListCoord().get(0).y)
+			{
+				return true;
+			}
+			break;
+		case EAST:
+			if(s.getListCoord().get(0).x > w.getListCoord().get(0).x)
+			{
+				return true;
+			}
+			break;
+		case WEST:
+			if(s.getListCoord().get(0).x < w.getListCoord().get(0).x)
+			{
+				return true;
+			}
+			break;
+		}
+		
+		return false;
+	}
+	
 	
 	@Override
 	public boolean canSeeFire(People ppl)
