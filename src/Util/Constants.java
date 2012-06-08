@@ -49,5 +49,7 @@ public class Constants {
 	public final static int AGENT_HEIGHT = 2;
 	public final static int AGENT_WIDTH = 2;
 	public static final int NUM_STEP_FIRE_SPREAD = 5;
+	
+	public static final int DISTANCE_TO_ARROW = 3;
 }
 

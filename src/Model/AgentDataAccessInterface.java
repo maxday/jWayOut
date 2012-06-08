@@ -7,6 +7,8 @@ import sim.util.Int2D;
 import Agents.People;
 import Components.Exit;
 import Components.Arrow;
+import Components.Shape;
+import Util.Constants;
 import Util.Constants.Direction;
 
 /**
@@ -80,5 +82,20 @@ public interface AgentDataAccessInterface
 	 * @return Either the nearest seeable {@link Arrow} object, either null value if no {@link Exit} can be seen
 	 */
 	public Arrow canSeeAnArrow(People ppl);
+	
+	
+	
+	/**
+	 * A boolean telling if the given {@link People} is near a given {@link Arrow}.
+	 * The distance is defined under the class {@link Constants}
+	 * 
+	 * @param p The given {@link People}
+	 * @param a The given {@link Arrow}
+	 * 
+	 * @return A boolean
+	 */
+	public boolean isNearArrow(People p, Arrow a);
+	
+	public Direction getShapeDirectionFromPeople(People ppl, Shape shp);
 	
 }

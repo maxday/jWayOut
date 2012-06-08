@@ -187,26 +187,18 @@ public class People implements Steppable, Oriented2D
 	private void move(AgentDataAccessInterface model)
 	{
 		List<Int2D> coords = getListCoord();
-		model.removeFromGrid(coords);
+		model.removeFromGrid(coords);	ArrayList<People> seeablePeople = model.getPeopleAround(this);
 		
-		if (panicLevel >= Constants.MAX_PANIC)
+		People bestCharisma = getMostCharismaticPeople(seeablePeople);
+		
+		if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
 		{
-			randomMove(model);
+			selfDecision(model);
 		}
 		else
 		{
-			ArrayList<People> seeablePeople = model.getPeopleAround(this);
-			People bestCharisma = getMostCharismaticPeople(seeablePeople);
-			
-			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
-			{
-				selfDecision(model);
-			}
-			else
-			{
-				// Following the agent who has the best charisma
-				followPeople(model, bestCharisma);
-			}
+			// Following the agent who has the best charisma
+			followPeople(model, bestCharisma);
 		}
 		
 		coords = getListCoord();
@@ -230,54 +222,44 @@ public class People implements Steppable, Oriented2D
 		else
 		{
 			// No near exit
-			
 			Arrow arrow = model.canSeeAnArrow(this);
 			if (arrow != null)
 			{
-				// An arrow is seen by this agent
-				Direction arrowDirection = arrow.getDirection();
-				if (model.canMakeOneStepTo(arrowDirection, this))
+				if(model.getShapeDirectionFromPeople(this, arrow) == direction)
 				{
-					// It goes to the indicated direction
-					goTo(model, arrowDirection);
-					
-					System.out.print(this + ": Following direction: ");
-					switch(arrowDirection)
+					// The arrow is in front of the agent
+					if(model.isNearArrow(this, arrow) && model.canMakeOneStepTo(arrow.getDirection(), this))
 					{
-					case NORTH:
-						System.out.println("North");
-						break;
-					case SOUTH:
-						System.out.println("south");
-						break;
-					case WEST:
-						System.out.println("West");
-						break;
-					case EAST:
-						System.out.println("East");
-						break;
-					case UNKNOWN:
-						System.out.println("Unknown");
-						break;
+						// I can go to the direction pointed by the arrow
+						goTo(model, arrow.getDirection());
+					}
+					else
+					{
+						// The agent have to get a bit closer to the arrow
+						goToComponentByOneStep(model, arrow);
 					}
 				}
 				else
 				{
-					// For any reason, it can't go to the indicated direction
-					// So, it moves forward to the arrow, in order to escape from a possible obstacle
-					// goToComponent(model, arrow);
-					goToComponentByOneStep(model, arrow);
-					
-					System.out.println(this + ": Cannot go to direction.");
+					// The arrow is somewhere which isn't in front of the agent
+					direction = arrow.getDirection();
+					goTo(model, direction);
 				}
 			}
 			else
 			{
 				// There's no arrow around
 				// It has to either perform a random move, or to get out from a room
-				
-				// TO DO !!!!
-				randomMove(model);
+				if(panicLevel >= Constants.MAX_PANIC)
+				{
+					// the agent has a so much high level of panic that it can't think correctly and perform a random move
+					randomMove(model);
+				}
+				else
+				{
+					// It performs a random move, or try to get out from a room if it's located in it
+					randomMove(model);
+				}
 			}
 		}
 	}

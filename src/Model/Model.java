@@ -171,7 +171,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	
-	private Direction getShapeDirectionFromPeople(People ppl, Shape shp)
+	public Direction getShapeDirectionFromPeople(People ppl, Shape shp)
 	{
 		List<Int2D> shpCoords = shp.getListCoord();
 		Int2D shpMid = shpCoords.get(shpCoords.size()/2);
@@ -369,6 +369,35 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			if (obj instanceof Arrow) return ((Arrow) obj);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isNearArrow(People p, Arrow a)
+	{
+		switch(getShapeDirectionFromPeople(p, a))
+		{
+		case NORTH:
+			if(p.eyeY - a.getListCoord().get(0).y <= Constants.DISTANCE_TO_ARROW)
+				return true;
+			break;
+			
+		case SOUTH:
+			if(a.getListCoord().get(0).y - p.eyeY <= Constants.DISTANCE_TO_ARROW)
+				return true;
+			break;
+			
+		case WEST:
+			if(p.eyeX - a.getListCoord().get(0).x <= Constants.DISTANCE_TO_ARROW)
+				return true;
+			break;
+			
+		case EAST:
+			if(a.getListCoord().get(0).x - p.eyeX <= Constants.DISTANCE_TO_ARROW)
+				return true;
+			break;
+		}
+		
+		return false;
 	}
 	
 }

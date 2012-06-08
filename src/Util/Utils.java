@@ -41,49 +41,15 @@ public class Utils
 	 */
 	static public Direction getDirectionFromCoordinates(People people, Int2D c)
 	{
-		Direction d = Direction.UNKNOWN;
-		List<Int2D> pCoord = people.getListCoord();
+		int diffY = c.y - people.eyeY, diffX = c.x - people.eyeX;
 		
-		if((new Random()).nextInt(2) == 0)
-		{
-			if(c.y < pCoord.get(0).y)
-			{
-				d = Direction.NORTH;
-			}
-			else if(c.y > pCoord.get(0).y)
-			{
-				d = Direction.SOUTH;
-			}
-			else if(c.x > pCoord.get(0).x)
-			{
-				d = Direction.EAST;
-			}
-			else if(c.x < pCoord.get(0).x)
-			{
-				d = Direction.WEST;
-			}
+		if (Math.abs(diffY) > Math.abs(diffX)) {
+			if (diffY < 0) return Direction.NORTH;
+			else return Direction.SOUTH;
+		} else {
+			if (diffX > 0) return Direction.EAST;
+			else return Direction.WEST;
 		}
-		else
-		{
-			if(c.x > pCoord.get(0).x)
-			{
-				d = Direction.EAST;
-			}
-			else if(c.x < pCoord.get(0).x)
-			{
-				d = Direction.WEST;
-			}
-			else if(c.y < pCoord.get(0).y)
-			{
-				d = Direction.NORTH;
-			}
-			else if(c.y > pCoord.get(0).y)
-			{
-				d = Direction.SOUTH;
-			}
-		}
-		
-		return d;
 	}
 	
 }
