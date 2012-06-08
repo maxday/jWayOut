@@ -123,7 +123,9 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			Exit exit = exitList.get(iExit);
 			LogConsole.print(exit.toString(), Actions.Action.ADD.name(), exit.getClass().getName());
 			List<Int2D> coords = exit.getListCoord();
-			addToGrid(coords, exit);
+			for (Int2D coord : coords) {
+				hiddenGrid.set(coord.x, coord.y, exit);
+			}
 		}
 	}
 	
@@ -134,7 +136,9 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			Arrow arrow = arrowList.get(iArrow);
 			LogConsole.print(arrow.toString(), Actions.Action.ADD.name(), arrow.getClass().getName());
 			List<Int2D> coords = arrow.getListCoord();
-			addToGrid(coords, arrow);
+			for (Int2D coord : coords) {
+				hiddenGrid.set(coord.x, coord.y, arrow);
+			}
 		}
 	}
 	
@@ -209,6 +213,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
+						obj = hiddenGrid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
 					}
 				}
 			}
@@ -219,6 +225,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 				for (int i = ppl.eyeX-1 - vision; i <= ppl.eyeX + vision; i++) {
 					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+						obj = hiddenGrid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
 				}
@@ -231,6 +239,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
+						obj = hiddenGrid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
 					}
 				}
 			}
@@ -241,6 +251,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 				for (int i = ppl.eyeX - vision; i <= ppl.earX + vision; i++) {
 					if (i >= 0 && i < Constants.GRID_WIDTH && j >= 0 && j < Constants.GRID_HEIGHT) {
 						obj = grid.get(i, j);
+						if (obj != ppl && obj != null) field.add(obj);
+						obj = hiddenGrid.get(i, j);
 						if (obj != ppl && obj != null) field.add(obj);
 					}
 				}

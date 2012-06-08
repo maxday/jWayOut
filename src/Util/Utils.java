@@ -1,6 +1,5 @@
 package Util;
 
-import java.util.List;
 import java.util.Random;
 
 import sim.engine.SimState;
