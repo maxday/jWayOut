@@ -27,6 +27,7 @@ public class People implements Steppable, Oriented2D
 	public int eyeX;
 	public int eyeY;
 	public Direction direction;
+	private Direction seenDirection;
 	
 	// Status
 	private boolean isWarned;
@@ -39,6 +40,9 @@ public class People implements Steppable, Oriented2D
 	private int autonomyLevel;
 	private int speedLevel;
 	
+	
+	public boolean isBlocked;
+	
 	/**
 	 * Default constructor
 	 */
@@ -50,6 +54,8 @@ public class People implements Steppable, Oriented2D
 		this.eyeY = eyeY;
 		computeDirection();
 		
+		seenDirection = Direction.UNKNOWN;
+		
 		isWarned = false;
 		
 		// Generates abilities' rate
@@ -59,6 +65,8 @@ public class People implements Steppable, Oriented2D
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
 		speedLevel = 1;
+		
+		isBlocked = false;
 	}
 
 	
@@ -187,18 +195,29 @@ public class People implements Steppable, Oriented2D
 	private void move(AgentDataAccessInterface model)
 	{
 		List<Int2D> coords = getListCoord();
-		model.removeFromGrid(coords);	ArrayList<People> seeablePeople = model.getPeopleAround(this);
+		model.removeFromGrid(coords);
 		
-		People bestCharisma = getMostCharismaticPeople(seeablePeople);
-		
-		if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
+		if(isBlocked)
 		{
-			selfDecision(model);
+			System.out.println("I was blocked, I have to get unblocked");
+			isBlocked = false;
+			randomMove(model);
 		}
 		else
 		{
-			// Following the agent who has the best charisma
-			followPeople(model, bestCharisma);
+			ArrayList<People> seeablePeople = model.getPeopleAround(this);
+			
+			People bestCharisma = getMostCharismaticPeople(seeablePeople);
+			
+			if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
+			{
+				selfDecision(model);
+			}
+			else
+			{
+				// Following the agent who has the best charisma
+				followPeople(model, bestCharisma);
+			}
 		}
 		
 		coords = getListCoord();
@@ -216,6 +235,7 @@ public class People implements Steppable, Oriented2D
 		Exit exit = model.canSeeAnExit(this);
 		if (exit != null)
 		{
+			System.out.println("I see an exit ! I go to it");
 			// Exit seeable !
 			goToComponent(model, exit);
 		}
@@ -225,23 +245,28 @@ public class People implements Steppable, Oriented2D
 			Arrow arrow = model.canSeeAnArrow(this);
 			if (arrow != null)
 			{
+				seenDirection = arrow.getDirection();
+						
 				// There's a seeable arrow
 				if(model.getShapeDirectionFromPeople(this, arrow) == direction)
 				{
 					// The arrow is in front of the agent
 					if(model.isNearArrow(this, arrow) && model.canMakeOneStepTo(arrow.getDirection(), this))
 					{
+						System.out.println("I see an arrow in front of me, and I follow its pointed direction");
 						// I can go to the direction pointed by the arrow
 						goTo(model, arrow.getDirection());
 					}
 					else
 					{
+						System.out.println("I see an arrow in front of me, but I have to get closer to it");
 						// The agent have to get a bit closer to the arrow
 						goToComponentByOneStep(model, arrow);
 					}
 				}
 				else
 				{
+					System.out.println("I see an arrow somewhere, and I follow its pointed direction");
 					// The arrow is somewhere which isn't in front of the agent
 					direction = arrow.getDirection();
 					goTo(model, direction);
@@ -249,17 +274,26 @@ public class People implements Steppable, Oriented2D
 			}
 			else
 			{
-				// There's no arrow around
-				// It has to either perform a random move, or to get out from a room
-				if(panicLevel >= Constants.MAX_PANIC)
+				if(seenDirection == Direction.UNKNOWN)
 				{
-					// the agent has a so much high level of panic that it can't think correctly and perform a random move
-					randomMove(model);
+					// There's no arrow around
+					// It has to either perform a random move, or to get out from a room
+					if(panicLevel >= Constants.MAX_PANIC)
+					{
+						// the agent has a so much high level of panic that it can't think correctly and perform a random move
+						randomMove(model);
+					}
+					else
+					{
+						System.out.println("I perform a random move");
+						// It performs a random move, or try to get out from a room if it's located in it
+						randomMove(model);
+					}
 				}
 				else
 				{
-					// It performs a random move, or try to get out from a room if it's located in it
-					randomMove(model);
+					System.out.println("I go to my last seen direction: " + seenDirection);
+					goTo(model, seenDirection);
 				}
 			}
 		}

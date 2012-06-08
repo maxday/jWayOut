@@ -356,6 +356,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null)
 				return true;
 		}
+		ppl.isBlocked = true;
 		return false;
 	}
 
@@ -371,7 +372,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			{
 				Object obj = grid.get(coord.x, coord.y-1); 
 				if (obj != ppl && obj != null)
+				{
+					ppl.isBlocked = true;
 					return false;
+				}
 			}
 			break;
 		case SOUTH:
@@ -379,7 +383,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			{
 				Object obj = grid.get(coord.x, coord.y+1); 
 				if (obj != ppl && obj != null)
+				{
+					ppl.isBlocked = true;
 					return false;
+				}
 			}
 			break;
 		case EAST:
@@ -387,7 +394,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			{
 				Object obj = grid.get(coord.x+1, coord.y);
 				if (obj != ppl && obj != null)
+				{
+					ppl.isBlocked = true;
 					return false;
+				}
 			}
 			break;
 		case WEST:
@@ -395,7 +405,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			{
 				Object obj = grid.get(coord.x-1, coord.y); 
 				if (obj != ppl && obj != null)
+				{
+					ppl.isBlocked = true;
 					return false;
+				}
 			}
 			break;
 		}
