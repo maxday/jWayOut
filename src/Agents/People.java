@@ -225,6 +225,7 @@ public class People implements Steppable, Oriented2D
 			Arrow arrow = model.canSeeAnArrow(this);
 			if (arrow != null)
 			{
+				// There's a seeable arrow
 				if(model.getShapeDirectionFromPeople(this, arrow) == direction)
 				{
 					// The arrow is in front of the agent
