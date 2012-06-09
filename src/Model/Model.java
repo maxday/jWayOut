@@ -9,16 +9,17 @@ import sim.util.Int2D;
 import Agents.Fire;
 import Agents.People;
 import Components.Arrow;
+import Components.Door;
 import Components.Exit;
 import Components.Shape;
 import Components.Space;
 import Components.Wall;
 import Util.Actions;
 import Util.Constants;
-import Util.Utils;
 import Util.Constants.Direction;
 import Util.LogConsole;
 import Util.ReadXml;
+import Util.Utils;
 
 @SuppressWarnings("serial")
 public class Model extends SimState implements AgentDataAccessInterface {
@@ -46,8 +47,9 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		addAgents();
 		
 		hiddenGrid.clear();
+		addDoors();
 		addExits();
-		addArrows();
+		//addArrows();
 	}
 	
 	private void addSpace() {
@@ -89,42 +91,39 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	private void addAgents() {
-		List<People> peopleList = ReadXml.getPeopleList();
-		
-		for (int iPeople = 0; iPeople < peopleList.size(); ++iPeople) {
-			People people = peopleList.get(iPeople);
+		for (People people : ReadXml.getPeopleList()) {
 			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
-			List<Int2D> coords = people.getListCoord();
-			addToGrid(coords, people);
+			addToGrid(people.getListCoord(), people);
 			schedule.scheduleOnce(people);
 		}
 	}
 	
+	private void addDoors() {
+		for (Door door : ReadXml.getDoorList()) {
+			LogConsole.print(door.toString(), Actions.Action.ADD.name(), door.getClass().getName());
+			for (Int2D coord : door.getListCoord()) {
+				hiddenGrid.set(coord.x, coord.y, door);
+			}
+		}
+	}
+	
 	private void addExits() {
-		List<Exit> exitList = ReadXml.getExitList();
-		
-		for (int iExit = 0; iExit < exitList.size(); ++iExit) {
-			Exit exit = exitList.get(iExit);
+		for (Exit exit : ReadXml.getExitList()) {
 			LogConsole.print(exit.toString(), Actions.Action.ADD.name(), exit.getClass().getName());
-			List<Int2D> coords = exit.getListCoord();
-			for (Int2D coord : coords) {
+			for (Int2D coord : exit.getListCoord()) {
 				hiddenGrid.set(coord.x, coord.y, exit);
 			}
 		}
 	}
 	
-	private void addArrows() {
-		List<Arrow> arrowList = ReadXml.getArrowList();
-		
-		for (int iArrow = 0; iArrow < arrowList.size(); ++iArrow) {
-			Arrow arrow = arrowList.get(iArrow);
+	/*private void addArrows() {
+		for (Arrow arrow : ReadXml.getArrowList()) {
 			LogConsole.print(arrow.toString(), Actions.Action.ADD.name(), arrow.getClass().getName());
-			List<Int2D> coords = arrow.getListCoord();
-			for (Int2D coord : coords) {
+			for (Int2D coord : arrow.getListCoord()) {
 				hiddenGrid.set(coord.x, coord.y, arrow);
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public void addToGrid(List<Int2D> coords, Object obj) {

@@ -6,6 +6,8 @@ public class Constants {
 	
 	final static String XML_WALLS = "walls";
 	final static String XML_WALL = "wall";
+	final static String XML_DOORS = "doors";
+	final static String XML_DOOR = "door";
 	final static String XML_EXITS = "exits";
 	final static String XML_EXIT = "exit";
 	final static String XML_ARROWS = "arrows";

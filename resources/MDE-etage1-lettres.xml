@@ -1,271 +1,400 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<walls>
-	<wall direction="horizontal">
-		<begin x="C" y="3" />
-		<end x="Y" y="3" />
-	</wall>
+<jWayOut>
+
+	<walls>
+		<wall>
+			<begin x="Y" y="3" />
+			<end x="CW" y="3" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="13" />
+			<end x="CX" y="13" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="22" />
+			<end x="CX" y="22" />
+		</wall>
+		
+		<wall>
+			<begin x="DB" y="22" />
+			<end x="DI" y="22" />
+		</wall>
+		
+		<wall>
+			<begin x="Y" y="25" />
+			<end x="Z" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="AE" y="25" />
+			<end x="BA" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="BF" y="25" />
+			<end x="BH" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="BM" y="25" />
+			<end x="CA" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="CF" y="25" />
+			<end x="CH" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="CM" y="25" />
+			<end x="CW" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="DC" y="25" />
+			<end x="DO" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="V" y="33" />
+			<end x="Z" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="AF" y="33" />
+			<end x="AJ" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="AQ" y="33" />
+			<end x="BK" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="BX" y="33" />
+			<end x="CR" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="33" />
+			<end x="CX" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="DC" y="33" />
+			<end x="DD" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="AJ" y="35" />
+			<end x="AL" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="AP" y="35" />
+			<end x="BL" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="BQ" y="35" />
+			<end x="BR" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="BW" y="35" />
+			<end x="CR" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="CV" y="35" />
+			<end x="CW" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="DD" y="35" />
+			<end x="DO" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="C" y="42" />
+			<end x="E" y="42" />
+		</wall>
+		
+		<wall>
+			<begin x="Q" y="42" />
+			<end x="V" y="42" />
+		</wall>
+		
+		<wall>
+			<begin x="AH" y="42" />
+			<end x="AJ" y="42" />
+		</wall>
+		
+		<wall>
+			<begin x="DC" y="42" />
+			<end x="DI" y="42" />
+		</wall>
+		
+		<wall>
+			<begin x="C" y="54" />
+			<end x="E" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="Q" y="54" />
+			<end x="V" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="AH" y="54" />
+			<end x="AJ" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="C" y="64" />
+			<end x="CZ" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="DF" y="64" />
+			<end x="DI" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="C" y="42" />
+			<end x="C" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="E" y="42" />
+			<end x="E" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="Q" y="42" />
+			<end x="Q" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="V" y="33" />
+			<end x="V" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="Y" y="3" />
+			<end x="Y" y="33" />
+		</wall>
+		
+		<wall>
+			<begin x="AH" y="42" />
+			<end x="AH" y="54" />
+		</wall>
+		
+		<wall>
+			<begin x="AJ" y="3" />
+			<end x="AJ" y="26" />
+		</wall>
+		
+		<wall>
+			<begin x="AJ" y="32" />
+			<end x="AJ" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="AQ" y="33" />
+			<end x="AQ" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="BG" y="3" />
+			<end x="BG" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="BK" y="33" />
+			<end x="BK" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="BV" y="3" />
+			<end x="BV" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="BX" y="33" />
+			<end x="BX" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="CG" y="3" />
+			<end x="CG" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="CR" y="33" />
+			<end x="CR" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="3" />
+			<end x="CW" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="33" />
+			<end x="CW" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="DC" y="22" />
+			<end x="DC" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="DC" y="42" />
+			<end x="DC" y="59" />
+		</wall>
+		
+		<wall>
+			<begin x="CW" y="3" />
+			<end x="CW" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="DD" y="33" />
+			<end x="DD" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="DI" y="13" />
+			<end x="DI" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="CR" y="33" />
+			<end x="CR" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="DI" y="35" />
+			<end x="DI" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="DO" y="25" />
+			<end x="DO" y="35" />
+		</wall>
+	</walls>
 	
-	<wall direction="horizontal">
-		<begin x="M" y="5" />
-		<end x="Y" y="5" />
-	</wall>
+	<doors>
+		<door direction="NORTH">
+			<begin x="AM" y="35" />
+			<end x="AO" y="35" />
+		</door>
+		
+		<door direction="NORTH">
+			<begin x="BM" y="35" />
+			<end x="BP" y="35" />
+		</door>
+		
+		<door direction="NORTH">
+			<begin x="BS" y="35" />
+			<end x="BV" y="35" />
+		</door>
+		
+		<door direction="NORTH">
+			<begin x="CS" y="35" />
+			<end x="CU" y="35" />
+		</door>		
+		
+		<door direction="SOUTH">
+			<begin x="CY" y="22" />
+			<end x="DA" y="22" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="AA" y="25" />
+			<end x="AD" y="25" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="BB" y="25" />
+			<end x="BE" y="25" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="BI" y="25" />
+			<end x="BL" y="25" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="CB" y="25" />
+			<end x="CE" y="25" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="CI" y="25" />
+			<end x="CL" y="25" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="AA" y="33" />
+			<end x="AE" y="33" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="CY" y="33" />
+			<end x="DB" y="33" />
+		</door>
+		
+		<door direction="SOUTH">
+			<begin x="CX" y="42" />
+			<end x="DB" y="42" />
+		</door>
+		
+		<door direction="EAST">
+			<begin x="CR" y="26" />
+			<end x="CR" y="32" />
+		</door>
+		
+		<door direction="EAST">
+			<begin x="CW" y="26" />
+			<end x="CW" y="32" />
+		</door>
+		
+		<door direction="WEST">
+			<begin x="V" y="55" />
+			<end x="V" y="63" />
+		</door>
+		
+		<door direction="WEST">
+			<begin x="AJ" y="27" />
+			<end x="AJ" y="31" />
+		</door>
+		
+		<door direction="WEST">
+			<begin x="AQ" y="26" />
+			<end x="AQ" y="32" />
+		</door>
+		
+		<door direction="WEST">
+			<begin x="DD" y="26" />
+			<end x="DD" y="32" />
+		</door>
+	</doors>
 	
-	<wall direction="horizontal">
-		<begin x="M" y="17" />
-		<end x="Y" y="17" />
-	</wall>
+	<exits>
+		<exit>
+			<begin x="F" y="42" />
+			<end x="P" y="42" />
+		</exit>
+		
+		<exit>
+			<begin x="DA" y="64" />
+			<end x="DE" y="64" />
+		</exit>
+	</exits>
 	
-	<wall direction="horizontal">
-		<begin x="M" y="22" />
-		<end x="AH" y="22" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AH" y="25" />
-		<end x="BL" y="25" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="M" y="34" />
-		<end x="Y" y="34" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="C" y="36" />
-		<end x="AI" y="36" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AO" y="36" />
-		<end x="BL" y="36" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="43" />
-		<end x="AH" y="43" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AP" y="59" />
-		<end x="BL" y="59" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="63" />
-		<end x="AH" y="63" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AP" y="74" />
-		<end x="BL" y="74" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="76" />
-		<end x="AH" y="76" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AP" y="85" />
-		<end x="BL" y="85" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="96" />
-		<end x="AH" y="96" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="C" y="101" />
-		<end x="AH" y="101" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AP" y="101" />
-		<end x="BL" y="101" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="I" y="107" />
-		<end x="Z" y="107" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AP" y="107" />
-		<end x="AS" y="107" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="108" />
-		<end x="AH" y="108" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="C" y="113" />
-		<end x="AF" y="113" />
-	</wall>
-	<wall direction="horizontal">
-		<begin x="AP" y="113" />
-		<end x="BB" y="113" />
-	</wall>
-	
-	<wall direction="horizontal">
-		<begin x="AF" y="119" />
-		<end x="AP" y="119" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="C" y="3" />
-		<end x="C" y="113" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="M" y="3" />
-		<end x="M" y="5" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="M" y="17" />
-		<end x="M" y="22" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="M" y="34" />
-		<end x="M" y="36" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="Y" y="3" />
-		<end x="Y" y="5" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="Y" y="17" />
-		<end x="Y" y="22" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="Y" y="34" />
-		<end x="Y" y="36" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="Z" y="107" />
-		<end x="Z" y="113" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="36" />
-		<end x="AF" y="38" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="42" />
-		<end x="AF" y="64" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="69" />
-		<end x="AF" y="70" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="75" />
-		<end x="AF" y="96" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="100" />
-		<end x="AF" y="101" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AF" y="108" />
-		<end x="AF" y="119" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="22" />
-		<end x="AH" y="26" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="32" />
-		<end x="AH" y="36" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="43" />
-		<end x="AH" y="63" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="76" />
-		<end x="AH" y="96" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="101" />
-		<end x="AH" y="102" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AH" y="107" />
-		<end x="AH" y="108" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="25" />
-		<end x="AP" y="26" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="31" />
-		<end x="AP" y="53" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="58" />
-		<end x="AP" y="60" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="65" />
-		<end x="AP" y="79" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="84" />
-		<end x="AP" y="86" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="91" />
-		<end x="AP" y="101" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AP" y="107" />
-		<end x="AP" y="119" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AS" y="101" />
-		<end x="AS" y="102" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="AS" y="106" />
-		<end x="AS" y="113" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="BB" y="101" />
-		<end x="BB" y="113" />
-	</wall>
-	
-	<wall direction="vertical">
-		<begin x="BL" y="25" />
-		<end x="BL" y="101" />
-	</wall>
-</walls>
+</jWayOut>

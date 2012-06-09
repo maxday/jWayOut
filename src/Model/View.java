@@ -17,6 +17,7 @@ import sim.portrayal.simple.TransformedPortrayal2D;
 import Agents.Fire;
 import Agents.People;
 import Components.Arrow;
+import Components.Door;
 import Components.Exit;
 import Components.Space;
 import Components.Wall;
@@ -59,11 +60,14 @@ public class View extends GUIState {
 		gridPortrayal.setField(model.getGrid());
 		
 		gridPortrayal.setPortrayalForClass(Space.class, getSpacePortrayal());
+		
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
+		gridPortrayal.setPortrayalForClass(Door.class, getDoorPortrayal());
+		gridPortrayal.setPortrayalForClass(Arrow.class, getArrowPortrayal());
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
+		
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
 		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
-		gridPortrayal.setPortrayalForClass(Arrow.class, getArrowPortrayal());
 		
 		display.reset();
 		display.setBackdrop(Color.WHITE);
@@ -78,12 +82,9 @@ public class View extends GUIState {
 		return new RectanglePortrayal2D(Color.BLACK);
 	}
 	
-	private Portrayal getExitPortrayal() {
-		return new RectanglePortrayal2D(Color.GREEN);
-	}
-	
-	private Portrayal getFirePortrayal() {
-		return new ImagePortrayal2D(new ImageIcon("resources/fire.png"));
+	private Portrayal getDoorPortrayal() {
+		RectanglePortrayal2D r = new RectanglePortrayal2D(Color.YELLOW);
+		return new OrientedPortrayal2D(r, Color.BLACK);
 	}
 	
 	private Portrayal getArrowPortrayal() {
@@ -91,9 +92,17 @@ public class View extends GUIState {
 		return new TransformedPortrayal2D(i,new AffineTransform());
 	}
 	
+	private Portrayal getExitPortrayal() {
+		return new RectanglePortrayal2D(Color.GREEN);
+	}	
+	
 	private Portrayal getPeoplePortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D(Color.CYAN);
 		return new OrientedPortrayal2D(r, Color.BLACK);
+	}
+	
+	private Portrayal getFirePortrayal() {
+		return new ImagePortrayal2D(new ImageIcon("resources/fire.png"));
 	}
 
 }
