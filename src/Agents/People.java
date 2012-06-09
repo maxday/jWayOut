@@ -205,6 +205,7 @@ public class People implements Steppable, Oriented2D
 		}
 		else
 		{
+			/*
 			ArrayList<People> seeablePeople = model.getPeopleAround(this);
 			
 			People bestCharisma = getMostCharismaticPeople(seeablePeople);
@@ -218,6 +219,9 @@ public class People implements Steppable, Oriented2D
 				// Following the agent who has the best charisma
 				followPeople(model, bestCharisma);
 			}
+			*/
+			
+			selfDecision(model);
 		}
 		
 		model.addToGrid(getListCoord(), this);
@@ -284,9 +288,27 @@ public class People implements Steppable, Oriented2D
 					}
 					else
 					{
+						/*
 						System.out.println("I perform a random move");
 						// It performs a random move, or try to get out from a room if it's located in it
 						randomMove(model);
+						*/
+						
+						ArrayList<People> seeablePeople = model.getPeopleAround(this);
+						
+						People bestCharisma = getMostCharismaticPeople(seeablePeople);
+						
+						if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
+						{
+							System.out.println("I perform a random move");
+							// It performs a random move, or try to get out from a room if it's located in it
+							randomMove(model);
+						}
+						else
+						{
+							// Following the agent who has the best charisma
+							followPeople(model, bestCharisma);
+						}
 					}
 				}
 				else
