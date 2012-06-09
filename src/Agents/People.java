@@ -77,8 +77,9 @@ public class People implements Steppable, Oriented2D
 	 */
 	private int getRandomAbility()
 	{
-		Random generator = new Random();
-		return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
+		return 10;
+		//Random generator = new Random();
+		//return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
 	}
 	
 	
@@ -409,11 +410,10 @@ public class People implements Steppable, Oriented2D
 		}
 				
 		// Moves randomly
-		int choice = Utils.getRandomMasonValue(model, 0, decisions.size()-1);
-		while(!model.canMakeOneStepTo(decisions.get(choice), this))
-		{
+		int choice;
+		do {
 			choice = Utils.getRandomMasonValue(model, 0, decisions.size()-1);
-		}
+		} while (!model.canMakeOneStepTo(decisions.get(choice), this));
 		goTo(model, decisions.get(choice));
 	}
 	
@@ -427,6 +427,7 @@ public class People implements Steppable, Oriented2D
 	{
 		for (int i = 0; i < speedLevel; i++) {
 			if (model.canMakeOneStepFront(this)) oneStepFront();
+			else break;
 		}
 	}
 	

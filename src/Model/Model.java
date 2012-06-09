@@ -346,15 +346,19 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		case NORTH:
 			if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null)
 				return true;
+			break;
 		case SOUTH:
 			if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null)
 				return true;
+			break;
 		case EAST:
 			if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null)
 				return true;
+			break;
 		case WEST:
 			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null)
 				return true;
+			break;
 		}
 		ppl.isBlocked = true;
 		return false;

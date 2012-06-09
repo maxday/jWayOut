@@ -35,12 +35,16 @@ public abstract class Shape {
 		switch (direction) {
 		case NORTH:
 			for (int y = endY; y <= beginY ; ++y) listCoord.add(new Int2D(beginX, y));
+			break;
 		case SOUTH:
 			for (int y = beginY; y <= endY ; ++y) listCoord.add(new Int2D(beginX, y));
+			break;
 		case EAST:
 			for (int x = beginX; x <= endX; ++x) listCoord.add(new Int2D(x, beginY));
+			break;
 		case WEST:
 			for (int x = endX; x <= beginX; ++x) listCoord.add(new Int2D(x, beginY));	
+			break;
 		}
 	}
 
