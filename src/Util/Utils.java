@@ -75,4 +75,29 @@ public class Utils
 		}
 	}
 	
+	
+	/**
+	 * This method gives the opposite {@link Direction} based on a given {@link Direction}
+	 * 
+	 * @param d The based {@link Direction}
+	 * 
+	 * @return The d's opposite {@link Direction}
+	 */
+	static public Direction getOppositeDirection(Direction d)
+	{
+		switch(d)
+		{
+		case NORTH:
+			return Direction.SOUTH;
+		case SOUTH:
+			return Direction.NORTH;
+		case EAST:
+			return Direction.WEST;
+		case WEST:
+			return Direction.EAST;
+		default:
+			return Direction.UNKNOWN;
+		}
+	}
+	
 }
