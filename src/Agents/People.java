@@ -201,7 +201,16 @@ public class People implements Steppable, Oriented2D
 		{
 			System.out.println("I was blocked, I have to get unblocked");
 			isBlocked = false;
-			randomMove(model);
+			
+			ArrayList<People> seeablePeople = model.getPeopleAround(this);
+			if(seeablePeople.size() <= 0)
+			{
+				randomMove(model);
+			}
+			else
+			{
+				seeablePeople.get(Utils.getRandomMasonValue(model, 0, seeablePeople.size()-1));
+			}
 		}
 		else
 		{
