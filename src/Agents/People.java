@@ -46,12 +46,12 @@ public class People implements Steppable, Oriented2D
 	/**
 	 * Default constructor
 	 */
-	public People(int earX, int earY, int eyeX, int eyeY)
+	public People(String earX, String earY, String eyeX, String eyeY)
 	{	
-		this.earX = earX;
-		this.earY = earY;
-		this.eyeX = eyeX;
-		this.eyeY = eyeY;
+		this.earX = Integer.parseInt(earX);
+		this.earY = Integer.parseInt(earY);
+		this.eyeX = Integer.parseInt(eyeX);
+		this.eyeY = Integer.parseInt(eyeY);
 		computeDirection();
 		
 		seenDirection = Direction.UNKNOWN;
@@ -195,10 +195,9 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void move(AgentDataAccessInterface model)
 	{
-		List<Int2D> coords = getListCoord();
-		model.removeFromGrid(coords);
+		model.removeFromGrid(getListCoord());
 		
-		if(isBlocked)
+		if (isBlocked)
 		{
 			System.out.println("I was blocked, I have to get unblocked");
 			isBlocked = false;
@@ -221,8 +220,7 @@ public class People implements Steppable, Oriented2D
 			}
 		}
 		
-		coords = getListCoord();
-		model.addToGrid(coords, this);
+		model.addToGrid(getListCoord(), this);
 	}
 	
 	
@@ -249,10 +247,10 @@ public class People implements Steppable, Oriented2D
 				seenDirection = arrow.getDirection();
 						
 				// There's a seeable arrow
-				if(model.getShapeDirectionFromPeople(this, arrow) == direction)
+				if (model.getShapeDirectionFromPeople(this, arrow) == direction)
 				{
 					// The arrow is in front of the agent
-					if(model.isNearArrow(this, arrow) && model.canMakeOneStepTo(arrow.getDirection(), this))
+					if (model.isNearArrow(this, arrow) && model.canMakeOneStepTo(arrow.getDirection(), this))
 					{
 						System.out.println("I see an arrow in front of me, and I follow its pointed direction");
 						// I can go to the direction pointed by the arrow
@@ -275,11 +273,11 @@ public class People implements Steppable, Oriented2D
 			}
 			else
 			{
-				if(seenDirection == Direction.UNKNOWN)
+				if (seenDirection == Direction.UNKNOWN)
 				{
 					// There's no arrow around
 					// It has to either perform a random move, or to get out from a room
-					if(panicLevel >= Constants.MAX_PANIC)
+					if (panicLevel >= Constants.MAX_PANIC)
 					{
 						// the agent has a so much high level of panic that it can't think correctly and perform a random move
 						randomMove(model);
@@ -309,7 +307,8 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void goToComponent(AgentDataAccessInterface model, Shape shape)
 	{
-		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()), Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
+		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()),
+				Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
 		Direction d = Utils.getDirectionFromCoordinates(this, shapeCoordinates);
 		goTo(model, d);
 	}
@@ -317,7 +316,8 @@ public class People implements Steppable, Oriented2D
 	
 	private void goToComponentByOneStep(AgentDataAccessInterface model, Shape shape)
 	{
-		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()), Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
+		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()),
+				Utils.getRandomMasonValue(model, shape.getBeginY(), shape.getEndY()));
 		Direction d = Utils.getDirectionFromCoordinates(this, shapeCoordinates);
 		goToByOneStep(model, d);
 	}
@@ -338,7 +338,6 @@ public class People implements Steppable, Oriented2D
 		if (Math.abs(diffY) > Math.abs(diffX)) {
 			if (diffY < 0) dir = Direction.NORTH;
 			else dir = Direction.SOUTH;
-			
 		} else {
 			if (diffX > 0) dir = Direction.EAST;
 			else dir = Direction.WEST;
@@ -617,23 +616,23 @@ public class People implements Steppable, Oriented2D
 	
 	private void turnTo(Direction newDir)
 	{	
-		if(direction != newDir)
+		if (direction != newDir)
 		{
-			if((direction == Direction.NORTH && newDir == Direction.EAST) ||
+			if ((direction == Direction.NORTH && newDir == Direction.EAST) ||
 					(direction == Direction.EAST && newDir == Direction.SOUTH) ||
 					(direction == Direction.SOUTH && newDir == Direction.WEST) ||
 					(direction == Direction.WEST && newDir == Direction.NORTH))
 			{
 				turnClockwise();
 			}
-			else if((direction == Direction.NORTH && newDir == Direction.WEST) ||
+			else if ((direction == Direction.NORTH && newDir == Direction.WEST) ||
 					(direction == Direction.WEST && newDir == Direction.SOUTH) ||
 					(direction == Direction.SOUTH && newDir == Direction.EAST) ||
 					(direction == Direction.EAST && newDir == Direction.NORTH))
 			{
 				turnCounterclockwise();
 			}
-			else if((direction == Direction.NORTH && newDir == Direction.SOUTH) ||
+			else if ((direction == Direction.NORTH && newDir == Direction.SOUTH) ||
 					(direction == Direction.SOUTH && newDir == Direction.NORTH) ||
 					(direction == Direction.WEST && newDir == Direction.EAST) ||
 					(direction == Direction.EAST && newDir == Direction.WEST))

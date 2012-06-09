@@ -16,19 +16,26 @@ public abstract class Shape {
 	
 	protected List<Int2D> listCoord = new ArrayList<Int2D>();
 
-	public Shape(String beginX, String beginY, String endX, String endY, String direction) {
+	public Shape(String beginX, String beginY, String endX, String endY) {
 		this.beginX = Integer.parseInt(beginX);
 		this.beginY = Integer.parseInt(beginY);
 		this.endX = Integer.parseInt(endX);
 		this.endY = Integer.parseInt(endY);
-		if (direction.equals("vertical")){
-			if (this.endY > this.beginY) this.direction = Direction.SOUTH;
-			else this.direction = Direction.NORTH;
-		} else {
-			if (this.endX > this.beginX) this.direction = Direction.EAST;
-			else this.direction = Direction.WEST;
-		}
+		
+		computeDirection();
 		computeCoord();
+	}
+	
+	private void computeDirection() {
+		if (beginX == endX) {
+			if (endY < beginY) direction = Direction.NORTH;
+			else direction = Direction.SOUTH;
+		} else if (beginY == endY) {
+			if (endX > beginX) direction = Direction.EAST;
+			else direction = Direction.WEST;
+		} else {
+			direction = Direction.UNKNOWN;
+		}		
 	}
 
 	private void computeCoord() {
@@ -69,7 +76,8 @@ public abstract class Shape {
 	}
 	
 	public String toString() {
-		return "[BeginX = " + beginX + "; BeginY = " + beginY + "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
+		return "[BeginX = " + beginX + "; BeginY = " + beginY 
+				+ "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
 	}
 
 	public List<Int2D> getListCoord() {

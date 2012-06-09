@@ -17,7 +17,7 @@ import Components.Wall;
 public class ReadXml {
    
    static private List<Wall> wallList;
-   static private List<Exit> exitList;   
+   static private List<Exit> exitList;
    static private ArrayList<People> peopleList;
    static private List<Arrow> arrowList;
    
@@ -25,8 +25,6 @@ public class ReadXml {
    static private String endX;
    static private String beginY;
    static private String endY;
-   static private String direction;
-
    
    public static void readXmlFile(String filename) {
       SAXBuilder sxb = new SAXBuilder();
@@ -42,7 +40,7 @@ public class ReadXml {
 	      loadArrowList(root);
 	  } catch (Exception e) {
 		  LogConsole.print("Unable to open the XML file" , Actions.Action.FILE.name(), filename);
-	  }    
+	  }
    }
 
 	private static void loadPeopleList(Element root) {
@@ -55,7 +53,7 @@ public class ReadXml {
 			String eyeY = courant.getChild(Constants.XML_EAR).getAttributeValue(Constants.XML_COORD_Y);
 			String earX = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_X);
 			String earY = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_Y);
-			People thePerson = new People(Integer.parseInt(eyeX), Integer.parseInt(eyeY), Integer.parseInt(earX), Integer.parseInt(earY));
+			People thePerson = new People(eyeX, eyeY, earX, earY);
 			LogConsole.print(thePerson.toString(), Actions.Action.READ.name(), thePerson.getClass().getName());
 			peopleList.add(thePerson);
 		}
@@ -67,7 +65,7 @@ public class ReadXml {
 		Iterator<Element> i = wallsList.iterator();
 		while (i.hasNext()) {
             getAttributes(i);
-			Wall theWall = new Wall(beginX, beginY, endX, endY, direction);
+			Wall theWall = new Wall(beginX, beginY, endX, endY);
 			LogConsole.print(theWall.toString(), Actions.Action.READ.name(), theWall.getClass().getName());
 			wallList.add(theWall);
 		}
@@ -79,7 +77,7 @@ public class ReadXml {
 		Iterator<Element> i = exitsList.iterator();
 		while (i.hasNext()) {
             getAttributes(i);
-			Exit theExit = new Exit(beginX, beginY, endX, endY, direction);
+			Exit theExit = new Exit(beginX, beginY, endX, endY);
 			LogConsole.print(theExit.toString(), Actions.Action.READ.name(), theExit.getClass().getName());
 			exitList.add(theExit);
 		}
@@ -92,7 +90,7 @@ public class ReadXml {
 		Iterator<Element> i = arrowsList.iterator();
 		while (i.hasNext()) {
             getAttributes(i);
-			Arrow theArrow = new Arrow(beginX, beginY, endX, endY, direction);
+			Arrow theArrow = new Arrow(beginX, beginY, endX, endY);
 			LogConsole.print(theArrow.toString(), Actions.Action.READ.name(), theArrow.getClass().getName());
 			arrowList.add(theArrow);
 		}
@@ -104,7 +102,6 @@ public class ReadXml {
 		beginY = courant.getChild(Constants.XML_BEGIN).getAttributeValue(Constants.XML_COORD_Y);
 		endX = courant.getChild(Constants.XML_END).getAttributeValue(Constants.XML_COORD_X);
 		endY = courant.getChild(Constants.XML_END).getAttributeValue(Constants.XML_COORD_Y);
-		direction = courant.getAttributeValue(Constants.XML_DIRECTION);
     }
 
 	public static List<Wall> getWallList() {
