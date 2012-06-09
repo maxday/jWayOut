@@ -213,11 +213,12 @@ public class People implements Steppable, Oriented2D
 				// The agent can see the fire
 				// Can he escape to the fire's opposite direction ?
 				Direction fireDirection = Utils.getDirectionFromCoordinates(this, model.getFirePosition());
-				if(model.canMakeOneStepTo(fireDirection, this))
+				Direction oppositeFireDirection = Utils.getOppositeDirection(fireDirection);
+				if(model.canMakeOneStepTo(oppositeFireDirection, this))
 				{
 					System.out.println(this + ": Go to opposite of fire");
 					// The agent can go to the opposite direction, so it does
-					goTo(model, fireDirection);
+					goTo(model, oppositeFireDirection);
 				}
 				else
 				{
