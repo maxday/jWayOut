@@ -302,7 +302,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public Exit canSeeAnExit(People ppl)
 	{
 		for (Int2D coord : ppl.getVisionField(this)) {
-			Object obj = grid.get(coord.x, coord.y);
+			Object obj = hiddenGrid.get(coord.x, coord.y);
 			if (obj instanceof Exit) return ((Exit) obj);
 		}
 		return null;

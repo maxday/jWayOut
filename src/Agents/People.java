@@ -11,6 +11,7 @@ import Components.Door;
 import Components.Exit;
 import Components.Shape;
 import Model.AgentDataAccessInterface;
+import Model.Model;
 import Util.Constants;
 import Util.Constants.Direction;
 import Util.Utils;
@@ -318,6 +319,35 @@ public class People implements Steppable, Oriented2D
 	{
 		model.removeFromGrid(getListCoord());
 		
+		if(isBlocked)
+		{
+			// randomMoveOneStep(model);
+			// isBlocked = false;
+			
+			Model m = (Model) model;
+			if((direction == Direction.NORTH && m.getGrid().get(eyeX, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX-1, eyeY+1) == null))
+			{
+				goToByOneStep(model, Direction.WEST);
+			}
+			else if((direction == Direction.NORTH && m.getGrid().get(eyeX+1, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX, eyeY+1) == null))
+			{
+				goToByOneStep(model, Direction.EAST);
+			}
+			else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY-1) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY) == null))
+			{
+				goToByOneStep(model, Direction.NORTH);
+			}
+			else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY+1) == null))
+			{
+				goToByOneStep(model, Direction.SOUTH);
+			}
+			else
+			{
+				randomMoveOneStep(model);
+			}
+			
+			isBlocked = false;
+		}
 		
 		// Can the agent see an exit ?
 		Exit exit = model.canSeeAnExit(this);
@@ -705,6 +735,51 @@ public class People implements Steppable, Oriented2D
 			dir = decisions.remove(choice);
 		} while (!decisions.isEmpty() && !model.canMakeOneStepTo(dir, this));
 		goTo(model, dir);
+	}
+	
+	private void randomMoveOneStep(AgentDataAccessInterface model)
+	{
+		Int2D firePosition = null;
+		Fire fire =  model.getClosestAudibleFire(this);
+		if (fire == null) firePosition = new Int2D(eyeX, eyeY);
+		else firePosition = fire.getHearth();
+		List<Direction> decisions = new ArrayList<Direction>();
+				
+		// Guess possibles moves according to the fire's position
+		if (eyeX < firePosition.x) {
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.SOUTH);
+			decisions.add(Direction.WEST);
+		} else if (eyeX > firePosition.x) {
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.SOUTH);
+			decisions.add(Direction.EAST);
+		} else {
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+		}
+		
+		if (eyeY > firePosition.y) {
+			decisions.add(Direction.SOUTH);
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+		} else if (eyeY < firePosition.y) {
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.EAST);
+			decisions.add(Direction.WEST);
+		} else {
+			decisions.add(Direction.NORTH);
+			decisions.add(Direction.SOUTH);
+		}
+				
+		// Moves randomly
+		int choice;
+		Direction dir;
+		do {
+			choice = Utils.getRandomMasonValue(model, 0, decisions.size()-1);
+			dir = decisions.remove(choice);
+		} while (!decisions.isEmpty() && !model.canMakeOneStepTo(dir, this));
+		goToByOneStep(model, dir);
 	}
 	
 	
