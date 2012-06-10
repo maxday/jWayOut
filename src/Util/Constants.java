@@ -27,7 +27,8 @@ public class Constants {
 	
 	// VIEW
 	
-	public final static int GRID_WIDTH = 123;
+	public final static int GRID_X_OFFSET = -22;
+	public final static int GRID_WIDTH = 123 + GRID_X_OFFSET;
 	public final static int GRID_HEIGHT = 68;
 	public final static int GRID_TO_FRAME = 8;
 	public final static int FRAME_WIDTH = GRID_WIDTH * GRID_TO_FRAME;

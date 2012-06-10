@@ -57,9 +57,9 @@ public class People implements Steppable, Oriented2D
 	
 	public People(String earX, String earY, String eyeX, String eyeY)
 	{
-		this.earX = Integer.parseInt(earX);
+		this.earX = Integer.parseInt(earX) + Constants.GRID_X_OFFSET;
 		this.earY = Integer.parseInt(earY);
-		this.eyeX = Integer.parseInt(eyeX);
+		this.eyeX = Integer.parseInt(eyeX) + Constants.GRID_X_OFFSET;
 		this.eyeY = Integer.parseInt(eyeY);
 		computeDirection();
 		
@@ -344,24 +344,28 @@ public class People implements Steppable, Oriented2D
 			}
 			
 			Model m = (Model) model;
-			if((direction == Direction.NORTH && m.getGrid().get(eyeX, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX-1, eyeY+1) == null))
-			{
-				goToByOneStep(model, Direction.WEST);
-			}
-			else if((direction == Direction.NORTH && m.getGrid().get(eyeX+1, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX, eyeY+1) == null))
-			{
-				goToByOneStep(model, Direction.EAST);
-			}
-			else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY-1) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY) == null))
-			{
-				goToByOneStep(model, Direction.NORTH);
-			}
-			else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY+1) == null))
-			{
-				goToByOneStep(model, Direction.SOUTH);
-			}
-			else
-			{
+			try {
+				if((direction == Direction.NORTH && m.getGrid().get(eyeX, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX-1, eyeY+1) == null))
+				{
+					goToByOneStep(model, Direction.WEST);
+				}
+				else if((direction == Direction.NORTH && m.getGrid().get(eyeX+1, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX, eyeY+1) == null))
+				{
+					goToByOneStep(model, Direction.EAST);
+				}
+				else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY-1) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY) == null))
+				{
+					goToByOneStep(model, Direction.NORTH);
+				}
+				else if((direction == Direction.WEST && m.getGrid().get(eyeX-1, eyeY) == null) || (direction == Direction.EAST && m.getGrid().get(eyeX+1, eyeY+1) == null))
+				{
+					goToByOneStep(model, Direction.SOUTH);
+				}
+				else
+				{
+					randomMoveOneStep(model);
+				}
+			} catch (Exception e) {
 				randomMoveOneStep(model);
 			}
 			

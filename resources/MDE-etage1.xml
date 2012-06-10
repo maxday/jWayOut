@@ -58,7 +58,7 @@
 		</wall>
 		
 		<wall>
-			<begin x="22" y="33" />
+			<begin x="25" y="33" />
 			<end x="26" y="33" />
 		</wall>
 		
@@ -116,44 +116,14 @@
 			<begin x="108" y="35" />
 			<end x="119" y="35" />
 		</wall>
-		
-		<wall>
-			<begin x="3" y="42" />
-			<end x="5" y="42" />
-		</wall>
-		
-		<wall>
-			<begin x="17" y="42" />
-			<end x="22" y="42" />
-		</wall>
-		
-		<wall>
-			<begin x="34" y="42" />
-			<end x="36" y="42" />
-		</wall>
-		
+						
 		<wall>
 			<begin x="107" y="42" />
 			<end x="113" y="42" />
 		</wall>
-		
+						
 		<wall>
-			<begin x="3" y="54" />
-			<end x="5" y="54" />
-		</wall>
-		
-		<wall>
-			<begin x="17" y="54" />
-			<end x="22" y="54" />
-		</wall>
-		
-		<wall>
-			<begin x="34" y="54" />
-			<end x="36" y="54" />
-		</wall>
-		
-		<wall>
-			<begin x="3" y="64" />
+			<begin x="36" y="64" />
 			<end x="104" y="64" />
 		</wall>
 		
@@ -161,37 +131,12 @@
 			<begin x="110" y="64" />
 			<end x="113" y="64" />
 		</wall>
-		
-		<wall>
-			<begin x="3" y="42" />
-			<end x="3" y="64" />
-		</wall>
-		
-		<wall>
-			<begin x="5" y="42" />
-			<end x="5" y="54" />
-		</wall>
-		
-		<wall>
-			<begin x="17" y="42" />
-			<end x="17" y="54" />
-		</wall>
-		
-		<wall>
-			<begin x="22" y="33" />
-			<end x="22" y="54" />
-		</wall>
-		
+						
 		<wall>
 			<begin x="25" y="3" />
 			<end x="25" y="33" />
 		</wall>
-		
-		<wall>
-			<begin x="34" y="42" />
-			<end x="34" y="54" />
-		</wall>
-		
+				
 		<wall>
 			<begin x="36" y="3" />
 			<end x="36" y="26" />
@@ -338,12 +283,7 @@
 			<begin x="87" y="25" />
 			<end x="90" y="25" />
 		</door>
-		
-		<door direction="SOUTH">
-			<begin x="27" y="33" />
-			<end x="31" y="33" />
-		</door>
-		
+			
 		<door direction="SOUTH">
 			<begin x="103" y="33" />
 			<end x="106" y="33" />
@@ -368,12 +308,7 @@
 			<begin x="101" y="26" />
 			<end x="101" y="32" />
 		</door>
-		
-		<door direction="WEST">
-			<begin x="22" y="55" />
-			<end x="22" y="63" />
-		</door>
-		
+			
 		<door direction="WEST">
 			<begin x="36" y="27" />
 			<end x="36" y="31" />
@@ -397,8 +332,8 @@
 	
 	<exits>
 		<exit>
-			<begin x="6" y="42" />
-			<end x="16" y="42" />
+			<begin x="27" y="33" />
+			<end x="31" y="33" />
 		</exit>
 		
 		<exit>

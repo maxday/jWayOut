@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sim.util.Int2D;
+import Util.Constants;
 import Util.Constants.Direction;
 
 public abstract class Shape {
@@ -17,9 +18,9 @@ public abstract class Shape {
 	protected List<Int2D> listCoord = new ArrayList<Int2D>();
 
 	public Shape(String beginX, String beginY, String endX, String endY) {
-		this.beginX = Integer.parseInt(beginX);
+		this.beginX = Integer.parseInt(beginX) + Constants.GRID_X_OFFSET;
 		this.beginY = Integer.parseInt(beginY);
-		this.endX = Integer.parseInt(endX);
+		this.endX = Integer.parseInt(endX) + Constants.GRID_X_OFFSET;
 		this.endY = Integer.parseInt(endY);
 		
 		computeDirection();

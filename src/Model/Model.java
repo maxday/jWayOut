@@ -107,7 +107,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	public void addFire(Int2D hearth)
 	{
-		if (Utils.isCoordInGrid(hearth) && grid.get(hearth.x, hearth.y) == null) {
+		if (Utils.isCoordInGrid(hearth) && grid.get(hearth.x, hearth.y) == null && !(hiddenGrid.get(hearth.x, hearth.y) instanceof Exit)) {
 			Fire fire = new Fire(hearth);
 			grid.set(hearth.x, hearth.y, fire);
 			schedule.scheduleOnce(fire);
@@ -208,8 +208,10 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			return visionField;
 		}
 		
-		visionField.add(noseL);
-		visionField.add(noseR);
+		if (Utils.isCoordInGrid(noseL)) visionField.add(noseL);
+		else noseL = null;
+		if (Utils.isCoordInGrid(noseR)) visionField.add(noseR);
+		else noseR = null;
 		
 		depth = 0;
 		while (depth < propDepth && noseL != null && !(grid.get(noseL.x, noseL.y) instanceof Wall)) {
