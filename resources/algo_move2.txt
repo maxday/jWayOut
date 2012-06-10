@@ -1,0 +1,109 @@
+private void move2(AgentDataAccessInterface model)
+	{
+		model.removeFromGrid(getListCoord());
+		
+		
+		// Can the agent see an exit ?
+		Exit exit = model.canSeeAnExit(this);
+		if(exit != null)
+		{
+			System.out.println(this + ": Go to exit");
+			// The agent can see an exit, so it goes to its direction
+			goToComponent(model, exit);
+		}
+		else
+		{
+			// He cannot see any exit
+			// So, now, is the fire next to it ?
+			if(model.canSeeFire(this))
+			{
+				// The agent can see the fire
+				// Can he escape to the fire's opposite direction ?
+				Direction fireDirection = Utils.getDirectionFromCoordinates(this, model.getFirePosition());
+				Direction oppositeFireDirection = Utils.getOppositeDirection(fireDirection);
+				if(model.canMakeOneStepTo(oppositeFireDirection, this))
+				{
+					System.out.println(this + ": Go to opposite of fire");
+					// The agent can go to the opposite direction, so it does
+					goTo(model, oppositeFireDirection);
+				}
+				else
+				{
+					System.out.println(this + ": random move to get away from the fire");
+					// The agent cannot go to the opposite direction, so it performs a random move
+					randomMove(model);
+				}
+			}
+			else
+			{
+				// The agent cannot see any fire around it
+				// Can he see an arrow ?
+				Arrow arrow = model.canSeeAnArrow(this);
+				if(arrow != null)
+				{
+					seenDirection = arrow.getDirection();
+					// The agent can see an arrow
+					// Can he follow the direction pointed by the arrow ?
+					if(model.canMakeOneStepTo(arrow.getDirection(), this))
+					{
+						System.out.println(this + ": Go to the pointed direction");
+						// The agent can go to the arrow's pointed direction, so it does
+						goTo(model, arrow.getDirection());
+					}
+					else
+					{
+						System.out.println(this + ": Go to the arrow");
+						// The agent cannot go to the arrow's pointed direction for now
+						// So, it must try to get closer to the arrow
+						goToByOneStep(model, arrow.getDirection());
+					}
+				}
+				else
+				{
+					// The agent cannot see any arrow around it
+					// So, can he see another agent ?
+					ArrayList<People> peopleAround = model.getPeopleAround(this);
+					if(peopleAround.size() <= 0)
+					{
+						System.out.println(this + ": Nobody around, random move");
+						// There's nobody around the agent
+						// It performs a random move
+						randomMove(model);
+					}
+					else
+					{
+						// There're some agents around it
+						// Who is the most charismatic agent ?
+						People bestCharismaAgent = getMostCharismaticPeople(peopleAround);
+						if(bestCharismaAgent == null || bestCharismaAgent.getCharismaLevel() < this.charismaLevel)
+						{
+							// This agent is the most charismatic agent
+							// Does this agent remember about its last followed direction ?
+							if(seenDirection != Direction.UNKNOWN)
+							{
+								System.out.println(this + ": Go to the last known direction");
+								// The agent follows it last known direction
+								goTo(model, seenDirection);
+							}
+							else
+							{
+								System.out.println(this + ": random move");
+								// The agent doesn't remember about any last direction
+								// It will perform a random move
+								randomMove(model);
+							}
+						}
+						else
+						{
+							System.out.println(this + ": Follow somebody");
+							// bestCharismaAgent is most charismatic than this agent
+							// So this agent will follow it
+							followPeople(model, bestCharismaAgent);
+						}
+					}
+				}
+			}
+		}
+		
+		model.addToGrid(getListCoord(), this);
+	}
