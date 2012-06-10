@@ -356,12 +356,14 @@ public class People implements Steppable, Oriented2D
 			}
 			
 			isBlocked = false;
+			System.out.println("I got unblocked");
 		}
 		
 		// Can the agent see an exit ?
 		Exit exit = model.canSeeAnExit(this);
 		if(exit != null)
 		{
+			System.out.println("I go to the exit");
 			// The agent can see an exit, so it goes to its direction
 			// goToComponent(model, exit);
 			if(goToExit(model, exit))
@@ -386,11 +388,13 @@ public class People implements Steppable, Oriented2D
 					
 					if(model.canMakeOneStepTo(doors.get(0).getDoorDirection(), this))
 					{
+						System.out.println("I follow the door direction");
 						seenDirection = doors.get(0).getDoorDirection();
 						goTo(model, doors.get(0).getDoorDirection());
 					}
 					else
 					{
+						System.out.println("I go to the door");
 						goToComponent(model, doors.get(0));
 					}
 				}
@@ -400,10 +404,25 @@ public class People implements Steppable, Oriented2D
 					// Can the agent interact with others ?
 					if(!interactWithOtherAgents(model))
 					{
-						// If it can't, then, it will perform a random move
-						randomMove(model);
+						// Does this agent remember about its last followed direction ?
+						if(seenDirection != Direction.UNKNOWN)
+						{
+							System.out.println("I go to the last seen direction");
+							// The agent follows it last known direction
+							goTo(model, seenDirection);
+						}
+						else
+						{
+							System.out.println("I perform a random move (no agent around)");
+							// If it can't, then, it will perform a random move
+							randomMove(model);
+						}
 					}
 				}
+			}
+			else
+			{
+				System.out.println("I escape from the fire");
 			}
 		}
 		
@@ -555,11 +574,13 @@ public class People implements Steppable, Oriented2D
 			// Does this agent remember about its last followed direction ?
 			if(seenDirection != Direction.UNKNOWN)
 			{
+				System.out.println("I go to the last seen direction");
 				// The agent follows it last known direction
 				goTo(model, seenDirection);
 			}
 			else
 			{
+				System.out.println("Random move (no last seen direction)");
 				// The agent doesn't remember about any last direction
 				// It will perform a random move
 				randomMove(model);
@@ -567,6 +588,7 @@ public class People implements Steppable, Oriented2D
 		}
 		else
 		{
+			System.out.println("I follow some one");
 			// bestCharismaAgent is most charismatic than this agent
 			// So this agent will follow it
 			followPeople(model, bestCharismaAgent);
