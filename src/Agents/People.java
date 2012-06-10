@@ -370,47 +370,23 @@ public class People implements Steppable, Oriented2D
 	{
 		if(doors.size() > 0)
 		{
+			int max = doors.size();
 			// First, let's filter the "good" doors, considering their direction
-			// for(Door door : doors)
-			for(int i = 0; i < doors.size(); i++)
+			for(int i=0; i < max; i++)
 			{
 				for(Int2D c : doors.get(i).getListCoord())
 				{
 					if(Utils.areDirectionsOpposite(doors.get(i).getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
 					{
-						doors.remove(doors.get(i));
+						doors.remove(i);
+						max--;
+						break;
 					}
 				}
 			}
 		}
 		
 		return doors;
-	}
-	
-	
-	
-	
-	/**
-	 * This method tells if the agent is inside a room or in the corridor, according to the given {@link Door} list
-	 * 
-	 * @param doors A list of all {@link Door} that the agent can see
-	 * 
-	 * @return A {@link Door} object corresponding to the door opening the room where the agent is currently, or null if the agent isn't in a room
-	 */
-	private Door isTheAgentInRoom(List<Door> doors)
-	{
-		for(Door door : doors)
-		{
-			for(Int2D coord : door.getListCoord())
-			{
-				if(Utils.getDirectionFromCoordinates(this, coord) == door.getDoorDirection())
-				{
-					return door;
-				}
-			}
-		}
-		
-		return null;
 	}
 	
 	
@@ -505,13 +481,11 @@ public class People implements Steppable, Oriented2D
 			// Does this agent remember about its last followed direction ?
 			if(seenDirection != Direction.UNKNOWN)
 			{
-				System.out.println(this + " I follow my last direction");
 				// The agent follows it last known direction
 				goTo(model, seenDirection);
 			}
 			else
 			{
-				System.out.println(this + " I perform a random move [others considerated]");
 				// The agent doesn't remember about any last direction
 				// It will perform a random move
 				randomMove(model);
