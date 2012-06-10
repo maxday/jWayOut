@@ -52,6 +52,10 @@ public class Fire implements Steppable {
 			}
 		}
 	}
+	
+	public Int2D getHearth() {
+		return hearth;
+	}
 
 	public String toString() {
 		return "[HearthX = " + hearth.x + "; HearthY = " + hearth.y + "]";

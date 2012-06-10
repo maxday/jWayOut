@@ -302,7 +302,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeTheFire(this)) {
+		if (model.canSeeAFire(this) != null) {
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);

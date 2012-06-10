@@ -227,13 +227,39 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 	
 	@Override
-	public boolean canSeeTheFire(People ppl)
+	public Fire canSeeAFire(People ppl)
 	{
+		Int2D eye = new Int2D(ppl.eyeX, ppl.eyeY);
+		Fire closestFire = null;
+		Int2D closestPos = null;
 		for (Int2D coord : ppl.getVisionField(this)) {
 			Object obj = grid.get(coord.x, coord.y);
-			if (obj instanceof Fire) return true;
+			if (obj instanceof Fire) {
+				if (closestFire == null || coord.distance(eye) < closestPos.distance(eye)) {
+					closestFire = (Fire) obj;
+					closestPos = coord;
+				}
+			}
 		}
-		return false;
+		return closestFire;
+	}
+	
+	@Override
+	public Fire canHearAFire(People ppl)
+	{
+		Int2D ear = new Int2D(ppl.earX, ppl.earY);
+		Fire closestFire = null;
+		Int2D closestPos = null;
+		for (Int2D coord : ppl.getHearingField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if (obj instanceof Fire) {
+				if (closestFire == null || coord.distance(ear) < closestPos.distance(ear)) {
+					closestFire = (Fire) obj;
+					closestPos = coord;
+				}
+			}
+		}
+		return closestFire;		
 	}
 
 	@Override

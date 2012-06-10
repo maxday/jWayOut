@@ -3,6 +3,7 @@ package Model;
 import java.util.List;
 
 import sim.util.Int2D;
+import Agents.Fire;
 import Agents.People;
 import Components.Door;
 import Components.Exit;
@@ -20,8 +21,8 @@ public interface AgentDataAccessInterface
 	 * @param ppl The concerned people
 	 * @return A boolean telling if the given people can see the fire or not
 	 */
-	public boolean canSeeTheFire(People ppl);
-	
+	public Fire canSeeAFire(People ppl);
+	public Fire canHearAFire(People ppl);	
 	
 	/**
 	 * This method is invoked when a people is screaming
