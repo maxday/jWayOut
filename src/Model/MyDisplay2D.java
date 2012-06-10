@@ -2,7 +2,7 @@ package Model;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 
 import sim.display.Display2D;
@@ -18,30 +18,39 @@ public class MyDisplay2D extends Display2D {
 		super(width, height, simulation);
 		this.simulation = simulation;
 
-	
-		insideDisplay.addMouseMotionListener(new MouseMotionAdapter()
-		{
-			public void mouseDragged(MouseEvent e)
-			{
+		insideDisplay.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				if (handleMouseEvent(e)) { repaint(); return; }
+				else	{
+					final Point point = e.getPoint();
+					createInspectors(new Rectangle2D.Double( point.x, point.y, 1, 1 ), MyDisplay2D.this.simulation );
+				}
+				
 			}
 
-			public void mouseMoved(MouseEvent e)
-			{
-	             if (handleMouseEvent(e)) { repaint(); return; }
-	             else
-	             {
-	            	 //official basic inspector
-		             final Point point = e.getPoint();
-		        	 createInspectors( new Rectangle2D.Double( point.x, point.y, 1, 1 ), MyDisplay2D.this.simulation );
-		          
-		        	 //customer inspectors: TODO
-		        	 
-	             
-	             }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
 			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub	
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			
 		});
-		
 	}
-
 }

@@ -16,7 +16,7 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 import sim.portrayal.simple.TransformedPortrayal2D;
 import Agents.Fire;
 import Agents.People;
-import Agents.Vision;
+//import Agents.Vision;
 import Components.Arrow;
 import Components.Door;
 import Components.Exit;
@@ -37,7 +37,8 @@ public class View extends GUIState {
 		super(state);
 	}
 
-
+	public Object getSimulationInspectedObject() { return state; }
+	
 	@Override
 	public void init(Controller controller) {
 		super.init(controller);
@@ -68,7 +69,7 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
-		gridPortrayal.setPortrayalForClass(Vision.class, getVisionPortrayal());
+		//gridPortrayal.setPortrayalForClass(Vision.class, getVisionPortrayal());
 		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
 		
 		display.reset();

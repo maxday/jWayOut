@@ -23,6 +23,16 @@ import Util.Utils;
 @SuppressWarnings("serial")
 public class Model extends SimState implements AgentDataAccessInterface {
 	
+
+	
+	private List<Wall> wallList = new ArrayList<Wall>();
+	private List<People> peopleList = new ArrayList<People>();
+	private List<Door> doorList = new ArrayList<Door>();
+	private List<Exit> exitList = new ArrayList<Exit>();
+
+	
+	
+	
 	public Model(long seed) {
 		super(seed);
 	}
@@ -115,10 +125,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	private void addWalls()
 	{
-		List<Wall> wallList = ReadXml.getWallList();
-		
-		for (int iWall = 0; iWall < wallList.size(); ++iWall) {
-			Wall wall = wallList.get(iWall);
+		wallList = ReadXml.getWallList();
+		for (Wall wall : wallList) {
 			LogConsole.print(wall.toString(), Actions.Action.ADD.name(), wall.getClass().getName());
 			List<Int2D> coords = wall.getListCoord();
 			addToGrid(coords, wall);
@@ -127,7 +135,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	private void addAgents()
 	{
-		for (People people : ReadXml.getPeopleList()) {
+		peopleList = ReadXml.getPeopleList();
+		for (People people : peopleList) {
 			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
 			addToGrid(people.getListCoord(), people);
 			schedule.scheduleOnce(people);
@@ -136,7 +145,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	private void addDoors()
 	{
-		for (Door door : ReadXml.getDoorList()) {
+		doorList = ReadXml.getDoorList();
+		for (Door door : doorList) {
 			LogConsole.print(door.toString(), Actions.Action.ADD.name(), door.getClass().getName());
 			for (Int2D coord : door.getListCoord()) {
 				hiddenGrid.set(coord.x, coord.y, door);
@@ -146,7 +156,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	private void addExits()
 	{
-		for (Exit exit : ReadXml.getExitList()) {
+		exitList =  ReadXml.getExitList();
+		for (Exit exit : exitList) {
 			LogConsole.print(exit.toString(), Actions.Action.ADD.name(), exit.getClass().getName());
 			for (Int2D coord : exit.getListCoord()) {
 				hiddenGrid.set(coord.x, coord.y, exit);
@@ -363,5 +374,25 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 
+
+	/* needed to be inspected - you didn't know that ? neither did I */
+
+	public List<Wall> getWallList() {
+		return wallList;
+	}
+
+	public List<People> getPeopleList() {
+		return peopleList;
+	}
+
+	public List<Door> getDoorList() {
+		return doorList;
+	}
+
+	public List<Exit> getExitList() {
+		return exitList;
+	}
+	
+	
 	
 }
