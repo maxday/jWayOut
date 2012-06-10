@@ -5,6 +5,7 @@ import java.util.List;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.engine.Stoppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
 import Components.Door;
@@ -20,6 +21,8 @@ import Util.Utils;
 @SuppressWarnings("serial")
 public class People implements Steppable, Oriented2D
 {
+	private Stoppable stop;
+	
 	// Geographic coordinates
 	public int earX;
 	public int earY;
@@ -50,7 +53,7 @@ public class People implements Steppable, Oriented2D
 	private boolean hearingComputed = false;
 	
 	public People(String earX, String earY, String eyeX, String eyeY)
-	{	
+	{
 		this.earX = Integer.parseInt(earX);
 		this.earY = Integer.parseInt(earY);
 		this.eyeX = Integer.parseInt(eyeX);
@@ -72,6 +75,10 @@ public class People implements Steppable, Oriented2D
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
 		speedLevel = 1;
+	}
+	
+	public void setStoppable(Stoppable stop) {
+		this.stop = stop;
 	}
 	
 	public List<Int2D> getListCoord()
@@ -282,8 +289,6 @@ public class People implements Steppable, Oriented2D
 			// model.addToGrid(getListCoord(), this);
 			// model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
-		
-		state.schedule.scheduleOnce(this);
 	}
 	
 	

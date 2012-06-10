@@ -131,7 +131,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		for (People people : peopleList) {
 			LogConsole.print(people.toString(), Actions.Action.ADD.name(), people.getClass().getName());
 			addToGrid(people.getListCoord(), people);
-			schedule.scheduleOnce(people);
+			people.setStoppable(schedule.scheduleRepeating(people));
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		visionField.add(noseR);
 		
 		depth = 0;
-		while (depth < propDepth && !(grid.get(noseL.x, noseL.y) instanceof Wall)) {
+		while (depth < propDepth && noseL != null && !(grid.get(noseL.x, noseL.y) instanceof Wall)) {
 			Int2D neighbour = noseL;
 			int dist = 1;
 			do {
@@ -224,12 +224,12 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			} while (neighbour != null && dist < propDistL && grid.get(neighbour.x, neighbour.y) == null);
 			propDistL = dist;
 			noseL = getNeighbour(noseL, ppl.direction);
-			visionField.add(noseL);
+			if (noseL != null) visionField.add(noseL);
 			depth++;
 		}
 		
 		depth = 0;
-		while (depth < propDepth && !(grid.get(noseR.x, noseR.y) instanceof Wall)) {
+		while (depth < propDepth && noseR != null && !(grid.get(noseR.x, noseR.y) instanceof Wall)) {
 			Int2D neighbour = noseR;
 			int dist = 1;
 			do {
@@ -241,7 +241,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			} while (neighbour != null && dist < propDistR && grid.get(neighbour.x, neighbour.y) == null);
 			propDistR = dist;
 			noseR = getNeighbour(noseR, ppl.direction);
-			visionField.add(noseR);
+			if (noseR != null) visionField.add(noseR);
 			depth++;
 		}
 		
