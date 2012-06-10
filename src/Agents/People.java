@@ -62,7 +62,7 @@ public class People implements Steppable, Oriented2D
 		isWarned = false;
 		
 		// Generates abilities rates
-		visionAbility = getRandomAbility();
+		visionAbility = Constants.MAX_ABILITY;
 		hearingAbility = getRandomAbility();
 		screamingAbility = getRandomAbility();
 		
@@ -425,33 +425,25 @@ public class People implements Steppable, Oriented2D
 	 */
 	private boolean escapeFromFire(AgentDataAccessInterface model)
 	{
-		// Returns false if the agent can neither hear nor see any fire
-		if(!model.canSeeTheFire(this) && !model.canHearTheFire(this))
+		// The agent can see [and/or] hear a fire somewhere
+		// Does he see a fire ?
+		if(model.canSeeTheFire(this))
 		{
-			return false;
+			// The agent sees a fire, so it will escape from it
+			goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestVisibleFire(this).getHearth())));
+			return true;
+		}
+		else if(model.canHearTheFire(this))
+		{
+			// The agent cannot see any fire, but can hear one
+			// So, same, it will escape from it
+			goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestAudibleFire(this).getHearth())));
+			return true;
 		}
 		else
 		{
-			// The agent can see [and/or] hear a fire somewhere
-			// Does he see a fire ?
-			if(model.canSeeTheFire(this))
-			{
-				// The agent sees a fire, so it will escape from it
-				goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestVisibleFire(this).getHearth())));
-				return true;
-			}
-			else if(model.canHearTheFire(this))
-			{
-				// The agent cannot see any fire, but can hear one
-				// So, same, it will escape from it
-				goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestAudibleFire(this).getHearth())));
-				return true;
-			}
-			else
-			{
-				// There's no fire around the agent, so he does nothing
-				return false;
-			}
+			// There's no fire around the agent, so he does nothing
+			return false;
 		}
 	}
 	

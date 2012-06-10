@@ -181,32 +181,29 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		Int2D noseL = null, noseR = null;
 		Direction propDirL = null, propDirR = null;
-		int propDistL, propDistR;
+		int propDistL = ppl.getVisionAbility(), propDistR = ppl.getVisionAbility();
+		int propDepth = ppl.getVisionAbility()*2, depth;
 		
 		if (ppl.direction.equals(Direction.NORTH)) {
 			noseL = new Int2D(ppl.eyeX, ppl.eyeY-1);
 			noseR = new Int2D(ppl.eyeX+1, ppl.eyeY-1);
 			propDirL = Direction.WEST;
 			propDirR = Direction.EAST;
-			propDistL = propDistR = grid.getWidth();
 		} else if (ppl.direction.equals(Direction.SOUTH)) {
 			noseL = new Int2D(ppl.eyeX, ppl.eyeY+1);
 			noseR = new Int2D(ppl.eyeX-1, ppl.eyeY+1);
 			propDirL = Direction.EAST;
 			propDirR = Direction.WEST;
-			propDistL = propDistR = grid.getWidth();
 		} else if (ppl.direction.equals(Direction.EAST)) {
 			noseL = new Int2D(ppl.eyeX+1, ppl.eyeY);
 			noseR = new Int2D(ppl.eyeX+1, ppl.eyeY+1);
 			propDirL = Direction.NORTH;
 			propDirR = Direction.SOUTH;
-			propDistL = propDistR = grid.getHeight();
 		} else if (ppl.direction.equals(Direction.WEST)) {
 			noseL = new Int2D(ppl.eyeX-1, ppl.eyeY);
 			noseR = new Int2D(ppl.eyeX-1, ppl.eyeY-1);
 			propDirL = Direction.SOUTH;
 			propDirR = Direction.NORTH;
-			propDistL = propDistR = grid.getHeight();
 		} else {
 			return visionField;
 		}
@@ -214,7 +211,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		visionField.add(noseL);
 		visionField.add(noseR);
 		
-		while (grid.get(noseL.x, noseL.y) == null) {
+		depth = 0;
+		while (depth < propDepth && !(grid.get(noseL.x, noseL.y) instanceof Wall)) {
 			Int2D neighbour = noseL;
 			int dist = 1;
 			do {
@@ -227,9 +225,11 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			propDistL = dist;
 			noseL = getNeighbour(noseL, ppl.direction);
 			visionField.add(noseL);
+			depth++;
 		}
 		
-		while (grid.get(noseR.x, noseR.y) == null) {
+		depth = 0;
+		while (depth < propDepth && !(grid.get(noseR.x, noseR.y) instanceof Wall)) {
 			Int2D neighbour = noseR;
 			int dist = 1;
 			do {
@@ -242,7 +242,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			propDistR = dist;
 			noseR = getNeighbour(noseR, ppl.direction);
 			visionField.add(noseR);
-		}		
+			depth++;
+		}
 		
 		return visionField;
 	}
@@ -263,7 +264,6 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	{
 		List<Door> visibleDoors = new ArrayList<Door>();
 		for (Int2D coord : ppl.getVisionField(this)) {
-			// Object obj = grid.get(coord.x, coord.y);
 			Object obj = hiddenGrid.get(coord.x, coord.y);
 			if (obj instanceof Door) visibleDoors.add((Door) obj);
 		}

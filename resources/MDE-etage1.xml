@@ -355,6 +355,11 @@
 		</door>
 		
 		<door direction="EAST">
+			<begin x="85" y="26" />
+			<end x="85" y="32" />
+		</door>
+		
+		<door direction="EAST">
 			<begin x="96" y="26" />
 			<end x="96" y="32" />
 		</door>
@@ -377,6 +382,11 @@
 		<door direction="WEST">
 			<begin x="43" y="26" />
 			<end x="43" y="32" />
+		</door>
+		
+		<door direction="WEST">
+			<begin x="59" y="26" />
+			<end x="59" y="32" />
 		</door>
 		
 		<door direction="WEST">
