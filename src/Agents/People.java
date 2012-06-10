@@ -8,6 +8,7 @@ import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
+import sun.management.AgentConfigurationError;
 import Components.Door;
 import Components.Exit;
 import Components.Shape;
@@ -281,13 +282,13 @@ public class People implements Steppable, Oriented2D
 		if (state instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
-			// model.removeFromGrid(getListCoord());
-			// model.removeFromGrid(visionField);
+			model.removeFromGrid(getListCoord());
+			model.removeFromGrid(visionField);
 			updateStatus(model);
 			scream(model);
 			move2(model);
-			// model.addToGrid(getListCoord(), this);
-			// model.addToGridIfEmpty(getVisionField(model), new Vision());
+			model.addToGrid(getListCoord(), this);
+			model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
 	}
 	
@@ -359,7 +360,12 @@ public class People implements Steppable, Oriented2D
 		if(exit != null)
 		{
 			// The agent can see an exit, so it goes to its direction
-			goToComponent(model, exit);
+			// goToComponent(model, exit);
+			if(goToExit(model, exit))
+			{
+				stop.stop();
+				System.out.println("STOP!!!");
+			}
 		}
 		else
 		{
@@ -373,8 +379,16 @@ public class People implements Steppable, Oriented2D
 				if(doors.size() > 0)
 				{
 					// The agent can see a door at least
-					seenDirection = doors.get(0).getDoorDirection();
-					goTo(model, doors.get(0).getDoorDirection());
+					
+					if(model.canMakeOneStepTo(doors.get(0).getDoorDirection(), this))
+					{
+						seenDirection = doors.get(0).getDoorDirection();
+						goTo(model, doors.get(0).getDoorDirection());
+					}
+					else
+					{
+						goToComponent(model, doors.get(0));
+					}
 				}
 				else
 				{
@@ -394,6 +408,32 @@ public class People implements Steppable, Oriented2D
 	
 	
 	
+	private boolean goToExit(AgentDataAccessInterface model, Exit exit)
+	{
+		boolean loop = true;
+		int i = 0;
+		
+		while(i < this.speedLevel && loop)
+		{
+			goToComponentByOneStep(model, exit);
+			
+			for(Int2D c : exit.getListCoord())
+			{
+				if((eyeX == c.x && eyeY == c.y) || (earX == c.x && earY == c.y))
+				{
+					loop = false;
+					break;
+				}
+			}
+			
+			i++;
+		}
+		
+		return !loop;
+	}
+	
+	
+	
 	/**
 	 * This method filters a given list of {@link Door} in order to take off all "useless" {@link Door}
 	 * 
@@ -403,25 +443,23 @@ public class People implements Steppable, Oriented2D
 	 */
 	private List<Door> doorFilter(List<Door> doors)
 	{
+		ArrayList<Door> result = new ArrayList<Door>();
+		
 		if(doors.size() > 0)
 		{
-			int max = doors.size();
-			// First, let's filter the "good" doors, considering their direction
-			for(int i=0; i < max; i++)
+			for(Door door : doors)
 			{
-				for(Int2D c : doors.get(i).getListCoord())
+				for(Int2D c : door.getListCoord())
 				{
-					if(Utils.areDirectionsOpposite(doors.get(i).getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
+					if(!Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
 					{
-						doors.remove(i);
-						max--;
-						break;
+						result.add(door);
 					}
 				}
 			}
 		}
 		
-		return doors;
+		return result;
 	}
 	
 	
