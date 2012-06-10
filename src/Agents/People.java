@@ -46,6 +46,8 @@ public class People implements Steppable, Oriented2D
 	private int autonomyLevel;
 	private int speedLevel;
 	
+	private boolean isOut;
+	
 	// Perception fields
 	private List<Int2D> visionField = new ArrayList<Int2D>();
 	private boolean visionComputed = false;
@@ -61,6 +63,8 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 		
 		seenDirection = Direction.UNKNOWN;
+		
+		isOut = false;
 		
 		isBlocked = false;
 		isWarned = false;
@@ -281,13 +285,13 @@ public class People implements Steppable, Oriented2D
 		if (state instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
-			model.removeFromGrid(getListCoord());
-			model.removeFromGrid(visionField);
+			// model.removeFromGrid(getListCoord());
+			// model.removeFromGrid(visionField);
 			updateStatus(model);
 			scream(model);
 			move2(model);
-			model.addToGrid(getListCoord(), this);
-			model.addToGridIfEmpty(getVisionField(model), new Vision());
+			// model.addToGrid(getListCoord(), this);
+			// model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
 	}
 	
@@ -363,7 +367,8 @@ public class People implements Steppable, Oriented2D
 			if(goToExit(model, exit))
 			{
 				stop.stop();
-				System.out.println("STOP!!!");
+				model.removeFromGrid(getListCoord());
+				isOut = true;
 			}
 		}
 		else
@@ -402,7 +407,10 @@ public class People implements Steppable, Oriented2D
 			}
 		}
 		
-		model.addToGrid(getListCoord(), this);
+		if(!isOut)
+		{
+			model.addToGrid(getListCoord(), this);
+		}
 	}
 	
 	
