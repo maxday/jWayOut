@@ -7,6 +7,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
+import Components.Door;
 import Components.Exit;
 import Components.Shape;
 import Model.AgentDataAccessInterface;
@@ -272,13 +273,13 @@ public class People implements Steppable, Oriented2D
 		if (state instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
-			model.removeFromGrid(getListCoord());
-			model.removeFromGrid(visionField);
+			// model.removeFromGrid(getListCoord());
+			// model.removeFromGrid(visionField);
 			updateStatus(model);
 			scream(model);
-			move(model);
-			model.addToGrid(getListCoord(), this);
-			model.addToGridIfEmpty(getVisionField(model), new Vision());
+			move2(model);
+			// model.addToGrid(getListCoord(), this);
+			// model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
 		
 		state.schedule.scheduleOnce(this);
@@ -309,6 +310,215 @@ public class People implements Steppable, Oriented2D
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);
+		}
+	}
+	
+	
+	private void move2(AgentDataAccessInterface model)
+	{
+		model.removeFromGrid(getListCoord());
+		
+		
+		// Can the agent see an exit ?
+		Exit exit = model.canSeeAnExit(this);
+		if(exit != null)
+		{
+			System.out.println(this + " I see an exit, I go to it");
+			// The agent can see an exit, so it goes to its direction
+			goToComponent(model, exit);
+		}
+		else
+		{
+			// He cannot see any exit
+			// So, now, if there's a fire around, it will escape from it
+			if(!escapeFromFire(model))
+			{
+				// The agent cannot see any fire around it
+				// Can he see a door ?
+				List<Door> doors = model.getVisibleDoors(this);
+				if(doors.size() > 0)
+				{
+					System.out.println("I SEE FUCKIN DOORS !!!");
+					// The agent can see at least one door somewhere
+					// Is it inside a room ?
+					Door exitRoom = isTheAgentInRoom(doors);
+					if(exitRoom != null)
+					{
+						System.out.println(this + " I get out from the room");
+						// The agent is inside a room
+						// It has to get out from this room
+						goToComponent(model, exitRoom);
+					}
+					else
+					{
+						System.out.println(this + " I follow direction pointed by the door");
+						// The agent seems to be in the corridor, so it has to follow the door's pointed direction
+						goTo(model, doors.get(0).getDirection());
+						seenDirection = doors.get(0).getDirection();
+					}
+				}
+				else
+				{
+					// The agent cannot see any door around it
+					// Can the agent interact with others ?
+					if(!interactWithOtherAgents(model))
+					{
+						System.out.println(this + " I perform a random move");
+						// If it can't, then, it will perform a random move
+						randomMove(model);
+					}
+				}
+			}
+			else
+			{
+				System.out.println(this + " I escape from the fire");
+			}
+		}
+		
+		model.addToGrid(getListCoord(), this);
+	}
+	
+	
+	
+	
+	/**
+	 * This method tells if the agent is inside a room or in the corridor, according to the given {@link Door} list
+	 * 
+	 * @param doors A list of all {@link Door} that the agent can see
+	 * 
+	 * @return A {@link Door} object corresponding to the door opening the room where the agent is currently, or null if the agent isn't in a room
+	 */
+	private Door isTheAgentInRoom(List<Door> doors)
+	{
+		for(Door door : doors)
+		{
+			if(Utils.getDirectionFromCoordinates(this, door.getListCoord().get(0)) == door.getDoorDirection())
+			{
+				return door;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	
+	/**
+	 * This method makes the agent going away from the fire, using its perception abilities
+	 * It returns a boolean telling if an action has been made
+	 * Priority is given to the vision
+	 * 
+	 * @param model The associated model
+	 * 
+	 * @return A boolean telling if an action has been done
+	 */
+	private boolean escapeFromFire(AgentDataAccessInterface model)
+	{
+		// Returns false if the agent can neither hear nor see any fire
+		if(!model.canSeeTheFire(this) && !model.canHearTheFire(this))
+		{
+			return false;
+		}
+		else
+		{
+			// The agent can see [and/or] hear a fire somewhere
+			// Does he see a fire ?
+			if(model.canSeeTheFire(this))
+			{
+				// The agent sees a fire, so it will escape from it
+				goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestVisibleFire(this).getHearth())));
+				return true;
+			}
+			else if(model.canHearTheFire(this))
+			{
+				// The agent cannot see any fire, but can hear one
+				// So, same, it will escape from it
+				goTo(model, Utils.getOppositeDirection(Utils.getDirectionFromCoordinates(this, model.getClosestAudibleFire(this).getHearth())));
+				return true;
+			}
+			else
+			{
+				// There's no fire around the agent, so he does nothing
+				return false;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * This method analyzes the agents that this agent can see [and/or] hear and may make this agent interacting with the others
+	 * Priority is given to the vision
+	 * 
+	 * @param model The associated model
+	 * 
+	 * @return A boolean telling if an interaction has been made
+	 */
+	private boolean interactWithOtherAgents(AgentDataAccessInterface model)
+	{
+		List<People> audiblePeople = model.getAudiblePeople(this);
+		List<People> visiblePeople = model.getVisiblePeople(this);
+		
+		// Can the agent hear [or/and] see someone else ?
+		if(audiblePeople.size() <= 0 && visiblePeople.size() <= 0)
+		{
+			// It cannot see no one, so it does nothing
+			return false;
+		}
+		else
+		{
+			// Can the agent see someone else ?
+			if(visiblePeople.size() > 0)
+			{
+				makeDecisionWithOthers(model, visiblePeople);
+				return true;
+			}
+			else if(audiblePeople.size() > 0)
+			{
+				makeDecisionWithOthers(model, audiblePeople);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	/**
+	 * This method takes a decision for this agent considering the given list of other agents
+	 * It will analyze all of their charisma level, in order to decide if this agent will follow others or take a self decision
+	 * 
+	 * @param model The associated model
+	 * @param others The other agents
+	 */
+	private void makeDecisionWithOthers(AgentDataAccessInterface model, List<People> others)
+	{
+		People bestCharismaAgent = getMostCharismaticPeople(others);
+		if(bestCharismaAgent == null || bestCharismaAgent.getCharismaLevel() <= this.charismaLevel)
+		{
+			// This agent is the most charismatic agent
+			// Does this agent remember about its last followed direction ?
+			if(seenDirection != Direction.UNKNOWN)
+			{
+				System.out.println(this + " I follow my last direction");
+				// The agent follows it last known direction
+				goTo(model, seenDirection);
+			}
+			else
+			{
+				System.out.println(this + " I perform a random move [others considerated]");
+				// The agent doesn't remember about any last direction
+				// It will perform a random move
+				randomMove(model);
+			}
+		}
+		else
+		{
+			System.out.println(this + ": Follow somebody");
+			// bestCharismaAgent is most charismatic than this agent
+			// So this agent will follow it
+			followPeople(model, bestCharismaAgent);
 		}
 	}
 	

@@ -263,7 +263,8 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	{
 		List<Door> visibleDoors = new ArrayList<Door>();
 		for (Int2D coord : ppl.getVisionField(this)) {
-			Object obj = grid.get(coord.x, coord.y);
+			// Object obj = grid.get(coord.x, coord.y);
+			Object obj = hiddenGrid.get(coord.x, coord.y);
 			if (obj instanceof Door) visibleDoors.add((Door) obj);
 		}
 		return visibleDoors;
