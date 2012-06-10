@@ -401,22 +401,34 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	public boolean canMakeOneStepFront(People ppl)
 	{
 		switch (ppl.direction) {
-		case NORTH:
-			if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null)
-				return true;
-			break;
-		case SOUTH:
-			if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null)
-				return true;
-			break;
-		case EAST:
-			if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null)
-				return true;
-			break;
-		case WEST:
-			if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null)
-				return true;
-			break;
+			case NORTH: {
+				Int2D noseL = new Int2D(ppl.eyeX, ppl.eyeY-1), noseR = new Int2D(ppl.eyeX+1, ppl.eyeY-1);
+				if (!Utils.isCoordInGrid(noseL) || !Utils.isCoordInGrid(noseR)) break;
+				if (grid.get(ppl.eyeX, ppl.eyeY-1) == null && grid.get(ppl.eyeX+1, ppl.eyeY-1) == null)
+					return true;
+				break;
+			}
+			case SOUTH: {
+				Int2D noseL = new Int2D(ppl.eyeX, ppl.eyeY+1), noseR = new Int2D(ppl.eyeX-1, ppl.eyeY+1);
+				if (!Utils.isCoordInGrid(noseL) || !Utils.isCoordInGrid(noseR)) break;
+				if (grid.get(ppl.eyeX, ppl.eyeY+1) == null && grid.get(ppl.eyeX-1, ppl.eyeY+1) == null)
+					return true;
+				break;
+			}
+			case EAST: {
+				Int2D noseL = new Int2D(ppl.eyeX+1, ppl.eyeY), noseR = new Int2D(ppl.eyeX+1, ppl.eyeY+1);
+				if (!Utils.isCoordInGrid(noseL) || !Utils.isCoordInGrid(noseR)) break;
+				if (grid.get(ppl.eyeX+1, ppl.eyeY) == null && grid.get(ppl.eyeX+1, ppl.eyeY+1) == null)
+					return true;
+				break;
+			}
+			case WEST: {
+				Int2D noseL = new Int2D(ppl.eyeX-1, ppl.eyeY), noseR = new Int2D(ppl.eyeX-1, ppl.eyeY-1);
+				if (!Utils.isCoordInGrid(noseL) || !Utils.isCoordInGrid(noseR)) break;
+				if (grid.get(ppl.eyeX-1, ppl.eyeY) == null && grid.get(ppl.eyeX-1, ppl.eyeY-1) == null)
+					return true;
+				break;
+			}
 		}
 		ppl.isBlocked = true;
 		return false;
