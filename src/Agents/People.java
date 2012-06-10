@@ -2,13 +2,11 @@ package Agents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
-import Components.Arrow;
 import Components.Exit;
 import Components.Shape;
 import Model.AgentDataAccessInterface;
@@ -21,7 +19,6 @@ import Util.Utils;
 @SuppressWarnings("serial")
 public class People implements Steppable, Oriented2D
 {
-
 	// Geographic coordinates
 	public int earX;
 	public int earY;
@@ -31,22 +28,26 @@ public class People implements Steppable, Oriented2D
 	private Direction seenDirection;
 	
 	// Status
+	public boolean isBlocked;
 	private boolean isWarned;
 	
 	// Abilities
 	private int visionAbility;
+	private int hearingAbility;
 	private int screamingAbility;
+	
+	// Level
 	private int panicLevel;
 	private int charismaLevel;
 	private int autonomyLevel;
 	private int speedLevel;
 	
+	// Perception fields
+	private List<Int2D> visionField = new ArrayList<Int2D>();
+	private boolean visionComputed = false;
+	private List<Int2D> hearingField = new ArrayList<Int2D>();
+	private boolean hearingComputed = false;
 	
-	public boolean isBlocked;
-	
-	/**
-	 * Default constructor
-	 */
 	public People(String earX, String earY, String eyeX, String eyeY)
 	{	
 		this.earX = Integer.parseInt(earX);
@@ -57,19 +58,139 @@ public class People implements Steppable, Oriented2D
 		
 		seenDirection = Direction.UNKNOWN;
 		
+		isBlocked = false;
 		isWarned = false;
 		
-		// Generates abilities' rate
+		// Generates abilities rates
 		visionAbility = getRandomAbility();
+		hearingAbility = getRandomAbility();
 		screamingAbility = getRandomAbility();
+		
+		// Generates levels rates
 		panicLevel = getRandomAbility();
 		charismaLevel = getRandomAbility();
 		autonomyLevel = getRandomAbility();
 		speedLevel = 1;
+	}
+	
+	public List<Int2D> getListCoord()
+	{
+		List<Int2D> coords = new ArrayList<Int2D>();
+		coords.add(new Int2D(eyeX, eyeY));
+		coords.add(new Int2D(earX, earY));
+			
+		switch (direction) {
+		case NORTH:
+			coords.add(new Int2D(eyeX+1, eyeY));
+			coords.add(new Int2D(earX+1, earY));
+			break;
+		case SOUTH:
+			coords.add(new Int2D(eyeX-1, eyeY));
+			coords.add(new Int2D(earX-1, earY));
+			break;
+		case EAST:
+			coords.add(new Int2D(eyeX, eyeY+1));
+			coords.add(new Int2D(earX, earY+1));
+			break;
+		case WEST:
+			coords.add(new Int2D(eyeX, eyeY-1));
+			coords.add(new Int2D(earX, earY-1));
+			break;
+		case UNKNOWN:
+			break;			
+		}
 		
-		isBlocked = false;
+		return coords;
+	}
+	
+	private void computeDirection()
+	{
+		if (eyeX == earX) {
+			if (eyeY > earY) direction =  Direction.SOUTH;
+			else direction =  Direction.NORTH;
+		} else if (eyeY == earY) {
+			if (eyeX > earX) direction = Direction.EAST;
+			else direction = Direction.WEST;
+		} else {
+			direction =  Direction.UNKNOWN;
+		}
 	}
 
+	@Override
+	public double orientation2D()
+	{
+		if (direction.equals(Direction.NORTH)) return 3*Math.PI/2;
+		if (direction.equals(Direction.SOUTH)) return Math.PI/2;
+		if (direction.equals(Direction.EAST)) return 0;
+		if (direction.equals(Direction.WEST)) return Math.PI;	
+		return 0;
+	}
+	
+	private void turnClockwise()
+	{	
+		earX = eyeX;
+		earY = eyeY;
+		
+		if (direction.equals(Direction.NORTH)) eyeX++;
+		else if (direction.equals(Direction.SOUTH))	eyeX--;
+		else if (direction.equals(Direction.EAST)) eyeY++;
+		else if (direction.equals(Direction.WEST)) eyeY--;
+		
+		computeDirection();
+		visionComputed = false;
+	}
+	
+	private void turnCounterclockwise()
+	{
+		eyeX = earX;
+		eyeY = earY;
+		
+		if (direction.equals(Direction.NORTH)) earX++;
+		else if (direction.equals(Direction.SOUTH))	earX--;
+		else if (direction.equals(Direction.EAST)) earY++;
+		else if (direction.equals(Direction.WEST)) earY--;
+		
+		computeDirection();
+		visionComputed = false;
+	}
+	
+	private void turnTo(Direction newDir)
+	{	
+		if (direction != newDir) {
+			if ((direction == Direction.NORTH && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.WEST) ||
+					(direction == Direction.WEST && newDir == Direction.NORTH))	{
+				turnClockwise();
+			} else if ((direction == Direction.NORTH && newDir == Direction.WEST) ||
+					(direction == Direction.WEST && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.NORTH)) {
+				turnCounterclockwise();
+			} else if ((direction == Direction.NORTH && newDir == Direction.SOUTH) ||
+					(direction == Direction.SOUTH && newDir == Direction.NORTH) ||
+					(direction == Direction.WEST && newDir == Direction.EAST) ||
+					(direction == Direction.EAST && newDir == Direction.WEST)) {
+				turnClockwise();
+				turnClockwise();
+			}
+		}
+	}
+	
+	private void oneStepFront()
+	{
+		earX = eyeX;
+		earY = eyeY;
+		
+		if (direction.equals(Direction.NORTH)) eyeY--;
+		else if (direction.equals(Direction.SOUTH))	eyeY++;
+		else if (direction.equals(Direction.EAST)) eyeX++;
+		else if (direction.equals(Direction.WEST)) eyeX--;
+		
+		visionComputed = false;
+		hearingComputed = false;
+	}
+	
 	
 	/**
 	 * It generates a random ability's rate, which can take value from 1 to 10 (both included)
@@ -78,62 +199,45 @@ public class People implements Steppable, Oriented2D
 	 */
 	private int getRandomAbility()
 	{
-		return 10;
+		return 5;
 		//Random generator = new Random();
 		//return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
 	}
 	
-	
-	/**
-	 * Simple getter for the agent's vision ability
-	 * 
-	 * @return The agent's vision ability
-	 */
 	public int getVisionAbility()
 	{
 		return visionAbility;
 	}
 	
+	public int getHearingAbility()
+	{
+		return hearingAbility;
+	}
+	
+	public int getScreamingAbility()
+	{
+		return screamingAbility;
+	}
 	
 	public int getPanicLevel()
 	{
 		return panicLevel;
 	}
 	
-	
-	public int getScreamsAbility()
+	public int getCharismaLevel()
 	{
-		return screamingAbility;
+		return charismaLevel;
 	}
-	
-	
+		
 	public int getAutonomyLevel()
 	{
 		return autonomyLevel;
 	}
 	
-	
-	/**
-	 * It gives is charisma level
-	 * 
-	 * @return Its charisma level
-	 */
-	public int getCharismaLevel()
-	{
-		return charismaLevel;
-	}
-
-	
-	/**
-	 * It gives an integer which stands for the speed of the agent
-	 * 
-	 * @return The agent's speed ability
-	 */
 	public int getSpeedLevel()
 	{
 		return speedLevel;
 	}
-	
 	
 	/**
 	 * Tells if this people is in warn state or not
@@ -145,6 +249,23 @@ public class People implements Steppable, Oriented2D
 		return isWarned;
 	}
 	
+	public List<Int2D> getVisionField(AgentDataAccessInterface model)
+	{
+		if (!visionComputed) {
+			visionField = model.getVisionField(this);
+			visionComputed = true;
+		}
+		return visionField;
+	}
+	
+	public List<Int2D> getHearingField(AgentDataAccessInterface model)
+	{
+		if (!hearingComputed) {
+			hearingField = model.getHearingField(this);
+			hearingComputed = true;
+		}
+		return hearingField;
+	}
 	
 	@Override
 	public void step(SimState state)
@@ -182,7 +303,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeFire(this)) {
+		if (model.canSeeTheFire(this)) {
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);
@@ -312,13 +433,14 @@ public class People implements Steppable, Oriented2D
 	private void move(AgentDataAccessInterface model)
 	{
 		model.removeFromGrid(getListCoord());
+		//model.removeFromGrid(hearingField);
 		
 		if (isBlocked)
 		{
 			System.out.println("I was blocked, I have to get unblocked");
 			isBlocked = false;
 			
-			ArrayList<People> seeablePeople = model.getPeopleAround(this);
+			List<People> seeablePeople = model.getVisiblePeople(this);
 			if(seeablePeople.size() <= 0)
 			{
 				randomMove(model);
@@ -335,6 +457,7 @@ public class People implements Steppable, Oriented2D
 		}
 		
 		model.addToGrid(getListCoord(), this);
+		//model.addToGridIfEmpty(getHearingField(model), new Vision());
 	}
 	
 	
@@ -354,72 +477,38 @@ public class People implements Steppable, Oriented2D
 		}
 		else
 		{
-			// No near exit
-			Arrow arrow = model.canSeeAnArrow(this);
-			if (arrow != null)
+			if (seenDirection == Direction.UNKNOWN)
 			{
-				seenDirection = arrow.getDirection();
-						
-				// There's a seeable arrow
-				if (model.getShapeDirectionFromPeople(this, arrow) == direction)
+				// There's no arrow around
+				// It has to either perform a random move, or to get out from a room
+				if (panicLevel >= Constants.MAX_PANIC)
 				{
-					// The arrow is in front of the agent
-					if (model.isNearArrow(this, arrow) && model.canMakeOneStepTo(arrow.getDirection(), this))
+					// the agent has a so much high level of panic that it can't think correctly and perform a random move
+					randomMove(model);
+				}
+				else
+				{	
+					List<People> seeablePeople = model.getVisiblePeople(this);
+					
+					People bestCharisma = getMostCharismaticPeople(seeablePeople);
+					
+					if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
 					{
-						System.out.println("I see an arrow in front of me, and I follow its pointed direction");
-						// I can go to the direction pointed by the arrow
-						goTo(model, arrow.getDirection());
+						System.out.println("I perform a random move");
+						// It performs a random move, or try to get out from a room if it's located in it
+						randomMove(model);
 					}
 					else
 					{
-						System.out.println("I see an arrow in front of me, but I have to get closer to it");
-						// The agent have to get a bit closer to the arrow
-						goToComponentByOneStep(model, arrow);
+						// Following the agent who has the best charisma
+						followPeople(model, bestCharisma);
 					}
-				}
-				else
-				{
-					System.out.println("I see an arrow somewhere, and I follow its pointed direction");
-					// The arrow is somewhere which isn't in front of the agent
-					direction = arrow.getDirection();
-					goTo(model, direction);
 				}
 			}
 			else
 			{
-				if (seenDirection == Direction.UNKNOWN)
-				{
-					// There's no arrow around
-					// It has to either perform a random move, or to get out from a room
-					if (panicLevel >= Constants.MAX_PANIC)
-					{
-						// the agent has a so much high level of panic that it can't think correctly and perform a random move
-						randomMove(model);
-					}
-					else
-					{	
-						ArrayList<People> seeablePeople = model.getPeopleAround(this);
-						
-						People bestCharisma = getMostCharismaticPeople(seeablePeople);
-						
-						if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
-						{
-							System.out.println("I perform a random move");
-							// It performs a random move, or try to get out from a room if it's located in it
-							randomMove(model);
-						}
-						else
-						{
-							// Following the agent who has the best charisma
-							followPeople(model, bestCharisma);
-						}
-					}
-				}
-				else
-				{
-					System.out.println("I go to my last seen direction: " + seenDirection);
-					goTo(model, seenDirection);
-				}
+				System.out.println("I go to my last seen direction: " + seenDirection);
+				goTo(model, seenDirection);
 			}
 		}
 	}
@@ -481,7 +570,7 @@ public class People implements Steppable, Oriented2D
 	 * 
 	 * @return It returns the people who has the best charisma level. It can return null if people is empty or null
 	 */
-	private People getMostCharismaticPeople(ArrayList<People> peopleList)
+	private People getMostCharismaticPeople(List<People> peopleList)
 	{
 		if (peopleList == null || peopleList.size() <= 0) {
 			return null;
@@ -504,7 +593,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void randomMove(AgentDataAccessInterface model)
 	{
-		Int2D firePosition = model.getFirePosition();
+		Int2D firePosition = new Int2D(0, 0);
 		List<Direction> decisions = new ArrayList<Direction>();
 				
 		// Guess possibles moves according to the fire's position
@@ -605,8 +694,7 @@ public class People implements Steppable, Oriented2D
 			else speedLevel = Constants.AGENT_VERY_HIGH_SPEED;
 		}
 	}
-	
-	
+		
 	/**
 	 * It defines what this people should do when he's hearing screams
 	 */
@@ -616,178 +704,12 @@ public class People implements Steppable, Oriented2D
 		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
 	
-
 	@Override
 	public String toString()
 	{
-		return "[earX=" + earX + "; earY=" + earY + "; eyeX=" + eyeX
-				+ "; eyeY=" + eyeY + "; isWarned=" + isWarned
-				+ "; visionAbility=" + visionAbility + "; hearingAbility="
-				+ screamingAbility + ", panicLevel=" + panicLevel
-				+ "; charismaLevel=" + charismaLevel + "; autonomyLevel="
-				+ autonomyLevel + "; speedAbility=" + speedLevel + "]";
-	}
-
+		return "[eyeX = " + eyeX + "; eyeY = " + eyeY + "; earX = " + earX + "; earY = " + earY + "; isWarned = " + isWarned
+				+ "; visionAbility = " + visionAbility + "; hearingAbility = " + screamingAbility + ", panicLevel = " + panicLevel
+				+ "; charismaLevel = " + charismaLevel + "; autonomyLevel = " + autonomyLevel + "; speedAbility = " + speedLevel + "]";
+	}	
 	
-	public List<Int2D> getListCoord()
-	{
-		List<Int2D> coords = new ArrayList<Int2D>();
-		coords.add(new Int2D(eyeX, eyeY));
-		coords.add(new Int2D(earX, earY));
-			
-		switch (direction) {
-		case NORTH:
-			coords.add(new Int2D(eyeX+1, eyeY));
-			coords.add(new Int2D(earX+1, earY));
-			break;
-		case SOUTH:
-			coords.add(new Int2D(eyeX-1, eyeY));
-			coords.add(new Int2D(earX-1, earY));
-			break;
-		case EAST:
-			coords.add(new Int2D(eyeX, eyeY+1));
-			coords.add(new Int2D(earX, earY+1));
-			break;
-		case WEST:
-			coords.add(new Int2D(eyeX, eyeY-1));
-			coords.add(new Int2D(earX, earY-1));
-			break;
-		case UNKNOWN:
-			break;			
-		}
-		
-		return coords;
-	}
-	
-	
-	private void computeDirection()
-	{
-		if (eyeX == earX) {
-			if (eyeY > earY) direction =  Direction.SOUTH;
-			else direction =  Direction.NORTH;
-		} else if (eyeY == earY) {
-			if (eyeX > earX) direction = Direction.EAST;
-			else direction = Direction.WEST;
-		} else {
-			direction =  Direction.UNKNOWN;
-		}
-	}
-
-	
-	@Override
-	public double orientation2D()
-	{	
-		switch (direction) {
-		case NORTH:
-			return 3*Math.PI/2;
-		case SOUTH:
-			return Math.PI/2;
-		case EAST:
-			return 0;
-		case WEST:
-			return Math.PI;
-		}
-		
-		return 0;
-	}
-	
-	
-	private void turnClockwise()
-	{	
-		earX = eyeX;
-		earY = eyeY;
-		
-		switch (direction) {
-		case NORTH:
-			eyeX++;
-			break;
-		case SOUTH:
-			eyeX--;
-			break;
-		case EAST:
-			eyeY++;
-			break;
-		case WEST:
-			eyeY--;
-			break;
-		}
-		
-		computeDirection();
-	}
-	
-	
-	private void turnCounterclockwise()
-	{
-		eyeX = earX;
-		eyeY = earY;
-		
-		switch (direction) {
-		case NORTH:
-			earX++;
-			break;
-		case SOUTH:
-			earX--;
-			break;
-		case EAST:
-			earY++;
-			break;
-		case WEST:
-			earY--;
-			break;
-		}
-		
-		computeDirection();
-	}
-	
-	
-	private void turnTo(Direction newDir)
-	{	
-		if (direction != newDir)
-		{
-			if ((direction == Direction.NORTH && newDir == Direction.EAST) ||
-					(direction == Direction.EAST && newDir == Direction.SOUTH) ||
-					(direction == Direction.SOUTH && newDir == Direction.WEST) ||
-					(direction == Direction.WEST && newDir == Direction.NORTH))
-			{
-				turnClockwise();
-			}
-			else if ((direction == Direction.NORTH && newDir == Direction.WEST) ||
-					(direction == Direction.WEST && newDir == Direction.SOUTH) ||
-					(direction == Direction.SOUTH && newDir == Direction.EAST) ||
-					(direction == Direction.EAST && newDir == Direction.NORTH))
-			{
-				turnCounterclockwise();
-			}
-			else if ((direction == Direction.NORTH && newDir == Direction.SOUTH) ||
-					(direction == Direction.SOUTH && newDir == Direction.NORTH) ||
-					(direction == Direction.WEST && newDir == Direction.EAST) ||
-					(direction == Direction.EAST && newDir == Direction.WEST))
-			{
-				turnClockwise();
-				turnClockwise();
-			}
-		}
-	}
-	
-	
-	private void oneStepFront()
-	{
-		earX = eyeX;
-		earY = eyeY;
-		
-		switch (direction) {
-		case NORTH:
-			eyeY--;
-			break;
-		case SOUTH:
-			eyeY++;
-			break;
-		case EAST:
-			eyeX++;
-			break;
-		case WEST:
-			eyeX--;
-			break;
-		}
-	}
 }

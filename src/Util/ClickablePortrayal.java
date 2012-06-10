@@ -27,7 +27,7 @@ public class ClickablePortrayal extends RectanglePortrayal2D {
 					Model model = (Model) guistate.state;
 					model.removeSpace();
 					Int2D fire = new Int2D(event.getX()/Constants.GRID_TO_FRAME, event.getY()/Constants.GRID_TO_FRAME);
-					model.putFire(fire);
+					model.addFire(fire);
 				}
 			}
 		}

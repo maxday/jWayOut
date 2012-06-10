@@ -38,16 +38,16 @@ public class Fire implements Steppable {
 			
 			switch (dir) {
 			case NORTH:
-				model.putFire(new Int2D(hearth.x, hearth.y-1));
+				model.addFire(new Int2D(hearth.x, hearth.y-1));
 				break;
 			case SOUTH:
-				model.putFire(new Int2D(hearth.x, hearth.y+1));
+				model.addFire(new Int2D(hearth.x, hearth.y+1));
 				break;
 			case EAST:
-				model.putFire(new Int2D(hearth.x+1, hearth.y));
+				model.addFire(new Int2D(hearth.x+1, hearth.y));
 				break;
 			case WEST:
-				model.putFire(new Int2D(hearth.x-1, hearth.y));
+				model.addFire(new Int2D(hearth.x-1, hearth.y));
 				break;
 			}
 		}

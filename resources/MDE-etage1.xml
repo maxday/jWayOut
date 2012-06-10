@@ -407,26 +407,32 @@
 			<eye x="99" y="38" />
 			<ear x="99" y="39" />
 		</people>
+		
 		<people>
 			<eye x="39" y="38" />
 			<ear x="39" y="39" />
 		</people>
+		
 		<people>
 			<eye x="69" y="58" />
 			<ear x="69" y="59" />
 		</people>
+		
 		<people>
 			<eye x="69" y="8" />
 			<ear x="69" y="9" />
 		</people>
+		
 		<people>
 			<eye x="69" y="18" />
 			<ear x="69" y="19" />
 		</people>
+		
 		<people>
 			<eye x="39" y="18" />
 			<ear x="39" y="19" />
 		</people>
+		
 		<people>
 			<eye x="99" y="18" />
 			<ear x="99" y="19" />
