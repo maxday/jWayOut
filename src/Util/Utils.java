@@ -100,4 +100,43 @@ public class Utils
 		}
 	}
 	
+	
+	
+	/**
+	 * This method tells if the two given {@link Direction} are opposite
+	 * 
+	 * @param d1 The first {@link Direction}
+	 * @param d2 The second {@link Direction}
+	 * 
+	 * @return A boolean telling if the two given directions are opposite
+	 */
+	static public boolean areDirectionsOpposite(Direction d1, Direction d2)
+	{
+		switch(d1)
+		{
+		case NORTH:
+			if(d2 == Direction.SOUTH)
+				return true;
+			else
+				return false;
+		case SOUTH:
+			if(d2 == Direction.NORTH)
+				return true;
+			else
+				return false;
+		case EAST:
+			if(d2 == Direction.WEST)
+				return true;
+			else
+				return false;
+		case WEST:
+			if(d2 == Direction.EAST)
+				return true;
+			else
+				return false;
+		default:
+			return false;
+		}
+	}
+	
 }

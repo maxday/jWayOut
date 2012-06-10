@@ -323,7 +323,6 @@ public class People implements Steppable, Oriented2D
 		Exit exit = model.canSeeAnExit(this);
 		if(exit != null)
 		{
-			System.out.println(this + " I see an exit, I go to it");
 			// The agent can see an exit, so it goes to its direction
 			goToComponent(model, exit);
 		}
@@ -335,38 +334,12 @@ public class People implements Steppable, Oriented2D
 			{
 				// The agent cannot see any fire around it
 				// Can he see a door ?
-				List<Door> doors = model.getVisibleDoors(this);
+				List<Door> doors = doorFilter(model.getVisibleDoors(this));
 				if(doors.size() > 0)
 				{
-					System.out.println("I SEE FUCKIN DOORS !!!");
-					// The agent can see at least one door somewhere
-					// Is it inside a room ?
-					Door exitRoom = isTheAgentInRoom(doors);
-					if(exitRoom != null)
-					{
-						// The agent is inside a room
-						// It has to get out from this room
-						// Can it go to the door's direction directly ?
-						if(model.canMakeOneStepTo(Utils.getDirectionFromCoordinates(this, exitRoom.getListCoord().get(0)), this))
-						{
-							System.out.println(this + " I get out from the room");
-							// Yes it can
-							goToComponent(model, exitRoom);
-						}
-						else
-						{
-							System.out.println(this + " I get closer to the exit door");
-							// The agent has to get closer to the door
-							goToComponentByOneStep(model, exitRoom);
-						}
-					}
-					else
-					{
-						System.out.println(this + " I follow direction pointed by the door");
-						// The agent seems to be in the corridor, so it has to follow the door's pointed direction
-						goTo(model, doors.get(0).getDirection());
-						seenDirection = doors.get(0).getDirection();
-					}
+					// The agent can see a door at least
+					seenDirection = doors.get(0).getDoorDirection();
+					goTo(model, doors.get(0).getDoorDirection());
 				}
 				else
 				{
@@ -374,19 +347,44 @@ public class People implements Steppable, Oriented2D
 					// Can the agent interact with others ?
 					if(!interactWithOtherAgents(model))
 					{
-						System.out.println(this + " I perform a random move");
 						// If it can't, then, it will perform a random move
 						randomMove(model);
 					}
 				}
 			}
-			else
-			{
-				System.out.println(this + " I escape from the fire");
-			}
 		}
 		
 		model.addToGrid(getListCoord(), this);
+	}
+	
+	
+	
+	/**
+	 * This method filters a given list of {@link Door} in order to take off all "useless" {@link Door}
+	 * 
+	 * @param doors The original list of {@link Door}
+	 * 
+	 * @return The filtered list of {@link Door}
+	 */
+	private List<Door> doorFilter(List<Door> doors)
+	{
+		if(doors.size() > 0)
+		{
+			// First, let's filter the "good" doors, considering their direction
+			// for(Door door : doors)
+			for(int i = 0; i < doors.size(); i++)
+			{
+				for(Int2D c : doors.get(i).getListCoord())
+				{
+					if(Utils.areDirectionsOpposite(doors.get(i).getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
+					{
+						doors.remove(doors.get(i));
+					}
+				}
+			}
+		}
+		
+		return doors;
 	}
 	
 	
@@ -403,9 +401,12 @@ public class People implements Steppable, Oriented2D
 	{
 		for(Door door : doors)
 		{
-			if(Utils.getDirectionFromCoordinates(this, door.getListCoord().get(0)) == door.getDoorDirection())
+			for(Int2D coord : door.getListCoord())
 			{
-				return door;
+				if(Utils.getDirectionFromCoordinates(this, coord) == door.getDoorDirection())
+				{
+					return door;
+				}
 			}
 		}
 		
@@ -518,7 +519,6 @@ public class People implements Steppable, Oriented2D
 		}
 		else
 		{
-			System.out.println(this + ": Follow somebody");
 			// bestCharismaAgent is most charismatic than this agent
 			// So this agent will follow it
 			followPeople(model, bestCharismaAgent);
