@@ -10,7 +10,6 @@ import sim.util.Int2D;
 import Components.Exit;
 import Components.Shape;
 import Model.AgentDataAccessInterface;
-import Model.Model;
 import Util.Constants;
 import Util.Constants.Direction;
 import Util.Utils;
@@ -252,7 +251,7 @@ public class People implements Steppable, Oriented2D
 	public List<Int2D> getVisionField(AgentDataAccessInterface model)
 	{
 		if (!visionComputed) {
-			visionField = model.getVisionField(this);
+			visionField = model.computeVisionField(this);
 			visionComputed = true;
 		}
 		return visionField;
@@ -261,7 +260,7 @@ public class People implements Steppable, Oriented2D
 	public List<Int2D> getHearingField(AgentDataAccessInterface model)
 	{
 		if (!hearingComputed) {
-			hearingField = model.getHearingField(this);
+			hearingField = model.computeHearingField(this);
 			hearingComputed = true;
 		}
 		return hearingField;
@@ -302,7 +301,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeAFire(this) != null) {
+		if (model.canSeeTheFire(this)) {
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);
@@ -480,7 +479,10 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void randomMove(AgentDataAccessInterface model)
 	{
-		Int2D firePosition = new Int2D(0, 0);
+		Int2D firePosition = null;
+		Fire fire =  model.getClosestAudibleFire(this);
+		if (fire == null) firePosition = new Int2D(eyeX, eyeY);
+		else firePosition = fire.getHearth();
 		List<Direction> decisions = new ArrayList<Direction>();
 				
 		// Guess possibles moves according to the fire's position

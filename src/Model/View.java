@@ -104,9 +104,9 @@ public class View extends GUIState {
 		return new OrientedPortrayal2D(r, Color.BLACK);
 	}
 	
-	private Portrayal getVisionPortrayal() {
+	/*private Portrayal getVisionPortrayal() {
 		return new RectanglePortrayal2D(Color.GREEN);
-	}
+	}*/
 	
 	private Portrayal getFirePortrayal() {
 		return new ImagePortrayal2D(new ImageIcon("resources/fire.png"));

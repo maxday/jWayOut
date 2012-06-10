@@ -21,8 +21,11 @@ public interface AgentDataAccessInterface
 	 * @param ppl The concerned people
 	 * @return A boolean telling if the given people can see the fire or not
 	 */
-	public Fire canSeeAFire(People ppl);
-	public Fire canHearAFire(People ppl);	
+	public Fire getClosestVisibleFire(People ppl);
+	public Fire getClosestAudibleFire(People ppl);
+	
+	public boolean canSeeTheFire(People ppl);
+	public boolean canHearTheFire(People ppl);
 	
 	/**
 	 * This method is invoked when a people is screaming
@@ -32,8 +35,8 @@ public interface AgentDataAccessInterface
 	 */
 	public void someoneScreams(People ppl);
 	
-	public List<Int2D> getVisionField(People ppl);
-	public List<Int2D> getHearingField(People ppl);	
+	public List<Int2D> computeVisionField(People ppl);
+	public List<Int2D> computeHearingField(People ppl);	
 	
 	public boolean canMakeOneStepFront(People ppl);
 	

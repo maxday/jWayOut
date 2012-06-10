@@ -165,18 +165,84 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
+	
 	/*
-	 * Methods to represent People perception (vision & hearing)
+	 * Methods to represent People visual perception (vision)
 	 */
 	
 	@Override
-	public List<Int2D> getVisionField(People ppl)
+	public List<Int2D> computeVisionField(People ppl)
 	{
 		return new ArrayList<Int2D>();
 	}
 	
 	@Override
-	public List<Int2D> getHearingField(People ppl)
+	public List<People> getVisiblePeople(People ppl)
+	{
+		List<People> visiblePeople = new ArrayList<People>();
+		for (Int2D coord : ppl.getVisionField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if ((obj instanceof People) && (obj != ppl)) visiblePeople.add((People) obj);
+		}
+		return visiblePeople;
+	}
+	
+	@Override
+	public List<Door> getVisibleDoors(People ppl)
+	{
+		List<Door> visibleDoors = new ArrayList<Door>();
+		for (Int2D coord : ppl.getVisionField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if (obj instanceof Door) visibleDoors.add((Door) obj);
+		}
+		return visibleDoors;
+	}
+	
+	@Override
+	public boolean canSeeTheFire(People ppl)
+	{
+		for (Int2D coord : ppl.getVisionField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if (obj instanceof Fire) return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public Fire getClosestVisibleFire(People ppl)
+	{
+		Int2D eye = new Int2D(ppl.eyeX, ppl.eyeY);
+		Fire closestFire = null;
+		Int2D closestPos = null;
+		for (Int2D coord : ppl.getVisionField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if (obj instanceof Fire) {
+				if (closestFire == null || coord.distance(eye) < closestPos.distance(eye)) {
+					closestFire = (Fire) obj;
+					closestPos = coord;
+				}
+			}
+		}
+		return closestFire;
+	}
+	
+	@Override
+	public Exit canSeeAnExit(People ppl)
+	{
+		for (Int2D coord : ppl.getVisionField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if (obj instanceof Exit) return ((Exit) obj);
+		}
+		return null;
+	}
+	
+	
+	/*
+	 * Methods to represent People aural perception (hearing)
+	 */
+	
+	@Override
+	public List<Int2D> computeHearingField(People ppl)
 	{
 		int hearingAbl = ppl.getHearingAbility();
 		List<Int2D> hearingField = new ArrayList<Int2D>();
@@ -214,49 +280,19 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		return hearingField;
 	}
-	
+
 	@Override
-	public List<People> getVisiblePeople(People ppl)
+	public boolean canHearTheFire(People ppl)
 	{
-		List<People> visiblePeople = new ArrayList<People>();
-		for (Int2D coord : ppl.getVisionField(this)) {
+		for (Int2D coord : ppl.getHearingField(this)) {
 			Object obj = grid.get(coord.x, coord.y);
-			if ((obj instanceof People) && (obj != ppl)) visiblePeople.add((People) obj);
+			if (obj instanceof Fire) return true;
 		}
-		return visiblePeople;
+		return false;
 	}
 	
 	@Override
-	public List<Door> getVisibleDoors(People ppl)
-	{
-		List<Door> visibleDoors = new ArrayList<Door>();
-		for (Int2D coord : ppl.getVisionField(this)) {
-			Object obj = grid.get(coord.x, coord.y);
-			if (obj instanceof Door) visibleDoors.add((Door) obj);
-		}
-		return visibleDoors;
-	}
-	
-	@Override
-	public Fire canSeeAFire(People ppl)
-	{
-		Int2D eye = new Int2D(ppl.eyeX, ppl.eyeY);
-		Fire closestFire = null;
-		Int2D closestPos = null;
-		for (Int2D coord : ppl.getVisionField(this)) {
-			Object obj = grid.get(coord.x, coord.y);
-			if (obj instanceof Fire) {
-				if (closestFire == null || coord.distance(eye) < closestPos.distance(eye)) {
-					closestFire = (Fire) obj;
-					closestPos = coord;
-				}
-			}
-		}
-		return closestFire;
-	}
-	
-	@Override
-	public Fire canHearAFire(People ppl)
+	public Fire getClosestAudibleFire(People ppl)
 	{
 		Int2D ear = new Int2D(ppl.earX, ppl.earY);
 		Fire closestFire = null;
@@ -273,16 +309,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		return closestFire;		
 	}
 
-	@Override
-	public Exit canSeeAnExit(People ppl)
-	{
-		for (Int2D coord : ppl.getVisionField(this)) {
-			Object obj = grid.get(coord.x, coord.y);
-			if (obj instanceof Exit) return ((Exit) obj);
-		}
-		return null;
-	}
-
+	
 	/*
 	 * Methods to make People interact with its environment	
 	 */
@@ -369,7 +396,7 @@ public class Model extends SimState implements AgentDataAccessInterface {
 			Object obj = grid.get(coord.x, coord.y);
 			if (obj instanceof People) {
 				People people = (People) obj;
-				if (getHearingField(people).contains(coord)) people.hearScream();
+				if (people.getHearingField(this).contains(coord)) people.hearScream();
 			}
 		}
 	}
