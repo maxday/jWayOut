@@ -29,7 +29,8 @@ public class People implements Steppable, Oriented2D
 	public int eyeX;
 	public int eyeY;
 	public Direction direction;
-	private Direction seenDirection;
+	public Direction seenDirection;
+	public int numOfFails;
 	
 	// Status
 	public boolean isBlocked;
@@ -63,6 +64,7 @@ public class People implements Steppable, Oriented2D
 		computeDirection();
 		
 		seenDirection = Direction.UNKNOWN;
+		numOfFails = 0;
 		
 		isOut = false;
 		
@@ -332,6 +334,16 @@ public class People implements Steppable, Oriented2D
 		{
 			// randomMoveOneStep(model);
 			// isBlocked = false;
+			if(seenDirection != Direction.UNKNOWN)
+			{
+				numOfFails++;
+			}
+			
+			if(numOfFails >= 10)
+			{
+				seenDirection = Direction.UNKNOWN;
+				numOfFails = 0;
+			}
 			
 			Model m = (Model) model;
 			if((direction == Direction.NORTH && m.getGrid().get(eyeX, eyeY-1) == null) || (direction == Direction.SOUTH && m.getGrid().get(eyeX-1, eyeY+1) == null))
