@@ -56,6 +56,7 @@ public interface AgentDataAccessInterface
 	 * @return A list of all seeable people
 	 */
 	public List<People> getVisiblePeople(People ppl);
+	public List<People> getAudiblePeople(People ppl);
 	
 	public List<Door> getVisibleDoors(People ppl);
 	

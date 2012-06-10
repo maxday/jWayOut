@@ -23,17 +23,16 @@ import Util.Utils;
 @SuppressWarnings("serial")
 public class Model extends SimState implements AgentDataAccessInterface {
 	
-
+	private ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+	private ObjectGrid2D hiddenGrid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
 	
 	private List<Wall> wallList = new ArrayList<Wall>();
 	private List<People> peopleList = new ArrayList<People>();
 	private List<Door> doorList = new ArrayList<Door>();
 	private List<Exit> exitList = new ArrayList<Exit>();
-
 	
-	
-	
-	public Model(long seed) {
+	public Model(long seed)
+	{
 		super(seed);
 	}
 	
@@ -52,13 +51,6 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		addExits();
 	}
 	
-	private ObjectGrid2D grid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
-	private ObjectGrid2D hiddenGrid = new ObjectGrid2D(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
-	
-	public ObjectGrid2D getGrid()
-	{
-		return grid;
-	}
 	
 	/*
 	 * Methods to add/remove Objects on the grid/hidden grid
@@ -280,6 +272,17 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		
 		return hearingField;
 	}
+	
+	@Override
+	public List<People> getAudiblePeople(People ppl)
+	{
+		List<People> audiblePeople = new ArrayList<People>();
+		for (Int2D coord : ppl.getHearingField(this)) {
+			Object obj = grid.get(coord.x, coord.y);
+			if ((obj instanceof People) && (obj != ppl)) audiblePeople.add((People) obj);
+		}
+		return audiblePeople;
+	}
 
 	@Override
 	public boolean canHearTheFire(People ppl)
@@ -402,24 +405,33 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	}
 
 
-	/* needed to be inspected - you didn't know that ? neither did I */
+	/*
+	 * Getters/Setters
+	 */
+	
+	public ObjectGrid2D getGrid()
+	{
+		return grid;
+	}
 
-	public List<Wall> getWallList() {
+	public List<Wall> getWallList()
+	{
 		return wallList;
 	}
 
-	public List<People> getPeopleList() {
+	public List<People> getPeopleList()
+	{
 		return peopleList;
 	}
 
-	public List<Door> getDoorList() {
+	public List<Door> getDoorList()
+	{
 		return doorList;
 	}
 
-	public List<Exit> getExitList() {
+	public List<Exit> getExitList()
+	{
 		return exitList;
 	}
-	
-	
 	
 }
