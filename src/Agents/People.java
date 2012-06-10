@@ -291,7 +291,7 @@ public class People implements Steppable, Oriented2D
 			// model.removeFromGrid(visionField);
 			updateStatus(model);
 			scream(model);
-			move2(model);
+			move(model);
 			// model.addToGrid(getListCoord(), this);
 			// model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
@@ -326,7 +326,7 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
-	private void move2(AgentDataAccessInterface model)
+	private void move(AgentDataAccessInterface model)
 	{
 		model.removeFromGrid(getListCoord());
 		
@@ -627,34 +627,7 @@ public class People implements Steppable, Oriented2D
 	
 	
 	
-	/**
-	 * The agent will move and take decision, considering its environment and its current status
-	 * 
-	 * @param model The model where the agent is stored
-	 */
-	private void move(AgentDataAccessInterface model)
-	{		
-		if (isBlocked)
-		{
-			System.out.println("I was blocked, I have to get unblocked");
-			isBlocked = false;
-			
-			List<People> seeablePeople = model.getVisiblePeople(this);
-			if(seeablePeople.size() <= 0)
-			{
-				randomMove(model);
-			}
-			else
-			{
-				seeablePeople.get(Utils.getRandomMasonValue(model, 0, seeablePeople.size()-1));
-			}
-		}
-		else
-		{
-			
-			selfDecision(model);
-		}
-	}
+	
 	
 	
 	/**
