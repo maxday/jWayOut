@@ -332,8 +332,6 @@ public class People implements Steppable, Oriented2D
 		
 		if(isBlocked)
 		{
-			// randomMoveOneStep(model);
-			// isBlocked = false;
 			if(seenDirection != Direction.UNKNOWN)
 			{
 				numOfFails++;
@@ -402,6 +400,7 @@ public class People implements Steppable, Oriented2D
 					{
 						System.out.println("I follow the door direction");
 						seenDirection = doors.get(0).getDoorDirection();
+						goTo(model, doors.get(0).getDoorDirection());
 						goTo(model, doors.get(0).getDoorDirection());
 					}
 					else
