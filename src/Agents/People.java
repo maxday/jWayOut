@@ -8,7 +8,6 @@ import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.portrayal.Oriented2D;
 import sim.util.Int2D;
-import sun.management.AgentConfigurationError;
 import Components.Door;
 import Components.Exit;
 import Components.Shape;
@@ -445,23 +444,17 @@ public class People implements Steppable, Oriented2D
 	{
 		ArrayList<Door> result = new ArrayList<Door>();
 		
-		if(doors.size() > 0)
-		{
-			for(Door door : doors)
-			{
-				for(Int2D c : door.getListCoord())
-				{
-					if(!Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
-					{
+		for (Door door : doors) {
+				for (Int2D coord : door.getListCoord()) {
+					if (!Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, coord))) {
 						result.add(door);
+						break;
 					}
 				}
 			}
-		}
 		
 		return result;
 	}
-	
 	
 	
 	/**
