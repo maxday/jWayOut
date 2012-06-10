@@ -157,6 +157,18 @@ public class Model extends SimState implements AgentDataAccessInterface {
 		}
 	}
 	
+	private Int2D getNeighbour(Int2D here, Direction dir)
+	{
+		Int2D neighbour = null;
+		
+		if (dir.equals(Direction.NORTH)) neighbour = new Int2D(here.x, here.y-1);
+		else if (dir.equals(Direction.SOUTH)) neighbour = new Int2D(here.x, here.y+1);
+		else if (dir.equals(Direction.EAST)) neighbour = new Int2D(here.x+1, here.y);
+		else if (dir.equals(Direction.WEST)) neighbour = new Int2D(here.x-1, here.y);
+		
+		if (Utils.isCoordInGrid(neighbour)) return neighbour;
+		else return null;
+	}
 	
 	/*
 	 * Methods to represent People visual perception (vision)
@@ -165,7 +177,74 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	@Override
 	public List<Int2D> computeVisionField(People ppl)
 	{
-		return new ArrayList<Int2D>();
+		List<Int2D> visionField = new ArrayList<Int2D>();
+		
+		Int2D noseL = null, noseR = null;
+		Direction propDirL = null, propDirR = null;
+		int propDistL, propDistR;
+		
+		if (ppl.direction.equals(Direction.NORTH)) {
+			noseL = new Int2D(ppl.eyeX, ppl.eyeY-1);
+			noseR = new Int2D(ppl.eyeX+1, ppl.eyeY-1);
+			propDirL = Direction.WEST;
+			propDirR = Direction.EAST;
+			propDistL = propDistR = grid.getWidth();
+		} else if (ppl.direction.equals(Direction.SOUTH)) {
+			noseL = new Int2D(ppl.eyeX, ppl.eyeY+1);
+			noseR = new Int2D(ppl.eyeX-1, ppl.eyeY+1);
+			propDirL = Direction.EAST;
+			propDirR = Direction.WEST;
+			propDistL = propDistR = grid.getWidth();
+		} else if (ppl.direction.equals(Direction.EAST)) {
+			noseL = new Int2D(ppl.eyeX+1, ppl.eyeY);
+			noseR = new Int2D(ppl.eyeX+1, ppl.eyeY+1);
+			propDirL = Direction.NORTH;
+			propDirR = Direction.SOUTH;
+			propDistL = propDistR = grid.getHeight();
+		} else if (ppl.direction.equals(Direction.WEST)) {
+			noseL = new Int2D(ppl.eyeX-1, ppl.eyeY);
+			noseR = new Int2D(ppl.eyeX-1, ppl.eyeY-1);
+			propDirL = Direction.SOUTH;
+			propDirR = Direction.NORTH;
+			propDistL = propDistR = grid.getHeight();
+		} else {
+			return visionField;
+		}
+		
+		visionField.add(noseL);
+		visionField.add(noseR);
+		
+		while (grid.get(noseL.x, noseL.y) == null) {
+			Int2D neighbour = noseL;
+			int dist = 1;
+			do {
+				neighbour = getNeighbour(neighbour, propDirL);
+				if (neighbour != null) {
+					visionField.add(neighbour);
+					dist++;
+				}
+			} while (neighbour != null && dist < propDistL && grid.get(neighbour.x, neighbour.y) == null);
+			propDistL = dist;
+			noseL = getNeighbour(noseL, ppl.direction);
+			visionField.add(noseL);
+		}
+		
+		while (grid.get(noseR.x, noseR.y) == null) {
+			Int2D neighbour = noseR;
+			int dist = 1;
+			do {
+				neighbour = getNeighbour(neighbour, propDirR);
+				if (neighbour != null) {
+					visionField.add(neighbour);
+					dist++;
+				}
+			} while (neighbour != null && dist < propDistR && grid.get(neighbour.x, neighbour.y) == null);
+			propDistR = dist;
+			noseR = getNeighbour(noseR, ppl.direction);
+			visionField.add(noseR);
+		}		
+		
+		return visionField;
 	}
 	
 	@Override

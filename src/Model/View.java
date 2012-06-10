@@ -16,7 +16,7 @@ import sim.portrayal.simple.RectanglePortrayal2D;
 import sim.portrayal.simple.TransformedPortrayal2D;
 import Agents.Fire;
 import Agents.People;
-//import Agents.Vision;
+import Agents.Vision;
 import Components.Arrow;
 import Components.Door;
 import Components.Exit;
@@ -69,7 +69,7 @@ public class View extends GUIState {
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
-		//gridPortrayal.setPortrayalForClass(Vision.class, getVisionPortrayal());
+		gridPortrayal.setPortrayalForClass(Vision.class, getVisionPortrayal());
 		gridPortrayal.setPortrayalForClass(Fire.class, getFirePortrayal());
 		
 		display.reset();
@@ -104,9 +104,9 @@ public class View extends GUIState {
 		return new OrientedPortrayal2D(r, Color.BLACK);
 	}
 	
-	/*private Portrayal getVisionPortrayal() {
+	private Portrayal getVisionPortrayal() {
 		return new RectanglePortrayal2D(Color.GREEN);
-	}*/
+	}
 	
 	private Portrayal getFirePortrayal() {
 		return new ImagePortrayal2D(new ImageIcon("resources/fire.png"));

@@ -272,9 +272,13 @@ public class People implements Steppable, Oriented2D
 		if (state instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
+			model.removeFromGrid(getListCoord());
+			model.removeFromGrid(visionField);
 			updateStatus(model);
 			scream(model);
 			move(model);
+			model.addToGrid(getListCoord(), this);
+			model.addToGridIfEmpty(getVisionField(model), new Vision());
 		}
 		
 		state.schedule.scheduleOnce(this);
@@ -317,10 +321,7 @@ public class People implements Steppable, Oriented2D
 	 * @param model The model where the agent is stored
 	 */
 	private void move(AgentDataAccessInterface model)
-	{
-		model.removeFromGrid(getListCoord());
-		//model.removeFromGrid(hearingField);
-		
+	{		
 		if (isBlocked)
 		{
 			System.out.println("I was blocked, I have to get unblocked");
@@ -341,9 +342,6 @@ public class People implements Steppable, Oriented2D
 			
 			selfDecision(model);
 		}
-		
-		model.addToGrid(getListCoord(), this);
-		//model.addToGridIfEmpty(getHearingField(model), new Vision());
 	}
 	
 	

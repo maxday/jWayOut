@@ -29,7 +29,7 @@ public class Constants {
 	
 	public final static int GRID_WIDTH = 123;
 	public final static int GRID_HEIGHT = 68;
-	public final static int GRID_TO_FRAME = 10;
+	public final static int GRID_TO_FRAME = 8;
 	public final static int FRAME_WIDTH = GRID_WIDTH * GRID_TO_FRAME;
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
 	
