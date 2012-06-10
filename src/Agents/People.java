@@ -344,10 +344,21 @@ public class People implements Steppable, Oriented2D
 					Door exitRoom = isTheAgentInRoom(doors);
 					if(exitRoom != null)
 					{
-						System.out.println(this + " I get out from the room");
 						// The agent is inside a room
 						// It has to get out from this room
-						goToComponent(model, exitRoom);
+						// Can it go to the door's direction directly ?
+						if(model.canMakeOneStepTo(Utils.getDirectionFromCoordinates(this, exitRoom.getListCoord().get(0)), this))
+						{
+							System.out.println(this + " I get out from the room");
+							// Yes it can
+							goToComponent(model, exitRoom);
+						}
+						else
+						{
+							System.out.println(this + " I get closer to the exit door");
+							// The agent has to get closer to the door
+							goToComponentByOneStep(model, exitRoom);
+						}
 					}
 					else
 					{
