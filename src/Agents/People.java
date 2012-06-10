@@ -469,6 +469,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private List<Door> doorFilter(List<Door> doors)
 	{
+		/*
 		ArrayList<Door> result = new ArrayList<Door>();
 		
 		for (Door door : doors) {
@@ -479,6 +480,22 @@ public class People implements Steppable, Oriented2D
 					}
 				}
 			}
+		
+		return result;
+		*/
+		ArrayList<Door> result = new ArrayList<Door>(doors);
+		
+		for(Door door: doors)
+		{
+			for(Int2D c : door.getListCoord())
+			{
+				if(Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
+				{
+					result.remove(door);
+					break;
+				}
+			}
+		}
 		
 		return result;
 	}
