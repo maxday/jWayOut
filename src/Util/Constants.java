@@ -32,10 +32,10 @@ public class Constants {
 	public final static int FRAME_HEIGHT = GRID_HEIGHT * GRID_TO_FRAME;
 	
 	// PEOPLE - ABILITY
-	public final static int MAX_ABILITY = 15;
-	public final static int MIN_ABILITY = 5;
+	public final static int MAX_ABILITY = 18;
+	public final static int MIN_ABILITY = 12;
 	public final static int STRONG_PANIC = 3;
-	public final static int MAX_PANIC = 30;
+	public final static int MAX_PANIC = 50;
 	
 	// PEOPLE - SPEED
 	public final static int AGENT_SLOW_SPEED = 1;
@@ -45,6 +45,6 @@ public class Constants {
 	
 	
 	// FIRE - SPREADING
-	public final static int NUM_STEP_FIRE_SPREAD = 5;
+	public final static int NUM_STEP_FIRE_SPREAD = 2;
 }
 

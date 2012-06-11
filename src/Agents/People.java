@@ -1,7 +1,10 @@
 package Agents;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -85,7 +88,7 @@ public class People implements Steppable, Oriented2D
 		isWarned = false;
 		
 		// Generates abilities rates
-		visionAbility = Constants.MAX_ABILITY;
+		visionAbility = (int) (getRandomAbility()*1.5);
 		hearingAbility = getRandomAbility();
 		screamingAbility = getRandomAbility();
 		
@@ -157,7 +160,26 @@ public class People implements Steppable, Oriented2D
 			direction =  Direction.UNKNOWN;
 		}
 	}
-
+	
+	/**
+	 * Getter for direction attribute
+	 * 
+	 * @return The direction attribute
+	 */
+	public Direction getDirection()
+	{
+		return direction;
+	}
+	
+	/**
+	 * Getter for seenDirection attribute
+	 * 
+	 * @return The seenDirection attribute
+	 */
+	public Direction getSeenDirection()
+	{
+		return seenDirection;
+	}
 	
 	@Override
 	public double orientation2D()
@@ -258,9 +280,9 @@ public class People implements Steppable, Oriented2D
 	 */
 	private int getRandomAbility()
 	{
-		return 5;
-		//Random generator = new Random();
-		//return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
+		// return 5;
+		Random generator = new Random();
+		return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
 	}
 	
 	/**
@@ -381,13 +403,25 @@ public class People implements Steppable, Oriented2D
 		if (state instanceof AgentDataAccessInterface) {
 			AgentDataAccessInterface model = (AgentDataAccessInterface) state;
 			
-			// model.removeFromGrid(getListCoord());
-			// model.removeFromGrid(visionField);
+			if (!model.removeFromGrid(getListCoord(), this)) {
+				stop.stop();
+				isOut = true;
+			}
+			
 			updateStatus(model);
 			scream(model);
-			move(model);
-			// model.addToGrid(getListCoord(), this);
-			// model.addToGridIfEmpty(getVisionField(model), new Vision());
+			if(isWarned)
+			{
+				move(model);
+			}
+			else
+			{
+				randomMove(model);
+			}
+			
+			if (!isOut) {
+				model.addToGridIfEmpty(getListCoord(), this);
+			}
 		}
 	}
 	
@@ -412,7 +446,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void updateStatus(AgentDataAccessInterface model)
 	{
-		if (model.canSeeTheFire(this)) {
+		if (model.canSeeTheFire(this) || model.canHearTheFire(this)) {
 			isWarned = true;
 			scream(model);
 			incrementPanicLevel(true);
@@ -427,10 +461,6 @@ public class People implements Steppable, Oriented2D
 	 */
 	private void move(AgentDataAccessInterface model)
 	{
-		if (!model.removeFromGrid(getListCoord(), this)) {
-			stop.stop();
-			isOut = true;
-		}
 		
 		if(isBlocked)
 		{
@@ -541,11 +571,6 @@ public class People implements Steppable, Oriented2D
 			{
 				saySomething("I escape from the fire");
 			}
-		}
-		
-		if(!isOut)
-		{
-			model.addToGridIfEmpty(getListCoord(), this);
 		}
 	}
 	
@@ -977,6 +1002,7 @@ public class People implements Steppable, Oriented2D
 	 */
 	public void hearScream()
 	{
+		isWarned = true;
 		incrementPanicLevel(false);
 		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
@@ -995,7 +1021,8 @@ public class People implements Steppable, Oriented2D
 	@Override
 	public String toString()
 	{
-		return name + " : [eyeX = " + eyeX + "; eyeY = " + eyeY + "; earX = " + earX + "; earY = " + earY + "; isWarned = " + isWarned
+		NumberFormat formater = new DecimalFormat("00");
+		return name + " :\t[eyeX = " + formater.format(eyeX) + "; eyeY = " + formater.format(eyeY) + "; earX = " + formater.format(earX) + "; earY = " + formater.format(earY) + "; isWarned = " + isWarned
 				+ "; visionAbility = " + visionAbility + "; hearingAbility = " + screamingAbility + ", panicLevel = " + panicLevel
 				+ "; charismaLevel = " + charismaLevel + "; autonomyLevel = " + autonomyLevel + "; speedAbility = " + speedLevel + "]";
 	}	

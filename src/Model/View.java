@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import sim.display.Controller;
 import sim.display.GUIState;
+import sim.display.RateAdjuster;
 import sim.engine.SimState;
 import sim.portrayal.Portrayal;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
@@ -45,7 +46,7 @@ public class View extends GUIState {
 		displayFrame.setTitle("JWayOut");
 		controller.registerFrame(displayFrame);
 		displayFrame.setVisible(true);
-		display.attach(gridPortrayal, "Grid");
+		display.attach(gridPortrayal, "Grid");	
 	}
 	
 	@Override
