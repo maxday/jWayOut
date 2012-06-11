@@ -7,6 +7,15 @@ public class Door extends Shape implements Oriented2D {
 	
 	private Direction doorDirection;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param beginX Where the door begins, in X-coordinate
+	 * @param beginY Where the door begins, in Y-coordinate
+	 * @param endX Where the door ends, in X-coordinate
+	 * @param endY Where the door ends, in Y-coordinate
+	 * @param direction The pointed direction
+	 */
 	public Door(String beginX, String beginY, String endX, String endY, String direction) {
 		super(beginX, beginY, endX, endY);
 		if (direction.equals("NORTH")) doorDirection = Direction.NORTH;
@@ -16,10 +25,18 @@ public class Door extends Shape implements Oriented2D {
 		else doorDirection = Direction.UNKNOWN;
 	}
 	
+	/**
+	 * Getter for the attribute doorDirection
+	 * 
+	 * @return The door pointed direction
+	 */
 	public Direction getDoorDirection() {
 		return doorDirection;
 	}
 
+	/**
+	 * The standard toString method
+	 */
 	public String toString() {
 		return "[BeginX = " + beginX + "; BeginY = " + beginY 
 				+ "; EndX = " + endX + "; EndY = " + endY

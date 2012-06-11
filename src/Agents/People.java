@@ -56,6 +56,16 @@ public class People implements Steppable, Oriented2D
 	private List<Int2D> hearingField = new ArrayList<Int2D>();
 	private boolean hearingComputed = false;
 	
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param name The agent's name
+	 * @param earX The agent's left eye X-coordinate
+	 * @param earY The agent's left eye Y-coordinate
+	 * @param eyeX The agent's left ear X-coordinate
+	 * @param eyeY The agent's left ear Y-coordinate
+	 */
 	public People(String name, String earX, String earY, String eyeX, String eyeY)
 	{
 		this.name = name;
@@ -86,10 +96,21 @@ public class People implements Steppable, Oriented2D
 		speedLevel = 1;
 	}
 	
+	/**
+	 * Setter on the stop attribute
+	 * 
+	 * @param stop A {@link Stoppable} object associated to this agent
+	 */
 	public void setStoppable(Stoppable stop) {
 		this.stop = stop;
 	}
 	
+	
+	/**
+	 * This method returns the list of coordinates where is represented this agent on the view
+	 * 
+	 * @return A list of coordinates
+	 */
 	public List<Int2D> getListCoord()
 	{
 		List<Int2D> coords = new ArrayList<Int2D>();
@@ -120,6 +141,10 @@ public class People implements Steppable, Oriented2D
 		return coords;
 	}
 	
+	
+	/**
+	 * This method updates the agent's direction according to its current attributes' values
+	 */
 	private void computeDirection()
 	{
 		if (eyeX == earX) {
@@ -133,6 +158,7 @@ public class People implements Steppable, Oriented2D
 		}
 	}
 
+	
 	@Override
 	public double orientation2D()
 	{
@@ -143,6 +169,10 @@ public class People implements Steppable, Oriented2D
 		return 0;
 	}
 	
+	
+	/**
+	 * This method makes the agent performing a 90 degrees rotation movement in the clockwise direction
+	 */
 	private void turnClockwise()
 	{	
 		earX = eyeX;
@@ -157,6 +187,10 @@ public class People implements Steppable, Oriented2D
 		visionComputed = false;
 	}
 	
+	
+	/**
+	 * This method makes the agent performing a 90 degrees rotation movement in the counter-clockwise direction
+	 */
 	private void turnCounterclockwise()
 	{
 		eyeX = earX;
@@ -171,6 +205,11 @@ public class People implements Steppable, Oriented2D
 		visionComputed = false;
 	}
 	
+	/**
+	 * This methods makes the agent turning to a given {@link Direction} 
+	 * 
+	 * @param newDir The {@link Direction} where the agent is supposed to look
+	 */
 	private void turnTo(Direction newDir)
 	{	
 		if (direction != newDir) {
@@ -194,6 +233,9 @@ public class People implements Steppable, Oriented2D
 		}
 	}
 	
+	/**
+	 * This method makes the agent walking forward
+	 */
 	private void oneStepFront()
 	{
 		earX = eyeX;
@@ -221,36 +263,71 @@ public class People implements Steppable, Oriented2D
 		//return (Constants.MIN_ABILITY + generator.nextInt(Constants.MAX_ABILITY - Constants.MIN_ABILITY + 1));
 	}
 	
+	/**
+	 * Getter for the visionAbility attribute
+	 * 
+	 * @return The agent's vision ability
+	 */
 	public int getVisionAbility()
 	{
 		return visionAbility;
 	}
 	
+	/**
+	 * Getter for the hearingAbility attribute
+	 * 
+	 * @return The agent's hearing ability
+	 */
 	public int getHearingAbility()
 	{
 		return hearingAbility;
 	}
 	
+	/**
+	 * Getter for the screamingAbility attribute
+	 * 
+	 * @return The agent's screaming ability
+	 */
 	public int getScreamingAbility()
 	{
 		return screamingAbility;
 	}
 	
+	/**
+	 * Getter for the panic level attribute
+	 * 
+	 * @return The agent's panic level
+	 */
 	public int getPanicLevel()
 	{
 		return panicLevel;
 	}
 	
+	/**
+	 * Getter for the charismaLevel attribute
+	 * 
+	 * @return The agent's charisma level
+	 */
 	public int getCharismaLevel()
 	{
 		return charismaLevel;
 	}
-		
+	
+	/**
+	 * Getter for the autonomyLevel attribute
+	 * 
+	 * @return The agent's autonomy level
+	 */
 	public int getAutonomyLevel()
 	{
 		return autonomyLevel;
 	}
 	
+	/**
+	 * Getter for the speedLevel attribute
+	 * 
+	 * @return The agent's speed level
+	 */
 	public int getSpeedLevel()
 	{
 		return speedLevel;
@@ -266,6 +343,13 @@ public class People implements Steppable, Oriented2D
 		return isWarned;
 	}
 	
+	/**
+	 * This method returns a list of all fields seen by this agent
+	 * 
+	 * @param model The associated model
+	 * 
+	 * @return A list of 2D coordinates
+	 */
 	public List<Int2D> getVisionField(AgentDataAccessInterface model)
 	{
 		if (!visionComputed) {
@@ -275,6 +359,13 @@ public class People implements Steppable, Oriented2D
 		return visionField;
 	}
 	
+	/**
+	 * This method returns a list of all fields heard by this agent
+	 * 
+	 * @param model The associated model
+	 * 
+	 * @return A list of 2D coordinates
+	 */
 	public List<Int2D> getHearingField(AgentDataAccessInterface model)
 	{
 		if (!hearingComputed) {
@@ -329,6 +420,11 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
+	/**
+	 * This is the main algorithm used by the agent
+	 * 
+	 * @param model The associated model
+	 */
 	private void move(AgentDataAccessInterface model)
 	{
 		if (!model.removeFromGrid(getListCoord(), this)) {
@@ -454,7 +550,15 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
-	
+	/**
+	 * This method makes the agent going to a given {@link Exit}
+	 * It also tells if the agent is currently on an exit field or not
+	 * 
+	 * @param model The associated model
+	 * @param exit The exit the agent is supposed to go to
+	 * 
+	 * @return A boolean telling if the agent is on an exit field
+	 */
 	private boolean goToExit(AgentDataAccessInterface model, Exit exit)
 	{
 		boolean loop = true;
@@ -616,58 +720,6 @@ public class People implements Steppable, Oriented2D
 		}
 	}
 	
-	/**
-	 * This is invoked when the agent is about to take a decision by its own way of thinking
-	 * 
-	 * @param model The associated model
-	 */
-	private void selfDecision(AgentDataAccessInterface model)
-	{
-		Exit exit = model.canSeeAnExit(this);
-		if (exit != null)
-		{
-			saySomething("I see an exit ! I go to it");
-			// Exit seeable !
-			goToComponent(model, exit);
-		}
-		else
-		{
-			if (seenDirection == Direction.UNKNOWN)
-			{
-				// There's no arrow around
-				// It has to either perform a random move, or to get out from a room
-				if (panicLevel >= Constants.MAX_PANIC)
-				{
-					// the agent has a so much high level of panic that it can't think correctly and perform a random move
-					randomMove(model);
-				}
-				else
-				{	
-					List<People> seeablePeople = model.getVisiblePeople(this);
-					
-					People bestCharisma = getMostCharismaticPeople(seeablePeople);
-					
-					if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
-					{
-						saySomething("I perform a random move");
-						// It performs a random move, or try to get out from a room if it's located in it
-						randomMove(model);
-					}
-					else
-					{
-						// Following the agent who has the best charisma
-						followPeople(model, bestCharisma);
-					}
-				}
-			}
-			else
-			{
-				saySomething("I go to my last seen direction: " + seenDirection);
-				goTo(model, seenDirection);
-			}
-		}
-	}
-	
 	
 	/**
 	 * Makes this {@link People} going to a given {@link Shape}
@@ -684,6 +736,12 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
+	/**
+	 * This method makes the agent going to a given {@link Shape} using only one step
+	 * 
+	 * @param model The associated model
+	 * @param shape The {@link Shape} whom the agent is supposed to go to
+	 */
 	private void goToComponentByOneStep(AgentDataAccessInterface model, Shape shape)
 	{
 		Int2D shapeCoordinates = new Int2D(Utils.getRandomMasonValue(model, shape.getBeginX(), shape.getEndX()),
@@ -791,6 +849,11 @@ public class People implements Steppable, Oriented2D
 		goTo(model, dir);
 	}
 	
+	/**
+	 * This method makes the agent performing a random move, using only one step
+	 * 
+	 * @param model The associated model
+	 */
 	private void randomMoveOneStep(AgentDataAccessInterface model)
 	{
 		Int2D firePosition = null;
@@ -851,6 +914,11 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
+	/**
+	 * This method makes the agent going forward using only one step
+	 * 
+	 * @param model The associated model
+	 */
 	private void goForwardByOneStep(AgentDataAccessInterface model)
 	{
 		if (model.canMakeOneStepFront(this)) oneStepFront();
@@ -869,6 +937,12 @@ public class People implements Steppable, Oriented2D
 	}
 	
 	
+	/**
+	 * This method makes the agent going to a given {@link Direction} using only one step
+	 * 
+	 * @param model The associated model
+	 * @param dir The direction where the agent is supposed to go to
+	 */
 	private void goToByOneStep(AgentDataAccessInterface model, Direction dir)
 	{
 		turnTo(dir);
@@ -907,6 +981,12 @@ public class People implements Steppable, Oriented2D
 		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
 	
+	/**
+	 * This method writes a given message to the standard output, prefixed with this agent's name
+	 * Useful for debug mode
+	 * 
+	 * @param something The message to display
+	 */
 	public void saySomething(String something)
 	{
 		System.out.println(name + " : " + something);

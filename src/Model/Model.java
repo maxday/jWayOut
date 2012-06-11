@@ -509,26 +509,51 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	 * Getters/Setters
 	 */
 	
+	/**
+	 * Getter for the grid attribute
+	 * 
+	 * @return The grid attribute
+	 */
 	public ObjectGrid2D getGrid()
 	{
 		return grid;
 	}
 
+	/**
+	 * Getter for the wallList attribute
+	 * 
+	 * @return A list of {@link Wall}
+	 */
 	public List<Wall> getWallList()
 	{
 		return wallList;
 	}
 
+	/**
+	 * Getter for the peopleList attribute
+	 * 
+	 * @return A list of {@link People}
+	 */
 	public List<People> getPeopleList()
 	{
 		return peopleList;
 	}
 
+	/**
+	 * Getter for the doorList attribute
+	 * 
+	 * @return A list of {@link Door}
+	 */
 	public List<Door> getDoorList()
 	{
 		return doorList;
 	}
 
+	/**
+	 * Getter for the exitList attribute
+	 * 
+	 * @return A list of {@link Exit}
+	 */
 	public List<Exit> getExitList()
 	{
 		return exitList;

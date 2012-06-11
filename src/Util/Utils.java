@@ -13,11 +13,27 @@ import Util.Constants.Direction;
 
 public class Utils
 {
+
+	/**
+	 * This method tells if a given coordinate is on the grid or outside
+	 * 
+	 * @param coord The given coordinate
+	 * 
+	 * @return A boolean telling if a given coordinate is on the grid
+	 */
 	static public boolean isCoordInGrid(Int2D coord)
 	{
 		return (coord.x >= 0 && coord.x < Constants.GRID_WIDTH && coord.y >= 0 && coord.y < Constants.GRID_HEIGHT);
 	}
 	
+	/**
+	 * This method tells if a given coordinate is on the grid or outside
+	 * 
+	 * @param x The x-coordinate
+	 * @param y The y-coordinate
+	 * 
+	 * @return A boolean telling if a given coordinate is on the grid
+	 */
 	static public boolean isCoordInGrid(int x, int y)
 	{
 		return (x >= 0 && x < Constants.GRID_WIDTH && y >= 0 && y < Constants.GRID_HEIGHT);

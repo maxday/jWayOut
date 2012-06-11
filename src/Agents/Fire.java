@@ -18,6 +18,11 @@ public class Fire implements Steppable {
 	private int step = 0;
 	private List<Direction> spreadDirection = new ArrayList<Direction>();
 
+	/**
+	 * Constructor
+	 * 
+	 * @param hearth This object's location on the grid
+	 */
 	public Fire(Int2D hearth) {
 		this.hearth = hearth;
 		spreadDirection.add(Direction.NORTH);
@@ -53,10 +58,19 @@ public class Fire implements Steppable {
 		}
 	}
 	
+	/**
+	 * This method returns this object's coordinates
+	 * 
+	 * @return This object's coordinates
+	 */
 	public Int2D getHearth() {
 		return hearth;
 	}
 
+	
+	/**
+	 * The standard toString() method
+	 */
 	public String toString() {
 		return "[HearthX = " + hearth.x + "; HearthY = " + hearth.y + "]";
 	}

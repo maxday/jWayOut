@@ -15,16 +15,42 @@ import Util.Constants.Direction;
  */
 public interface AgentDataAccessInterface
 {
+	
 	/**
-	 * It tells if a given people can see any part of a fire
+	 * It returns the closest {@link Fire} that the given {@link People} can see
 	 * 
-	 * @param ppl The concerned people
-	 * @return A boolean telling if the given people can see the fire or not
+	 * @param ppl The observer {@link People}
+	 * 
+	 * @return The closest visible {@link Fire}, or null value if there's not
 	 */
 	public Fire getClosestVisibleFire(People ppl);
+	
+	/**
+	 * It returns the closest {@link Fire} that the given {@link People} can hear
+	 * 
+	 * @param ppl The observer {@link People}
+	 * 
+	 * @return The closest audible {@link Fire}, or null value if there's not
+	 */
 	public Fire getClosestAudibleFire(People ppl);
 	
+	
+	/**
+	 * This method tells if the given {@link People} can see a {@link Fire} somewhere
+	 * 
+	 * @param ppl The observer {@link People}
+	 * 
+	 * @return A boolean telling if the given {@link People} can see a {@link Fire} somewhere
+	 */
 	public boolean canSeeTheFire(People ppl);
+	
+	/**
+	 * This method tells if the given {@link People} can hear a {@link Fire} somewhere
+	 * 
+	 * @param ppl The observer {@link People}
+	 * 
+	 * @return A boolean telling if the given {@link People} can hear a {@link Fire} somewhere
+	 */
 	public boolean canHearTheFire(People ppl);
 	
 	/**
@@ -35,30 +61,101 @@ public interface AgentDataAccessInterface
 	 */
 	public void someoneScreams(People ppl);
 	
+	/**
+	 * This method gives a list of coordinates that are what the given {@link People} can see
+	 * 
+	 * @param ppl The given {@link People}
+	 * 
+	 * @return A list of coordinates
+	 */
 	public List<Int2D> computeVisionField(People ppl);
+	
+	/**
+	 * This method gives a list of coordinates that are what the given {@link People} can hear
+	 * 
+	 * @param ppl The given {@link People}
+	 * 
+	 * @return A list of coordinates
+	 */
 	public List<Int2D> computeHearingField(People ppl);	
 	
+	/**
+	 * This method tells if a given {@link People} can make one step front or not
+	 * 
+	 * @param ppl The subject {@link People}
+	 * 
+	 * @return A boolean telling the given {@link People} can make one step front
+	 */
 	public boolean canMakeOneStepFront(People ppl);
 	
+	
+	/**
+	 * This method tells if a given {@link People} can make one step to a given {@link Direction} or not
+	 * 
+	 * @param direction The direction the agent is supposed to go to
+	 * @param ppl The subject {@link People}
+	 * 
+	 * @return A boolean telling the given {@link People} can make one step to a given {@link Direction}
+	 */
 	public boolean canMakeOneStepTo(Direction direction, People ppl);
 	
+
+	
+	/**
+	 * This method removes the given {@link Object} from the grid, located at the given coordinates
+	 * 
+	 * @param coords The given coordinates
+	 * @param obj The given {@link Object} to remove
+	 * 
+	 * @return It returns false if the given {@link Object} was nowhere on the grid, or true 
+	 */
 	public boolean removeFromGrid(List<Int2D> coords, Object obj);
 	
+	/**
+	 * This method adds the given {@link Object} to the grid, with it given coordinates
+	 * If there's already a component to one the given coordinates, the existing {@link Object} will be erased
+	 * 
+	 * @param coords The {@link Object}'s coordinates
+	 * @param obj The {@link Object} to add
+	 */
 	public void addToGrid(List<Int2D> coords, Object obj);
+	
+	/**
+	 * This method adds the given {@link Object} to the grid, with it given coordinates
+	 * It won't erase a component if it already exists on a given coordinate
+	 * 
+	 * @param coords The {@link Object}'s coordinates
+	 * @param obj The {@link Object} to add
+	 */
 	public void addToGridIfEmpty(List<Int2D> coords, Object obj);
 	
 	
 	/**
-	 * It returns all people that the given person can see, according to its abilities
+	 * It returns all people that the given {@link People} can see, according to its abilities
 	 * 
-	 * @param ppl The given people
+	 * @param ppl The given {@link People}
 	 * 
-	 * @return A list of all seeable people
+	 * @return A list of all seeable {@link People}
 	 */
 	public List<People> getVisiblePeople(People ppl);
 	
+	/**
+	 * It returns all people that the given {@link Door} can see, according to its abilities
+	 * 
+	 * @param ppl The given {@link Door}
+	 * 
+	 * @return A list of all seeable {@link Door}
+	 */
 	public List<Door> getVisibleDoors(People ppl);
 	
+	
+	/**
+	 * It returns all people that the given {@link People} can hear, according to its abilities
+	 * 
+	 * @param ppl The given {@link People}
+	 * 
+	 * @return A list of all audible {@link People}
+	 */
 	public List<People> getAudiblePeople(People ppl);
 	
 	/**

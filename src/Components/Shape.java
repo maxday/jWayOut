@@ -16,6 +16,15 @@ public abstract class Shape {
 	
 	protected List<Int2D> listCoord = new ArrayList<Int2D>();
 
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param beginX Where the shape begins, in X-coordinate
+	 * @param beginY Where the shape begins, in Y-coordinate
+	 * @param endX Where the shape ends, in X-coordinate
+	 * @param endY Where the shape ends, in Y-coordinate
+	 */
 	public Shape(String beginX, String beginY, String endX, String endY) {
 		this.beginX = Integer.parseInt(beginX);
 		this.beginY = Integer.parseInt(beginY);
@@ -26,6 +35,9 @@ public abstract class Shape {
 		computeCoord();
 	}
 	
+	/**
+	 * This method updates the shape's direction according to it current attributes' values
+	 */
 	private void computeDirection() {
 		if (beginX == endX) {
 			if (endY < beginY) direction = Direction.NORTH;
@@ -38,6 +50,10 @@ public abstract class Shape {
 		}		
 	}
 
+	
+	/**
+	 * This method update the shape's coordinates according to it current diection
+	 */
 	private void computeCoord() {
 		switch (direction) {
 		case NORTH:
@@ -55,18 +71,38 @@ public abstract class Shape {
 		}
 	}
 
+	/**
+	 * Getter for beginX attribute
+	 * 
+	 * @return Where the shape begins, as a x coordinate
+	 */
 	public int getBeginX() {
 		return beginX;
 	}
 
+	/**
+	 * Getter for beginY attribute
+	 * 
+	 * @return Where the shape begins, as a y coordinate
+	 */
 	public int getBeginY() {
 		return beginY;
 	}
 
+	/**
+	 * Getter for endX attribute
+	 * 
+	 * @return Where the shape ends, as a x coordinate
+	 */
 	public int getEndX() {
 		return endX;
 	}
 
+	/**
+	 * Getter for endY attribute
+	 * 
+	 * @return Where the shape ends, as a y coordinate
+	 */
 	public int getEndY() {
 		return endY;
 	}	
@@ -80,6 +116,11 @@ public abstract class Shape {
 				+ "; EndX = " + endX + "; EndY = " + endY + "; Direction = " + direction + "]";
 	}
 
+	/**
+	 * This method returns the list of coordinates where is represented this shape on the view
+	 * 
+	 * @return A list of coordinates
+	 */
 	public List<Int2D> getListCoord() {
 		return listCoord;
 	}	
