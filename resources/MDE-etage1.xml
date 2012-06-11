@@ -343,54 +343,52 @@
 	</exits>
 	
 	<agents>
-		<people>
+		<people name="Agent1">
 			<eye x="69" y="38" />
 			<ear x="69" y="39" />
 		</people>
 		
-		<people>
+		<people name="Agent2">
 			<eye x="99" y="38" />
 			<ear x="99" y="39" />
 		</people>
 		
-		<people>
+		<people name="Agent3">
 			<eye x="39" y="38" />
 			<ear x="39" y="39" />
 		</people>
 		
-		<people>
+		<people name="Agent4">
 			<eye x="69" y="58" />
 			<ear x="69" y="59" />
 		</people>
 		
-		<people>
+		<people name="Agent5">
 			<eye x="69" y="8" />
 			<ear x="69" y="9" />
 		</people>
 		
-		<people>
+		<people name="Agent6">
 			<eye x="69" y="18" />
 			<ear x="69" y="19" />
 		</people>
 		
-		<people>
+		<people name="Agent7">
 			<eye x="39" y="18" />
 			<ear x="39" y="19" />
 		</people>
 		
-		<people>
+		<people name="Agent8">
 			<eye x="32" y="18" />
 			<ear x="32" y="19" />
 		</people>
 		
-		<people>
+		<people name="Agent9">
 			<eye x="29" y="18" />
 			<ear x="29" y="19" />
 		</people>
 		
-
-		
-		<people>
+		<people name="Agent10">
 			<eye x="99" y="18" />
 			<ear x="99" y="19" />
 		</people>

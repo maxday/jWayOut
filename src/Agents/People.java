@@ -22,6 +22,7 @@ import Util.Utils;
 public class People implements Steppable, Oriented2D
 {
 	private Stoppable stop;
+	private String name;
 	
 	// Geographic coordinates
 	public int earX;
@@ -55,8 +56,10 @@ public class People implements Steppable, Oriented2D
 	private List<Int2D> hearingField = new ArrayList<Int2D>();
 	private boolean hearingComputed = false;
 	
-	public People(String earX, String earY, String eyeX, String eyeY)
+	public People(String name, String earX, String earY, String eyeX, String eyeY)
 	{
+		this.name = name;
+		
 		this.earX = Integer.parseInt(earX) + Constants.GRID_X_OFFSET;
 		this.earY = Integer.parseInt(earY);
 		this.eyeX = Integer.parseInt(eyeX) + Constants.GRID_X_OFFSET;
@@ -370,14 +373,14 @@ public class People implements Steppable, Oriented2D
 			}
 			
 			isBlocked = false;
-			System.out.println("I got unblocked");
+			saySomething("I got unblocked");
 		}
 		
 		// Can the agent see an exit ?
 		Exit exit = model.canSeeAnExit(this);
 		if(exit != null)
 		{
-			System.out.println("I go to the exit");
+			saySomething("I go to the exit");
 			// The agent can see an exit, so it goes to its direction
 			// goToComponent(model, exit);
 			if(goToExit(model, exit))
@@ -402,14 +405,14 @@ public class People implements Steppable, Oriented2D
 					
 					if(model.canMakeOneStepTo(doors.get(0).getDoorDirection(), this))
 					{
-						System.out.println("I follow the door direction");
+						saySomething("I follow the door direction");
 						seenDirection = doors.get(0).getDoorDirection();
 						goTo(model, doors.get(0).getDoorDirection());
 						goTo(model, doors.get(0).getDoorDirection());
 					}
 					else
 					{
-						System.out.println("I go to the door");
+						saySomething("I go to the door");
 						goToComponent(model, doors.get(0));
 					}
 				}
@@ -422,13 +425,13 @@ public class People implements Steppable, Oriented2D
 						// Does this agent remember about its last followed direction ?
 						if(seenDirection != Direction.UNKNOWN)
 						{
-							System.out.println("I go to the last seen direction");
+							saySomething("I go to the last seen direction");
 							// The agent follows it last known direction
 							goTo(model, seenDirection);
 						}
 						else
 						{
-							System.out.println("I perform a random move (no agent around)");
+							saySomething("I perform a random move (no agent around)");
 							// If it can't, then, it will perform a random move
 							randomMove(model);
 						}
@@ -437,7 +440,7 @@ public class People implements Steppable, Oriented2D
 			}
 			else
 			{
-				System.out.println("I escape from the fire");
+				saySomething("I escape from the fire");
 			}
 		}
 		
@@ -484,28 +487,11 @@ public class People implements Steppable, Oriented2D
 	 */
 	private List<Door> doorFilter(List<Door> doors)
 	{
-		/*
-		ArrayList<Door> result = new ArrayList<Door>();
-		
-		for (Door door : doors) {
-				for (Int2D coord : door.getListCoord()) {
-					if (!Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, coord))) {
-						result.add(door);
-						break;
-					}
-				}
-			}
-		
-		return result;
-		*/
 		ArrayList<Door> result = new ArrayList<Door>(doors);
 		
-		for(Door door: doors)
-		{
-			for(Int2D c : door.getListCoord())
-			{
-				if(Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, c)))
-				{
+		for (Door door: doors) {
+			for (Int2D coord : door.getListCoord()) {
+				if (Utils.areDirectionsOpposite(door.getDoorDirection(), Utils.getDirectionFromCoordinates(this, coord))) {
 					result.remove(door);
 					break;
 				}
@@ -606,13 +592,13 @@ public class People implements Steppable, Oriented2D
 			// Does this agent remember about its last followed direction ?
 			if(seenDirection != Direction.UNKNOWN)
 			{
-				System.out.println("I go to the last seen direction");
+				saySomething("I go to the last seen direction");
 				// The agent follows it last known direction
 				goTo(model, seenDirection);
 			}
 			else
 			{
-				System.out.println("Random move (no last seen direction)");
+				saySomething("Random move (no last seen direction)");
 				// The agent doesn't remember about any last direction
 				// It will perform a random move
 				randomMove(model);
@@ -620,18 +606,12 @@ public class People implements Steppable, Oriented2D
 		}
 		else
 		{
-			System.out.println("I follow some one");
+			saySomething("I follow some one");
 			// bestCharismaAgent is most charismatic than this agent
 			// So this agent will follow it
 			followPeople(model, bestCharismaAgent);
 		}
 	}
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * This is invoked when the agent is about to take a decision by its own way of thinking
@@ -643,7 +623,7 @@ public class People implements Steppable, Oriented2D
 		Exit exit = model.canSeeAnExit(this);
 		if (exit != null)
 		{
-			System.out.println("I see an exit ! I go to it");
+			saySomething("I see an exit ! I go to it");
 			// Exit seeable !
 			goToComponent(model, exit);
 		}
@@ -666,7 +646,7 @@ public class People implements Steppable, Oriented2D
 					
 					if (bestCharisma == null || bestCharisma.getCharismaLevel() < this.getCharismaLevel())
 					{
-						System.out.println("I perform a random move");
+						saySomething("I perform a random move");
 						// It performs a random move, or try to get out from a room if it's located in it
 						randomMove(model);
 					}
@@ -679,7 +659,7 @@ public class People implements Steppable, Oriented2D
 			}
 			else
 			{
-				System.out.println("I go to my last seen direction: " + seenDirection);
+				saySomething("I go to my last seen direction: " + seenDirection);
 				goTo(model, seenDirection);
 			}
 		}
@@ -924,10 +904,15 @@ public class People implements Steppable, Oriented2D
 		speedLevel = Constants.AGENT_HIGH_SPEED;
 	}
 	
+	public void saySomething(String something)
+	{
+		System.out.println(name + " : " + something);
+	}
+	
 	@Override
 	public String toString()
 	{
-		return "[eyeX = " + eyeX + "; eyeY = " + eyeY + "; earX = " + earX + "; earY = " + earY + "; isWarned = " + isWarned
+		return name + " : [eyeX = " + eyeX + "; eyeY = " + eyeY + "; earX = " + earX + "; earY = " + earY + "; isWarned = " + isWarned
 				+ "; visionAbility = " + visionAbility + "; hearingAbility = " + screamingAbility + ", panicLevel = " + panicLevel
 				+ "; charismaLevel = " + charismaLevel + "; autonomyLevel = " + autonomyLevel + "; speedAbility = " + speedLevel + "]";
 	}	

@@ -114,11 +114,12 @@ public class ReadXml {
 		Iterator<Element> i = people.iterator();
 		while (i.hasNext()) {
 			Element courant = (Element) i.next();
+			String name = courant.getAttributeValue(Constants.XML_NAME);
 			String eyeX = courant.getChild(Constants.XML_EAR).getAttributeValue(Constants.XML_COORD_X);
 			String eyeY = courant.getChild(Constants.XML_EAR).getAttributeValue(Constants.XML_COORD_Y);
 			String earX = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_X);
 			String earY = courant.getChild(Constants.XML_EYE).getAttributeValue(Constants.XML_COORD_Y);
-			People thePerson = new People(eyeX, eyeY, earX, earY);
+			People thePerson = new People(name, eyeX, eyeY, earX, earY);
 			LogConsole.print(thePerson.toString(), Actions.Action.READ.name(), thePerson.getClass().getName());
 			peopleList.add(thePerson);
 		}

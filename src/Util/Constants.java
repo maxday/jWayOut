@@ -23,6 +23,7 @@ public class Constants {
 	public final static String XML_PEOPLE = "people";
 	public final static String XML_EYE = "eye";
 	public final static String XML_EAR = "ear";
+	public final static String XML_NAME = "name";
 	
 	
 	// VIEW
