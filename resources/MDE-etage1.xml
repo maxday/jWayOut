@@ -379,6 +379,18 @@
 		</people>
 		
 		<people>
+			<eye x="32" y="18" />
+			<ear x="32" y="19" />
+		</people>
+		
+		<people>
+			<eye x="29" y="18" />
+			<ear x="29" y="19" />
+		</people>
+		
+
+		
+		<people>
 			<eye x="99" y="18" />
 			<ear x="99" y="19" />
 		</people>
