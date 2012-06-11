@@ -439,46 +439,51 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	@Override
 	public boolean canMakeOneStepTo(Direction direction, People ppl)
 	{	
-		switch (direction) {
-		case NORTH:
-			for (Int2D coord : ppl.getListCoord()) {
-				Object obj = grid.get(coord.x, coord.y-1); 
-				if (obj != ppl && obj != null) {
-					ppl.isBlocked = true;
-					return false;
+		try {
+			switch (direction) {
+			case NORTH:
+				for (Int2D coord : ppl.getListCoord()) {
+					Object obj = grid.get(coord.x, coord.y-1); 
+					if (obj != ppl && obj != null) {
+						ppl.isBlocked = true;
+						return false;
+					}
 				}
-			}
-			break;
-		case SOUTH:
-			for (Int2D coord : ppl.getListCoord()) {
-				Object obj = grid.get(coord.x, coord.y+1); 
-				if (obj != ppl && obj != null) {
-					ppl.isBlocked = true;
-					return false;
+				break;
+			case SOUTH:
+				for (Int2D coord : ppl.getListCoord()) {
+					Object obj = grid.get(coord.x, coord.y+1); 
+					if (obj != ppl && obj != null) {
+						ppl.isBlocked = true;
+						return false;
+					}
 				}
-			}
-			break;
-		case EAST:
-			for (Int2D coord : ppl.getListCoord()) {
-				Object obj = grid.get(coord.x+1, coord.y);
-				if (obj != ppl && obj != null) {
-					ppl.isBlocked = true;
-					return false;
+				break;
+			case EAST:
+				for (Int2D coord : ppl.getListCoord()) {
+					Object obj = grid.get(coord.x+1, coord.y);
+					if (obj != ppl && obj != null) {
+						ppl.isBlocked = true;
+						return false;
+					}
 				}
-			}
-			break;
-		case WEST:
-			for (Int2D coord : ppl.getListCoord()) {
-				Object obj = grid.get(coord.x-1, coord.y); 
-				if (obj != ppl && obj != null) {
-					ppl.isBlocked = true;
-					return false;
+				break;
+			case WEST:
+				for (Int2D coord : ppl.getListCoord()) {
+					Object obj = grid.get(coord.x-1, coord.y); 
+					if (obj != ppl && obj != null) {
+						ppl.isBlocked = true;
+						return false;
+					}
 				}
+				break;
 			}
-			break;
+			
+			return true;
 		}
-		
-		return true;
+		catch (Exception e) {
+			return false;
+		}
 	}
 	
 	@Override
