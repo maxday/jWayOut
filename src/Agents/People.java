@@ -60,9 +60,9 @@ public class People implements Steppable, Oriented2D
 	{
 		this.name = name;
 		
-		this.earX = Integer.parseInt(earX) + Constants.GRID_X_OFFSET;
+		this.earX = Integer.parseInt(earX);
 		this.earY = Integer.parseInt(earY);
-		this.eyeX = Integer.parseInt(eyeX) + Constants.GRID_X_OFFSET;
+		this.eyeX = Integer.parseInt(eyeX);
 		this.eyeY = Integer.parseInt(eyeY);
 		computeDirection();
 		

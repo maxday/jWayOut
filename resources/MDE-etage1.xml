@@ -3,394 +3,394 @@
 
 	<walls>
 		<wall>
-			<begin x="25" y="3" />
-			<end x="101" y="3" />
+			<begin x="3" y="3" />
+			<end x="79" y="3" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="13" />
-			<end x="113" y="13" />
+			<begin x="79" y="13" />
+			<end x="91" y="13" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="22" />
-			<end x="102" y="22" />
+			<begin x="79" y="22" />
+			<end x="80" y="22" />
 		</wall>
 		
 		<wall>
-			<begin x="106" y="22" />
-			<end x="113" y="22" />
+			<begin x="84" y="22" />
+			<end x="91" y="22" />
 		</wall>
 		
 		<wall>
-			<begin x="25" y="25" />
-			<end x="26" y="25" />
+			<begin x="3" y="25" />
+			<end x="4" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="31" y="25" />
-			<end x="53" y="25" />
+			<begin x="9" y="25" />
+			<end x="31" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="58" y="25" />
-			<end x="60" y="25" />
+			<begin x="36" y="25" />
+			<end x="38" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="65" y="25" />
+			<begin x="43" y="25" />
+			<end x="57" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="62" y="25" />
+			<end x="64" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="69" y="25" />
 			<end x="79" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="84" y="25" />
-			<end x="86" y="25" />
+			<begin x="85" y="25" />
+			<end x="97" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="91" y="25" />
-			<end x="101" y="25" />
+			<begin x="3" y="33" />
+			<end x="4" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="107" y="25" />
-			<end x="119" y="25" />
+			<begin x="10" y="33" />
+			<end x="14" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="25" y="33" />
-			<end x="26" y="33" />
+			<begin x="21" y="33" />
+			<end x="41" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="32" y="33" />
-			<end x="36" y="33" />
+			<begin x="54" y="33" />
+			<end x="74" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="43" y="33" />
-			<end x="63" y="33" />
+			<begin x="79" y="33" />
+			<end x="80" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="76" y="33" />
-			<end x="96" y="33" />
+			<begin x="85" y="33" />
+			<end x="86" y="33" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="33" />
-			<end x="102" y="33" />
+			<begin x="14" y="35" />
+			<end x="16" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="107" y="33" />
-			<end x="108" y="33" />
+			<begin x="20" y="35" />
+			<end x="42" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="36" y="35" />
-			<end x="38" y="35" />
+			<begin x="47" y="35" />
+			<end x="48" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="42" y="35" />
-			<end x="64" y="35" />
+			<begin x="53" y="35" />
+			<end x="74" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="69" y="35" />
-			<end x="70" y="35" />
+			<begin x="78" y="35" />
+			<end x="79" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="75" y="35" />
-			<end x="96" y="35" />
-		</wall>
-		
-		<wall>
-			<begin x="100" y="35" />
-			<end x="101" y="35" />
-		</wall>
-		
-		<wall>
-			<begin x="108" y="35" />
-			<end x="119" y="35" />
+			<begin x="86" y="35" />
+			<end x="97" y="35" />
 		</wall>
 						
 		<wall>
-			<begin x="107" y="42" />
-			<end x="113" y="42" />
+			<begin x="85" y="42" />
+			<end x="91" y="42" />
 		</wall>
 						
 		<wall>
-			<begin x="36" y="64" />
-			<end x="104" y="64" />
+			<begin x="14" y="64" />
+			<end x="82" y="64" />
 		</wall>
 		
 		<wall>
-			<begin x="110" y="64" />
-			<end x="113" y="64" />
+			<begin x="88" y="64" />
+			<end x="91" y="64" />
 		</wall>
 						
 		<wall>
-			<begin x="25" y="3" />
-			<end x="25" y="33" />
+			<begin x="3" y="3" />
+			<end x="3" y="33" />
 		</wall>
 				
 		<wall>
-			<begin x="36" y="3" />
-			<end x="36" y="26" />
+			<begin x="14" y="3" />
+			<end x="14" y="26" />
 		</wall>
 		
 		<wall>
-			<begin x="36" y="32" />
-			<end x="36" y="64" />
+			<begin x="14" y="32" />
+			<end x="14" y="64" />
 		</wall>
 		
 		<wall>
-			<begin x="43" y="33" />
-			<end x="43" y="35" />
+			<begin x="21" y="33" />
+			<end x="21" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="59" y="3" />
-			<end x="59" y="25" />
+			<begin x="37" y="3" />
+			<end x="37" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="63" y="33" />
-			<end x="63" y="35" />
+			<begin x="41" y="33" />
+			<end x="41" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="74" y="3" />
-			<end x="74" y="25" />
+			<begin x="52" y="3" />
+			<end x="52" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="76" y="33" />
-			<end x="76" y="35" />
+			<begin x="54" y="33" />
+			<end x="54" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="85" y="3" />
+			<begin x="63" y="3" />
+			<end x="63" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="74" y="33" />
+			<end x="74" y="35" />
+		</wall>
+		
+		<wall>
+			<begin x="79" y="3" />
+			<end x="79" y="25" />
+		</wall>
+		
+		<wall>
+			<begin x="79" y="33" />
+			<end x="79" y="64" />
+		</wall>
+		
+		<wall>
+			<begin x="85" y="22" />
 			<end x="85" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="96" y="33" />
-			<end x="96" y="35" />
+			<begin x="85" y="42" />
+			<end x="85" y="59" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="3" />
-			<end x="101" y="25" />
+			<begin x="79" y="3" />
+			<end x="79" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="33" />
-			<end x="101" y="64" />
+			<begin x="86" y="33" />
+			<end x="86" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="107" y="22" />
-			<end x="107" y="25" />
+			<begin x="91" y="13" />
+			<end x="91" y="25" />
 		</wall>
 		
 		<wall>
-			<begin x="107" y="42" />
-			<end x="107" y="59" />
+			<begin x="74" y="33" />
+			<end x="74" y="35" />
 		</wall>
 		
 		<wall>
-			<begin x="101" y="3" />
-			<end x="101" y="25" />
+			<begin x="91" y="35" />
+			<end x="91" y="64" />
 		</wall>
 		
 		<wall>
-			<begin x="108" y="33" />
-			<end x="108" y="35" />
-		</wall>
-		
-		<wall>
-			<begin x="113" y="13" />
-			<end x="113" y="25" />
-		</wall>
-		
-		<wall>
-			<begin x="96" y="33" />
-			<end x="96" y="35" />
-		</wall>
-		
-		<wall>
-			<begin x="113" y="35" />
-			<end x="113" y="64" />
-		</wall>
-		
-		<wall>
-			<begin x="119" y="25" />
-			<end x="119" y="35" />
+			<begin x="97" y="25" />
+			<end x="97" y="35" />
 		</wall>
 	</walls>
 	
 	<doors>
 		<door direction="NORTH">
-			<begin x="39" y="35" />
-			<end x="41" y="35" />
+			<begin x="17" y="35" />
+			<end x="19" y="35" />
 		</door>
 		
 		<door direction="NORTH">
-			<begin x="65" y="35" />
-			<end x="68" y="35" />
+			<begin x="43" y="35" />
+			<end x="46" y="35" />
 		</door>
 		
 		<door direction="NORTH">
-			<begin x="71" y="35" />
-			<end x="74" y="35" />
+			<begin x="49" y="35" />
+			<end x="52" y="35" />
 		</door>
 		
 		<door direction="NORTH">
-			<begin x="97" y="35" />
-			<end x="99" y="35" />
+			<begin x="75" y="35" />
+			<end x="77" y="35" />
 		</door>		
 		
 		<door direction="SOUTH">
-			<begin x="103" y="22" />
-			<end x="105" y="22" />
+			<begin x="81" y="22" />
+			<end x="83" y="22" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="27" y="25" />
-			<end x="30" y="25" />
+			<begin x="5" y="25" />
+			<end x="8" y="25" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="54" y="25" />
-			<end x="57" y="25" />
+			<begin x="32" y="25" />
+			<end x="35" y="25" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="61" y="25" />
-			<end x="64" y="25" />
+			<begin x="39" y="25" />
+			<end x="42" y="25" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="80" y="25" />
-			<end x="83" y="25" />
+			<begin x="58" y="25" />
+			<end x="61" y="25" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="87" y="25" />
-			<end x="90" y="25" />
+			<begin x="65" y="25" />
+			<end x="68" y="25" />
 		</door>
 			
 		<door direction="SOUTH">
-			<begin x="103" y="33" />
-			<end x="106" y="33" />
+			<begin x="81" y="33" />
+			<end x="84" y="33" />
 		</door>
 		
 		<door direction="SOUTH">
-			<begin x="102" y="42" />
-			<end x="106" y="42" />
+			<begin x="80" y="42" />
+			<end x="84" y="42" />
 		</door>
 		
 		<door direction="EAST">
-			<begin x="85" y="26" />
-			<end x="85" y="32" />
+			<begin x="63" y="26" />
+			<end x="63" y="32" />
 		</door>
 		
 		<door direction="EAST">
-			<begin x="96" y="26" />
-			<end x="96" y="32" />
+			<begin x="74" y="26" />
+			<end x="74" y="32" />
 		</door>
 		
 		<door direction="EAST">
-			<begin x="101" y="26" />
-			<end x="101" y="32" />
+			<begin x="79" y="26" />
+			<end x="79" y="32" />
 		</door>
 			
 		<door direction="WEST">
-			<begin x="36" y="27" />
-			<end x="36" y="31" />
+			<begin x="14" y="27" />
+			<end x="14" y="31" />
 		</door>
 		
 		<door direction="WEST">
-			<begin x="43" y="26" />
-			<end x="43" y="32" />
+			<begin x="21" y="26" />
+			<end x="21" y="32" />
 		</door>
 		
 		<door direction="WEST">
-			<begin x="59" y="26" />
-			<end x="59" y="32" />
+			<begin x="37" y="26" />
+			<end x="37" y="32" />
 		</door>
 		
 		<door direction="WEST">
-			<begin x="108" y="26" />
-			<end x="108" y="32" />
+			<begin x="86" y="26" />
+			<end x="86" y="32" />
 		</door>
 	</doors>
 	
 	<exits>
 		<exit>
-			<begin x="27" y="33" />
-			<end x="31" y="33" />
+			<begin x="5" y="33" />
+			<end x="9" y="33" />
 		</exit>
 		
 		<exit>
-			<begin x="105" y="64" />
-			<end x="109" y="64" />
+			<begin x="83" y="64" />
+			<end x="87" y="64" />
 		</exit>
 	</exits>
 	
 	<agents>
 		<people name="Agent1">
-			<eye x="69" y="38" />
-			<ear x="69" y="39" />
+			<eye x="47" y="38" />
+			<ear x="47" y="39" />
 		</people>
 		
 		<people name="Agent2">
-			<eye x="99" y="38" />
-			<ear x="99" y="39" />
+			<eye x="77" y="38" />
+			<ear x="77" y="39" />
 		</people>
 		
 		<people name="Agent3">
-			<eye x="39" y="38" />
-			<ear x="39" y="39" />
+			<eye x="17" y="38" />
+			<ear x="17" y="39" />
 		</people>
 		
 		<people name="Agent4">
-			<eye x="69" y="58" />
-			<ear x="69" y="59" />
+			<eye x="47" y="58" />
+			<ear x="47" y="59" />
 		</people>
 		
 		<people name="Agent5">
-			<eye x="69" y="8" />
-			<ear x="69" y="9" />
+			<eye x="47" y="8" />
+			<ear x="47" y="9" />
 		</people>
 		
 		<people name="Agent6">
-			<eye x="69" y="18" />
-			<ear x="69" y="19" />
+			<eye x="47" y="18" />
+			<ear x="47" y="19" />
 		</people>
 		
 		<people name="Agent7">
-			<eye x="39" y="18" />
-			<ear x="39" y="19" />
+			<eye x="17" y="18" />
+			<ear x="17" y="19" />
 		</people>
 		
 		<people name="Agent8">
-			<eye x="32" y="18" />
-			<ear x="32" y="19" />
+			<eye x="10" y="18" />
+			<ear x="10" y="19" />
 		</people>
 		
 		<people name="Agent9">
-			<eye x="29" y="18" />
-			<ear x="29" y="19" />
+			<eye x="7" y="18" />
+			<ear x="7" y="19" />
 		</people>
 		
 		<people name="Agent10">
-			<eye x="99" y="18" />
-			<ear x="99" y="19" />
+			<eye x="77" y="18" />
+			<ear x="77" y="19" />
 		</people>
 	</agents>
 	
