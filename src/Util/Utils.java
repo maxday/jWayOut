@@ -25,7 +25,8 @@ public class Utils
 	{
 		return (coord.x >= 0 && coord.x < Constants.GRID_WIDTH && coord.y >= 0 && coord.y < Constants.GRID_HEIGHT);
 	}
-	
+
+
 	/**
 	 * This method tells if a given coordinate is on the grid or outside
 	 * 
@@ -38,8 +39,8 @@ public class Utils
 	{
 		return (x >= 0 && x < Constants.GRID_WIDTH && y >= 0 && y < Constants.GRID_HEIGHT);
 	}
-	
-	
+
+
 	/**
 	 * It simply generates a random value according to Mason's way of working
 	 * 
@@ -53,8 +54,8 @@ public class Utils
 	{
 		return Math.min(val1, val2) + ((SimState) s).random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
 	}
-	
-	
+
+
 	/**
 	 * It simply generates a random value according to Mason's way of working
 	 * 
@@ -68,8 +69,8 @@ public class Utils
 	{
 		return Math.min(val1, val2) + s.random.nextInt(Math.max(val1,  val2)-Math.min(val1, val2)+1);
 	}
-	
-	
+
+
 	/**
 	 * It tells in which direction is a given position in comparison with a given {@link People}
 	 * 
@@ -90,8 +91,8 @@ public class Utils
 			else return Direction.WEST;
 		}
 	}
-	
-	
+
+
 	/**
 	 * This method gives the opposite {@link Direction} based on a given {@link Direction}
 	 * 
@@ -115,9 +116,8 @@ public class Utils
 			return Direction.UNKNOWN;
 		}
 	}
-	
-	
-	
+
+
 	/**
 	 * This method tells if the two given {@link Direction} are opposite
 	 * 
@@ -154,5 +154,5 @@ public class Utils
 			return false;
 		}
 	}
-	
+
 }
