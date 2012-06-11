@@ -331,7 +331,10 @@ public class People implements Steppable, Oriented2D
 	
 	private void move(AgentDataAccessInterface model)
 	{
-		model.removeFromGrid(getListCoord());
+		if (!model.removeFromGrid(getListCoord(), this)) {
+			stop.stop();
+			isOut = true;
+		}
 		
 		if(isBlocked)
 		{
@@ -386,7 +389,7 @@ public class People implements Steppable, Oriented2D
 			if(goToExit(model, exit))
 			{
 				stop.stop();
-				model.removeFromGrid(getListCoord());
+				model.removeFromGrid(getListCoord(), this);
 				isOut = true;
 			}
 		}
@@ -446,7 +449,7 @@ public class People implements Steppable, Oriented2D
 		
 		if(!isOut)
 		{
-			model.addToGrid(getListCoord(), this);
+			model.addToGridIfEmpty(getListCoord(), this);
 		}
 	}
 	

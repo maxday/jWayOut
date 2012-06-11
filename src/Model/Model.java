@@ -67,23 +67,22 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	@Override
 	public void addToGridIfEmpty(List<Int2D> coords, Object obj)
 	{
-		for (int i = 0; i < coords.size(); ) {
-			Int2D coord = coords.get(i);
-			if (grid.get(coord.x, coord.y) == null) {
-				grid.set(coord.x, coord.y, obj);
-				i++;
-			} else {
-				coords.remove(i);
-			}
+		for (Int2D coord : coords) {
+			if (grid.get(coord.x, coord.y) == null) grid.set(coord.x, coord.y, obj);
 		}
 	}
 	
 	@Override
-	public void removeFromGrid(List<Int2D> coords)
+	public boolean removeFromGrid(List<Int2D> coords, Object obj)
 	{
+		boolean wasHere = false;
 		for (Int2D coord : coords) {
-			grid.set(coord.x, coord.y, null);
-		}		
+			if (grid.get(coord.x, coord.y) == obj) {
+				grid.set(coord.x, coord.y, null);
+				wasHere = true;
+			}
+		}
+		return wasHere;
 	}
 	
 	private void addSpace()
@@ -107,11 +106,14 @@ public class Model extends SimState implements AgentDataAccessInterface {
 	
 	public void addFire(Int2D hearth)
 	{
-		if (Utils.isCoordInGrid(hearth) && grid.get(hearth.x, hearth.y) == null && !(hiddenGrid.get(hearth.x, hearth.y) instanceof Exit)) {
-			Fire fire = new Fire(hearth);
-			grid.set(hearth.x, hearth.y, fire);
-			schedule.scheduleOnce(fire);
-			LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
+		if (Utils.isCoordInGrid(hearth) && !(hiddenGrid.get(hearth.x, hearth.y) instanceof Exit)) {
+			Object visibleObj = grid.get(hearth.x, hearth.y);
+			if (visibleObj == null || visibleObj instanceof People) {
+				Fire fire = new Fire(hearth);
+				grid.set(hearth.x, hearth.y, fire);
+				schedule.scheduleOnce(fire);
+				LogConsole.print(fire.toString(), Actions.Action.ADD.name(), fire.getClass().getName());
+			}
 		}
 	}
 	

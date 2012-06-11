@@ -42,7 +42,7 @@ public interface AgentDataAccessInterface
 	
 	public boolean canMakeOneStepTo(Direction direction, People ppl);
 	
-	public void removeFromGrid(List<Int2D> coords);
+	public boolean removeFromGrid(List<Int2D> coords, Object obj);
 	
 	public void addToGrid(List<Int2D> coords, Object obj);
 	public void addToGridIfEmpty(List<Int2D> coords, Object obj);
