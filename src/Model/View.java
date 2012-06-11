@@ -1,6 +1,5 @@
 package Model;
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,11 +12,9 @@ import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.OrientedPortrayal2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
-import sim.portrayal.simple.TransformedPortrayal2D;
 import Agents.Fire;
 import Agents.People;
 import Agents.Vision;
-import Components.Arrow;
 import Components.Door;
 import Components.Exit;
 import Components.Space;
@@ -65,7 +62,6 @@ public class View extends GUIState {
 		
 		gridPortrayal.setPortrayalForClass(Wall.class, getWallPortrayal());
 		gridPortrayal.setPortrayalForClass(Door.class, getDoorPortrayal());
-		gridPortrayal.setPortrayalForClass(Arrow.class, getArrowPortrayal());
 		gridPortrayal.setPortrayalForClass(Exit.class, getExitPortrayal());
 		
 		gridPortrayal.setPortrayalForClass(People.class, getPeoplePortrayal());
@@ -88,11 +84,6 @@ public class View extends GUIState {
 	private Portrayal getDoorPortrayal() {
 		RectanglePortrayal2D r = new RectanglePortrayal2D(Color.YELLOW);
 		return new OrientedPortrayal2D(r, Color.BLACK);
-	}
-	
-	private Portrayal getArrowPortrayal() {
-		ImagePortrayal2D i = new ImagePortrayal2D(new ImageIcon("resources/Arrow.png"));
-		return new TransformedPortrayal2D(i,new AffineTransform());
 	}
 	
 	private Portrayal getExitPortrayal() {
